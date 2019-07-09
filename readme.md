@@ -16,6 +16,10 @@ go get -u github.com/labstack/echo/...
 go get -u github.com/labstack/echo
 ```
 
+- Code hot reload
+
+[air](https://github.com/cosmtrek/air)
+
 4. now check go.mod values 
 
 5. download source and create vendor
