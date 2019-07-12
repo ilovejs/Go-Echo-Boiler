@@ -49,7 +49,7 @@ type Project struct {
 	QuantitySurveyor     string
 	Note                 string
 	Contractors          []User
-	TradeItems           []TradeItem
+	TradeItems           []Item
 	PrimaryUserProfile   UserProfile
 	SecondaryUserProfile UserProfile
 }
