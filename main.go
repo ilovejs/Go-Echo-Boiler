@@ -1,42 +1,25 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/go-playground/validator"
-	"github.com/labstack/echo"
+	"onsite/db"
+	"onsite/router"
 )
-
-type (
-	User struct {
-		Name  string `json:"name" validate:"required"`
-		Email string `json:"email" validate:"required,email"`
-		Age   int    `json:"age" validate:"required"`
-	}
-	CustomValidator struct {
-		validator *validator.Validate
-	}
-)
-
-func (cv *CustomValidator) Validate(i interface{}) error {
-	return cv.validator.Struct(i)
-}
 
 func main() {
-	e := echo.New()
-	e.Validator = &CustomValidator{validator: validator.New()}
+	r := router.New()
+	// not to mix with page router
+	v1 := r.Group("/api")
 
-	e.POST("/users", func(c echo.Context) (err error) {
-		u := new(User)
-		if err = c.Bind(u); err != nil {
-			c.Logger().Error(err)
-			return
-		}
-		if err = c.Validate(u); err != nil {
-			c.Logger().Error(err)
-			return
-		}
-		return c.JSON(http.StatusOK, u)
-	})
-	e.Logger.Fatal(e.Start(":1323"))
+	//todo: turn off in prod
+	d := db.New()
+	db.AutoMigrate(d)
+
+	//store
+	us := store.NewUserStore(d)
+	as := store.NewArticleStore(d)
+	// handler
+	h := handler.NewHandler(us, as)
+
+	h.Register(v1)
+	r.Logger.Fatal(r.Start("127.0.0.1:8585"))
 }
