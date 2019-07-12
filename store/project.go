@@ -61,8 +61,8 @@ type TradeItemType struct {
 	IsDeleted bool
 }
 
-//TradeItem
-type TradeItem struct {
+//Trade Item
+type Item struct {
 	gorm.Model
 	Type              TradeItemType
 	Project           Project
@@ -76,9 +76,9 @@ type TradeItem struct {
 }
 
 //1 item : M claim
-type TradeItemClaim struct {
+type Claim struct {
 	gorm.Model
-	TradeItem       TradeItem
+	Item            Item
 	GrossAmount     float32
 	ClaimedAmount   float32
 	PreviousClaimed float32
@@ -87,8 +87,11 @@ type TradeItemClaim struct {
 	IsDeleted       bool
 }
 
-type ItemClaimHistory struct {
+//1 claim: M history
+type ClaimHistory struct {
 	gorm.Model
-	TradeItem      TradeItem
-	TradeItemClaim TradeItemClaim
+	Claim           Claim
+	PreviousClaimed float32
+	CreatedOn       time.Time
+	CreatedBy       User
 }
