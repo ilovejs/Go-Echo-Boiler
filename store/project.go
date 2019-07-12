@@ -5,25 +5,6 @@ import (
 	"time"
 )
 
-type Project struct {
-	gorm.Model
-	Manager              User
-	Name                 string
-	GrossItemBreakDown   float32
-	GrossContractorClaim float32
-	ContractValue        float32
-	IsDeleted            bool
-	SerialNo             string
-	Detail               string
-	CreatedBy            User
-	QuantitySurveyor     string
-	Note                 string
-	Contractors          []User
-	TradeItems           []TradeItem
-	PrimaryUserProfile   UserProfile
-	SecondaryUserProfile UserProfile
-}
-
 type Role struct {
 	Type string
 }
@@ -54,9 +35,44 @@ type UserProfile struct {
 	Contractors []User
 }
 
+type Project struct {
+	gorm.Model
+	Manager              User
+	Name                 string
+	GrossItemBreakDown   float32
+	GrossContractorClaim float32
+	ContractValue        float32
+	IsDeleted            bool
+	SerialNo             string
+	Detail               string
+	CreatedBy            User
+	QuantitySurveyor     string
+	Note                 string
+	Contractors          []User
+	TradeItems           []TradeItem
+	PrimaryUserProfile   UserProfile
+	SecondaryUserProfile UserProfile
+}
+
+// 1 type: M tradeItem
+type TradeItemType struct {
+	gorm.Model
+	Name      string
+	IsDeleted bool
+}
+
 //TradeItem
 type TradeItem struct {
 	gorm.Model
+	Type              TradeItemType
+	Project           Project
+	Level             int
+	DescriptionOfWork string
+	ItemBreakDown     float32
+	IsDeleted         bool
+	CreatedBy         User
+	LastUpdate        time.Time
+	TempCheck         bool
 }
 
 //1 item : M claim
@@ -73,4 +89,6 @@ type TradeItemClaim struct {
 
 type ItemClaimHistory struct {
 	gorm.Model
+	TradeItem      TradeItem
+	TradeItemClaim TradeItemClaim
 }
