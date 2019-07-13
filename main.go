@@ -2,7 +2,9 @@ package main
 
 import (
 	"onsite/db"
+	"onsite/handler"
 	"onsite/router"
+	"onsite/store"
 )
 
 func main() {
@@ -17,9 +19,10 @@ func main() {
 	//store
 	us := store.NewUserStore(d)
 	as := store.NewArticleStore(d)
+
 	// handler
 	h := handler.NewHandler(us, as)
-
 	h.Register(v1)
+
 	r.Logger.Fatal(r.Start("127.0.0.1:8585"))
 }

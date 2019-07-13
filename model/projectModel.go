@@ -1,4 +1,4 @@
-package store
+package model
 
 import (
 	"github.com/jinzhu/gorm"
@@ -9,9 +9,9 @@ type Role struct {
 	Type string
 }
 
-type User struct {
+type Login struct {
 	gorm.Model
-	LoginId     uint `gorm:"primary_key" sql:"type:int not null"`
+	LoginId     uint `sql:"type:int not null"`
 	UserName    string
 	Email       string
 	Password    string
@@ -27,17 +27,17 @@ type User struct {
 
 type UserProfile struct {
 	gorm.Model
-	UserLogin   string `gorm:"foreignkey:LoginId"`
+	Login       Login
 	Mobile      string
 	FirstName   string
 	LastName    string
 	Company     string
-	Contractors []User
+	Contractors []Login
 }
 
 type Project struct {
 	gorm.Model
-	Manager              User
+	Manager              Login
 	Name                 string
 	GrossItemBreakDown   float32
 	GrossContractorClaim float32
@@ -45,10 +45,10 @@ type Project struct {
 	IsDeleted            bool
 	SerialNo             string
 	Detail               string
-	CreatedBy            User
+	CreatedBy            Login
 	QuantitySurveyor     string
 	Note                 string
-	Contractors          []User
+	Contractors          []Login
 	TradeItems           []Item
 	PrimaryUserProfile   UserProfile
 	SecondaryUserProfile UserProfile
@@ -70,7 +70,7 @@ type Item struct {
 	DescriptionOfWork string
 	ItemBreakDown     float32
 	IsDeleted         bool
-	CreatedBy         User
+	CreatedBy         Login
 	LastUpdate        time.Time
 	TempCheck         bool
 }
@@ -93,5 +93,5 @@ type ClaimHistory struct {
 	Claim           Claim
 	PreviousClaimed float32
 	CreatedOn       time.Time
-	CreatedBy       User
+	CreatedBy       Login
 }
