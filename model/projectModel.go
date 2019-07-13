@@ -6,6 +6,7 @@ import (
 )
 
 type Role struct {
+	gorm.Model
 	Type string
 }
 
@@ -55,7 +56,7 @@ type Project struct {
 }
 
 // 1 type: M tradeItem
-type TradeItemType struct {
+type ItemType struct {
 	gorm.Model
 	Name      string
 	IsDeleted bool
@@ -64,7 +65,7 @@ type TradeItemType struct {
 //Trade Item
 type Item struct {
 	gorm.Model
-	Type              TradeItemType
+	Type              ItemType
 	Project           Project
 	Level             int
 	DescriptionOfWork string

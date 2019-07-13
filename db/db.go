@@ -35,7 +35,7 @@ func DropTestDB() error {
 	return nil
 }
 
-//TODO: err check
+//register table to migrate
 func AutoMigrate(db *gorm.DB) {
 	db.AutoMigrate(
 		&model.User{},
@@ -43,5 +43,13 @@ func AutoMigrate(db *gorm.DB) {
 		&model.Article{},
 		&model.Comment{},
 		&model.Tag{},
+		//
+		&model.Role{},
+		&model.UserProfile{},
+		&model.Project{},
+		&model.Item{},
+		&model.ItemType{},
+		&model.Claim{},
+		&model.ClaimHistory{},
 	)
 }
