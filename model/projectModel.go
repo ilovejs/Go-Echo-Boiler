@@ -23,22 +23,22 @@ type Login struct {
 	Bio         *string
 	Avatar      *string
 	RoleId      uint
-	Role        []Role
+	Role        []Role `gorm:"foreignKey:RoleId"`
 }
 
 type UserProfile struct {
 	gorm.Model
-	Login       Login
+	Login       Login `gorm:"foreignKey:LoginId"`
 	Mobile      string
 	FirstName   string
 	LastName    string
 	Company     string
-	Contractors []Login
+	Contractors []Login `gorm:"foreignKey:LoginId"`
 }
 
 type Project struct {
 	gorm.Model
-	Manager              Login
+	Manager              Login `gorm:"foreignKey:UserId"`
 	Name                 string
 	GrossItemBreakDown   float32
 	GrossContractorClaim float32
@@ -49,10 +49,10 @@ type Project struct {
 	CreatedBy            Login
 	QuantitySurveyor     string
 	Note                 string
-	Contractors          []Login
+	Contractors          []Login `gorm:"foreignKey:UserId"`
 	TradeItems           []Item
-	PrimaryUserProfile   UserProfile
-	SecondaryUserProfile UserProfile
+	PrimaryContact       UserProfile `gorm:"foreignKey:UserProfileId"`
+	SecondaryContact     UserProfile `gorm:"foreignKey:UserProfileId"`
 }
 
 // 1 type: M tradeItem
@@ -65,13 +65,13 @@ type ItemType struct {
 //Trade Item
 type Item struct {
 	gorm.Model
-	Type              ItemType
-	Project           Project
+	Type              ItemType `gorm:"foreignKey:ItemTypeId"`
+	Project           Project  `gorm:"foreignKey:ProjectId"`
 	Level             int
 	DescriptionOfWork string
 	ItemBreakDown     float32
 	IsDeleted         bool
-	CreatedBy         Login
+	CreatedBy         Login `gorm:"foreignKey:LoginId"`
 	LastUpdate        time.Time
 	TempCheck         bool
 }
@@ -79,7 +79,7 @@ type Item struct {
 //1 item : M claim
 type Claim struct {
 	gorm.Model
-	Item            Item
+	Item            Item `gorm:"foreignKey:ItemId"`
 	GrossAmount     float32
 	ClaimedAmount   float32
 	PreviousClaimed float32
@@ -91,8 +91,8 @@ type Claim struct {
 //1 claim: M history
 type ClaimHistory struct {
 	gorm.Model
-	Claim           Claim
+	Claim           Claim `gorm:"foreignKey:ClaimId"`
 	PreviousClaimed float32
 	CreatedOn       time.Time
-	CreatedBy       Login
+	CreatedBy       Login `gorm:"foreignKey:LoginId"`
 }

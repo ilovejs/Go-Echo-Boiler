@@ -45,6 +45,7 @@ func AutoMigrate(db *gorm.DB) {
 		&model.Tag{},
 		//
 		&model.Role{},
+		&model.Login{},
 		&model.UserProfile{},
 		&model.Project{},
 		&model.Item{},
