@@ -42,16 +42,13 @@ func AutoMigrate(db *gorm.DB) {
 		//&model.Article{},
 		//&model.Comment{},
 		//&model.Tag{},
-		//
-		&model.User{},
 		&model.Role{},
-		//&model.Login{},
-		//&model.UserProfile{},
+		&model.User{},
 		&model.Project{},
 		&model.ContractorProject{},
-		//&model.Item{},
-		//&model.ItemType{},
-		//&model.Claim{},
-		//&model.ClaimHistory{},
+		&model.TradeItem{},
+		&model.TradeItemType{},
+		&model.Claim{},
+		&model.ClaimHistory{},
 	)
 }

@@ -27,9 +27,13 @@ type User struct {
 	Bio         *string
 	Avatar      *string
 	Roles       []Role `gorm:"many2many:user_roles;"`
+
 	//1 User has many projects
-	ManageProjects     []Project `gorm:"foreignkey:Manager"`
-	CreateProjects     []Project `gorm:"foreignkey:CreatedBy"`
+	ManageProjects      []Project       `gorm:"foreignkey:Manager"`
+	CreatedProjects     []Project       `gorm:"foreignkey:CreatedBy"`
+	CreatedTradeItems   []TradeItemType `gorm:"foreignkey:CreatedBy"`
+	CreatedClaimHistory []ClaimHistory  `gorm:"foreignkey:CreatedBy"`
+
 	ContractorProjects []*ContractorProject
 }
 
@@ -43,17 +47,22 @@ type Project struct {
 	IsDeleted            bool
 	SerialNo             string
 	Detail               string
-	CreatedBy            uint //fk
 	QuantitySurveyor     string
 	Note                 string
-	//TradeItems           []Item
-	PrimaryContactID   uint
-	PrimaryContact     User
+	TradeItems           []TradeItem //?
+
+	PrimaryContactID uint
+	PrimaryContact   User
+
 	SecondaryContactID uint
 	SecondaryContact   User
+
 	ContractorProjects []*ContractorProject
+
+	CreatedBy uint //fk
 }
 
+//linking table with extra fields, this is native table with no gorm.model
 type ContractorProject struct {
 	ID int
 
@@ -62,7 +71,7 @@ type ContractorProject struct {
 
 	Project   Project
 	ProjectID uint
-	//extra fields
+
 	SideNote  string
 	IsDeleted bool
 	Created   *time.Time
@@ -75,30 +84,31 @@ func (*ContractorProject) TableName() string {
 }
 
 // 1 type: M tradeItem
-type ItemType struct {
+type TradeItemType struct {
 	gorm.Model
 	Name      string
 	IsDeleted bool
+	//won't create table
+	TradeItems []TradeItem
 }
 
-//Trade Item
-type Item struct {
+type TradeItem struct {
 	gorm.Model
-	Type              ItemType `gorm:"foreignKey:ItemTypeID"`
-	Project           Project  `gorm:"foreignKey:ProjectID"`
+	TradeItemTypeID   uint //fk
+	ProjectID         uint //fk
 	Level             int
 	DescriptionOfWork string
 	ItemBreakDown     float32
 	IsDeleted         bool
-	CreatedBy         User `gorm:"foreignKey:UserID"`
 	LastUpdate        *time.Time
 	TempCheck         bool
+	CreatedBy         uint //fk
 }
 
-//1 item : M claim
+//1 item: M claim
 type Claim struct {
 	gorm.Model
-	Item            Item `gorm:"foreignKey:ItemID"`
+	TradeItemID     uint //fk
 	GrossAmount     float32
 	ClaimedAmount   float32
 	PreviousClaimed float32
@@ -110,7 +120,7 @@ type Claim struct {
 //1 claim: M history
 type ClaimHistory struct {
 	gorm.Model
-	Claim           Claim `gorm:"foreignKey:ClaimID"`
+	ClaimID         uint
 	PreviousClaimed float32
-	CreatedBy       User `gorm:"foreignKey:UserID"`
+	CreatedBy       uint
 }
