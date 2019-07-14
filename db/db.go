@@ -38,14 +38,14 @@ func DropTestDB() error {
 //register table to migrate
 func AutoMigrate(db *gorm.DB) {
 	db.AutoMigrate(
-		&model.User{},
-		&model.Follow{},
-		&model.Article{},
-		&model.Comment{},
-		&model.Tag{},
+		//&model.Follow{},
+		//&model.Article{},
+		//&model.Comment{},
+		//&model.Tag{},
 		//
+		&model.User{},
 		&model.Role{},
-		&model.Login{},
+		//&model.Login{},
 		//&model.UserProfile{},
 		&model.Project{},
 		&model.ContractorProject{},
