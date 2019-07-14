@@ -12,9 +12,12 @@ type Role struct {
 
 type Login struct {
 	gorm.Model
-	LoginId     uint `sql:"type:int not null"`
 	UserName    string
+	FirstName   string
+	LastName    string
+	Company     string
 	Email       string
+	Mobile      string
 	Password    string
 	Token       *string
 	TokenExpire time.Time
@@ -22,23 +25,17 @@ type Login struct {
 	IsDeleted   bool
 	Bio         *string
 	Avatar      *string
-	RoleId      uint
-	Role        []Role `gorm:"foreignKey:RoleId"`
-}
-
-type UserProfile struct {
-	gorm.Model
-	Login       Login `gorm:"foreignKey:LoginId"`
-	Mobile      string
-	FirstName   string
-	LastName    string
-	Company     string
-	Contractors []Login `gorm:"foreignKey:LoginId"`
+	RoleID      uint
+	Role        []Role
+	//1 login has many projects
+	ManageProjects     []Project `gorm:"foreignkey:Manager"`
+	CreateProjects     []Project `gorm:"foreignkey:CreatedBy"`
+	ContractorProjects []*ContractorProject
 }
 
 type Project struct {
 	gorm.Model
-	Manager              Login `gorm:"foreignKey:UserId"`
+	ManagerID            uint //fk
 	Name                 string
 	GrossItemBreakDown   float32
 	GrossContractorClaim float32
@@ -46,53 +43,74 @@ type Project struct {
 	IsDeleted            bool
 	SerialNo             string
 	Detail               string
-	CreatedBy            Login
+	CreatedBy            uint //fk
 	QuantitySurveyor     string
 	Note                 string
-	Contractors          []Login `gorm:"foreignKey:UserId"`
-	TradeItems           []Item
-	PrimaryContact       UserProfile `gorm:"foreignKey:UserProfileId"`
-	SecondaryContact     UserProfile `gorm:"foreignKey:UserProfileId"`
+	//TradeItems           []Item
+	PrimaryContactID   uint
+	PrimaryContact     Login
+	SecondaryContactID uint
+	SecondaryContact   Login
+	ContractorProjects []*ContractorProject
+}
+
+type ContractorProject struct {
+	ID int
+
+	Login   Login
+	LoginID uint
+
+	Project   Project
+	ProjectID uint
+	//extra fields
+	SideNote  string
+	IsDeleted bool
+	Created   *time.Time
+	Updated   *time.Time
+}
+
+//table name
+func (*ContractorProject) TableName() string {
+	return "contractor_project"
 }
 
 // 1 type: M tradeItem
-type ItemType struct {
-	gorm.Model
-	Name      string
-	IsDeleted bool
-}
-
-//Trade Item
-type Item struct {
-	gorm.Model
-	Type              ItemType `gorm:"foreignKey:ItemTypeId"`
-	Project           Project  `gorm:"foreignKey:ProjectId"`
-	Level             int
-	DescriptionOfWork string
-	ItemBreakDown     float32
-	IsDeleted         bool
-	CreatedBy         Login `gorm:"foreignKey:LoginId"`
-	LastUpdate        time.Time
-	TempCheck         bool
-}
-
-//1 item : M claim
-type Claim struct {
-	gorm.Model
-	Item            Item `gorm:"foreignKey:ItemId"`
-	GrossAmount     float32
-	ClaimedAmount   float32
-	PreviousClaimed float32
-	AmountDue       float32
-	CostToCompleted float32
-	IsDeleted       bool
-}
-
-//1 claim: M history
-type ClaimHistory struct {
-	gorm.Model
-	Claim           Claim `gorm:"foreignKey:ClaimId"`
-	PreviousClaimed float32
-	CreatedOn       time.Time
-	CreatedBy       Login `gorm:"foreignKey:LoginId"`
-}
+//type ItemType struct {
+//	gorm.Model
+//	Name      string
+//	IsDeleted bool
+//}
+//
+////Trade Item
+//type Item struct {
+//	gorm.Model
+//	Type              ItemType `gorm:"foreignKey:ItemTypeID"`
+//	Project           Project  `gorm:"foreignKey:ProjectID"`
+//	Level             int
+//	DescriptionOfWork string
+//	ItemBreakDown     float32
+//	IsDeleted         bool
+//	CreatedBy         Login `gorm:"foreignKey:LoginID"`
+//	LastUpdate        *time.Time
+//	TempCheck         bool
+//}
+//
+////1 item : M claim
+//type Claim struct {
+//	gorm.Model
+//	Item            Item `gorm:"foreignKey:ItemID"`
+//	GrossAmount     float32
+//	ClaimedAmount   float32
+//	PreviousClaimed float32
+//	AmountDue       float32
+//	CostToCompleted float32
+//	IsDeleted       bool
+//}
+//
+////1 claim: M history
+//type ClaimHistory struct {
+//	gorm.Model
+//	Claim           Claim `gorm:"foreignKey:ClaimID"`
+//	PreviousClaimed float32
+//	CreatedBy       Login `gorm:"foreignKey:LoginID"`
+//}
