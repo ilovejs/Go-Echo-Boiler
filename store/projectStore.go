@@ -11,7 +11,6 @@ type ProjectStore struct {
 }
 
 func (ps ProjectStore) GetById(id uint) (*model.Project, error) {
-	//panic("implement me")
 	var m model.Project
 	if err := ps.db.First(&m, id).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {

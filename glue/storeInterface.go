@@ -21,18 +21,47 @@ import "onsite/model"
 //	RemoveFavorite(*model.Article, uint) error
 //	ListTags() ([]model.Tag, error)
 //}
-//
-//type UserStoreInterface interface {
-//	GetByID(uint) (*model.User, error)
-//	GetByEmail(string) (*model.User, error)
-//	GetByUsername(string) (*model.User, error)
-//	Create(*model.User) error
-//	Update(*model.User) error
-//	AddFollower(user *model.User, followerID uint) error
-//	RemoveFollower(user *model.User, followerID uint) error
-//	IsFollower(userID, followerID uint) (bool, error)
-//}
+
+type UserStoreInterface interface {
+	GetByID(uint) (*model.User, error)
+	GetByEmail(string) (*model.User, error)
+	GetByUsername(string) (*model.User, error)
+	Create(*model.User) error
+	Update(*model.User) error
+	AddFollower(user *model.User, followerID uint) error
+	RemoveFollower(user *model.User, followerID uint) error
+	IsFollower(userID, followerID uint) (bool, error)
+}
 
 type ProjectStoreInterface interface {
-	GetById(uint) (*model.Project, error)
+	//CRUD
+	CreateProject(uint) (*model.Project, error)
+	ReadProject(uint) (*model.Project, error)
+	UpdateProject(uint) (*model.Project, error) //EditProject
+	DeleteProject(uint, string) (*model.Project, error)
+	//
+	GetContractors(uint)
+	GetTradeSummary(uint)
+	GetTradeItems(uint, uint)            //assignTradeList(tid,pid)
+	GetTradeDetailByTradeId(uint, uint)  //GET addTradeItem
+	AddTradeItem(trade *model.TradeItem) //POST addTradeItem
+	GetTradeItemsByProjectId(uint)       //getSavedTradeItems(pid, tid)
+	//todo:TradeItemsPartialSend
+	DeleteTradeItem(uint, string) //(id, reason)
+	UpdateTradeItems()            //EditTradeItem 2 methods
+	//Claim:
+	ProjectClaim(uint)              //Merge ctr with other ?
+	UpdateClaim(claim *model.Claim) //POST ProjectClaim
+	UpdateClaimByID(uint, uint)     //TradeItemsClaimEdit(pid, tid)
+	TradeTotalByProjectId(uint)     //GetSavedTradeTotal
+	TradeItemsClaimSummary(uint)    //getClaimSummaryByMonth
+	GetClaimByProjectId(uint)       //TradeItemsClaim
+	GetTradeDetail(uint)            //pid
+	TradeItemsClaimList(uint, uint) //GetTradeItems(uint, uint)
+	GetContractorClaimReport(uint)
+	SubmitClaim(uint, string, string)      //pid, month, claim number
+	GetClaimHistory(uint)                  //claimId
+	GetTradeItemListByLevel(uint, string)  //pid, level
+	GetProjectTradeItemByLevel(uint, uint) //pid, level
+	GetClaimReport(uint)
 }
