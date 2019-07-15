@@ -13,19 +13,19 @@ type Role struct {
 
 type User struct {
 	gorm.Model
-	UserName    string
+	UserName    *string `gorm:"unique;not null"`
 	FirstName   string
 	LastName    string
 	Company     string
-	Email       string
+	Email       string `gorm:"unique;not null"`
 	Mobile      string
 	Password    string
 	Token       string
-	TokenExpire *time.Time
+	TokenExpire time.Time
 	IsActive    bool
 	IsDeleted   bool
-	Bio         *string
-	Avatar      *string
+	Bio         string
+	Avatar      string
 	Roles       []Role `gorm:"many2many:user_roles;"`
 
 	//1 User has many projects
@@ -39,7 +39,7 @@ type User struct {
 
 type Project struct {
 	gorm.Model
-	ManagerID            uint //fk
+	ManagerID            int //fk
 	Name                 string
 	GrossItemBreakDown   float32
 	GrossContractorClaim float32
@@ -51,31 +51,32 @@ type Project struct {
 	Note                 string
 	TradeItems           []TradeItem //?
 
-	PrimaryContactID uint
+	PrimaryContactID int
 	PrimaryContact   User
 
-	SecondaryContactID uint
+	SecondaryContactID int
 	SecondaryContact   User
 
 	ContractorProjects []*ContractorProject
 
-	CreatedBy uint //fk
+	CreatedBy int //fk
 }
 
 //linking table with extra fields, this is native table with no gorm.model
 type ContractorProject struct {
 	ID int
 
-	User   User
-	UserID uint
+	User   *User //not to create a new one
+	UserID int
 
-	Project   Project
-	ProjectID uint
+	Project   *Project
+	ProjectID int
 
 	SideNote  string
 	IsDeleted bool
-	Created   *time.Time
-	Updated   *time.Time
+
+	Created time.Time
+	Updated time.Time
 }
 
 //table name
@@ -94,21 +95,21 @@ type TradeItemType struct {
 
 type TradeItem struct {
 	gorm.Model
-	TradeItemTypeID   uint //fk
-	ProjectID         uint //fk
+	TradeItemTypeID   int //fk
+	ProjectID         int //fk
 	Level             int
 	DescriptionOfWork string
 	ItemBreakDown     float32
 	IsDeleted         bool
-	LastUpdate        *time.Time
+	LastUpdate        time.Time
 	TempCheck         bool
-	CreatedBy         uint //fk
+	CreatedBy         int //fk
 }
 
 //1 item: M claim
 type Claim struct {
 	gorm.Model
-	TradeItemID     uint //fk
+	TradeItemID     int //fk
 	GrossAmount     float32
 	ClaimedAmount   float32
 	PreviousClaimed float32
@@ -120,7 +121,7 @@ type Claim struct {
 //1 claim: M history
 type ClaimHistory struct {
 	gorm.Model
-	ClaimID         uint
+	ClaimID         int
 	PreviousClaimed float32
-	CreatedBy       uint
+	CreatedBy       int
 }

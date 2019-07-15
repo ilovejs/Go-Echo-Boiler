@@ -16,7 +16,17 @@ func NewProjectStore(db *gorm.DB) *ProjectStore {
 	}
 }
 
-func (ps ProjectStore) GetById(id uint) (*model.Project, error) {
+func (ps ProjectStore) CreateProject(p *model.Project) (*model.Project, error) {
+	err := ps.db.Debug().FirstOrCreate(
+		&p,
+		&model.Project{Name: p.Name}).Error
+	if err != nil {
+		return nil, err
+	}
+	return p, nil
+}
+
+func (ps ProjectStore) ReadProject(id int) (*model.Project, error) {
 	var m model.Project
 
 	if err := ps.db.First(&m, id).Error; err != nil {
@@ -28,11 +38,7 @@ func (ps ProjectStore) GetById(id uint) (*model.Project, error) {
 	return &m, nil
 }
 
-func (ps ProjectStore) CreateProject(p *model.Project) error {
-	panic("not done")
-}
-
-//Active Contractors
+//GetAll: Active Contractors
 func (ps ProjectStore) GetContractors() ([]model.User, error) {
 	var users []model.User
 

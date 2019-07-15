@@ -59,4 +59,7 @@ func (h *Handler) Register(v1 *echo.Group) {
 
 	//tags := v1.Group("/tags")
 	//tags.GET("", h.Tags)
+
+	projects := v1.Group("/projects")
+	projects.GET("/:id", h.ReadProject)
 }
