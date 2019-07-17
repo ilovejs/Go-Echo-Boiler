@@ -3,9 +3,11 @@ package glue
 import "onsite/model"
 
 type UserStoreInterface interface {
-	Get(uid uint) ([]model.User, error)
-	Create(user *model.User) (err error)
-	Update(user *model.User) error
+	Create(*model.User) error
+	GetByID(uint) (*model.User, error)
+	GetByEmail(string) (*model.User, error)
+	GetByUserName(string) (*model.User, error)
+	Update(*model.User) error
 	Delete(user *model.User) error
 }
 

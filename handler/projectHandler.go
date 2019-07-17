@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"net/http"
 	"onsite/dto"
 	"onsite/model"
@@ -18,18 +18,18 @@ func (h *Handler) ReadProject(c echo.Context) error {
 	if p == nil {
 		return c.JSON(http.StatusNotFound, utils.NotFound())
 	}
-	return c.JSON(http.StatusOK, dto.newReadProjectResponse(p))
+	return c.JSON(http.StatusOK, dto.NewReadProjectResponse(p))
 }
 
 func (h *Handler) CreateProject(c echo.Context) error {
 	var p model.Project
-	req := &dto.createProjectRequest{}
-	if err := req.bind(c, &p); err != nil {
+	req := &dto.CreateProjectRequest{}
+	if err := req.Bind(c, &p); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, utils.NewError(err))
 	}
 	created, err := h.projectStore.CreateProject(&p)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, utils.NewError(err))
 	}
-	return c.JSON(http.StatusCreated, dto.newCreateProjectResponse(created))
+	return c.JSON(http.StatusCreated, dto.NewCreateProjectResponse(created))
 }

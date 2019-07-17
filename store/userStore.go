@@ -15,7 +15,11 @@ func NewUserStore(db *gorm.DB) *UserStore {
 	}
 }
 
-func (us *UserStore) Get(id uint) (*model.User, error) {
+func (us *UserStore) Create(u *model.User) (err error) {
+	return us.db.Create(u).Error
+}
+
+func (us *UserStore) GetByID(id uint) (*model.User, error) {
 	var m model.User
 	if err := us.db.First(&m, id).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
@@ -26,8 +30,30 @@ func (us *UserStore) Get(id uint) (*model.User, error) {
 	return &m, nil
 }
 
-func (us *UserStore) Create(u *model.User) (err error) {
-	return us.db.Create(u).Error
+func (us *UserStore) GetByEmail(e string) (*model.User, error) {
+	var m model.User
+
+	if err := us.db.Where(&model.User{Email: e}).
+		First(&m).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &m, nil
+}
+
+func (us *UserStore) GetByUserName(username string) (*model.User, error) {
+	var m model.User
+	if err := us.db.Where(&model.User{UserName: username}).
+		//Preload("Followers").
+		First(&m).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &m, nil
 }
 
 func (us *UserStore) Update(u *model.User) error {
