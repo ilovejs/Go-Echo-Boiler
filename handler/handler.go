@@ -2,31 +2,33 @@ package handler
 
 import (
 	"github.com/labstack/echo"
-	"onsite/glue"
+	. "onsite/glue"
+	"onsite/router/middleware"
+	"onsite/utils"
 )
 
 type Handler struct {
-	//userStore    glue.UserStoreInterface
-	//articleStore glue.ArticleStoreInterface
-	projectStore glue.ProjectStoreInterface
+	projectStore ProjectStoreInterface
+	userStore    UserStoreInterface
 }
 
-func NewHandler(ps glue.ProjectStoreInterface) *Handler {
+func NewHandler(ps ProjectStoreInterface, us UserStoreInterface) *Handler {
 	return &Handler{
 		projectStore: ps,
+		userStore:    us,
 	}
 }
 
 func (h *Handler) Register(v1 *echo.Group) {
-	//jwtMiddleware := middleware.JWT(utils.JWTSecret)
+	jwtMiddleware := middleware.JWT(utils.JWTSecret)
 
-	//guestUsers := v1.Group("/users")
-	//guestUsers.POST("", h.SignUp)
-	//guestUsers.POST("/login", h.Login)
+	guests := v1.Group("/users")
+	guests.POST("", h.SignUp)
+	guests.POST("/login", h.Login)
 
-	//user := v1.Group("/user", jwtMiddleware)
-	//user.GET("", h.CurrentUser)
-	//user.PUT("", h.UpdateUser)
+	user := v1.Group("/user", jwtMiddleware)
+	user.GET("", h.CurrentUser)
+	user.PUT("", h.UpdateUser)
 
 	//profiles := v1.Group("/profiles", jwtMiddleware)
 	//profiles.GET("/:username", h.GetProfile)

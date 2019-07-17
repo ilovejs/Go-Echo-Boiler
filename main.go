@@ -17,12 +17,12 @@ func main() {
 	db.AutoMigrate(d)
 
 	//store
-	//us := store.NewUserStore(d)
+	us := store.NewUserStore(d)
 	//as := store.NewArticleStore(d)
 	ps := store.NewProjectStore(d)
 
 	// handler
-	h := handler.NewHandler(ps) //ps,us,as
+	h := handler.NewHandler(ps, us) //ps,us,as
 	h.Register(v1)
 
 	r.Logger.Fatal(r.Start("localhost:8585"))

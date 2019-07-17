@@ -11,32 +11,6 @@ type Role struct {
 	Users []*User `gorm:"many2many:user_roles;"`
 }
 
-type User struct {
-	gorm.Model
-	UserName    *string `gorm:"unique;not null"`
-	FirstName   string
-	LastName    string
-	Company     string
-	Email       string `gorm:"unique;not null"`
-	Mobile      string
-	Password    string
-	Token       string
-	TokenExpire time.Time
-	IsActive    bool
-	IsDeleted   bool
-	Bio         string
-	Avatar      string
-	Roles       []Role `gorm:"many2many:user_roles;"`
-
-	//1 User has many projects
-	ManageProjects      []Project       `gorm:"foreignkey:Manager"`
-	CreatedProjects     []Project       `gorm:"foreignkey:CreatedBy"`
-	CreatedTradeItems   []TradeItemType `gorm:"foreignkey:CreatedBy"`
-	CreatedClaimHistory []ClaimHistory  `gorm:"foreignkey:CreatedBy"`
-
-	ContractorProjects []*ContractorProject
-}
-
 type Project struct {
 	gorm.Model
 	ManagerID            int //fk
