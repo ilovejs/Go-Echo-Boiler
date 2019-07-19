@@ -2,6 +2,7 @@
   <dictionary name="mzhuang">
     <words>
       <w>firstname</w>
+      <w>keyvals</w>
       <w>lastname</w>
       <w>unfollow</w>
     </words>

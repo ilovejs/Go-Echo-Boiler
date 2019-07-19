@@ -1,7 +1,9 @@
 [mssql]
-  dbname  = "db2"
+  dbname  = "dev"
   host    = "localhost"
   port    = 1433
   user    = "tester"
   pass    = "tester"
   sslmode = "disable"
+
+blacklist = ["ErrorLog", "sysdiagrams"]
