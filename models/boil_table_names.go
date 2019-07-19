@@ -4,23 +4,21 @@
 package models
 
 var TableNames = struct {
-	BasicTradeitems    string
-	ClaimHistories     string
-	Claims             string
-	ContractorProjects string
-	Logins             string
-	Profiles           string
-	Projects           string
-	Roles              string
-	TradeItems         string
+	BasicTrades    string
+	ClaimHistories string
+	Claims         string
+	Profiles       string
+	Projects       string
+	Roles          string
+	Trades         string
+	Users          string
 }{
-	BasicTradeitems:    "basic_tradeitems",
-	ClaimHistories:     "claim_histories",
-	Claims:             "claims",
-	ContractorProjects: "contractor_projects",
-	Logins:             "logins",
-	Profiles:           "profiles",
-	Projects:           "projects",
-	Roles:              "roles",
-	TradeItems:         "trade_items",
+	BasicTrades:    "basic_trades",
+	ClaimHistories: "claim_histories",
+	Claims:         "claims",
+	Profiles:       "profiles",
+	Projects:       "projects",
+	Roles:          "roles",
+	Trades:         "trades",
+	Users:          "users",
 }

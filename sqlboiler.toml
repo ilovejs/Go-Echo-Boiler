@@ -1,5 +1,5 @@
 [mssql]
-  dbname  = "dev"
+  dbname  = "test2"
   host    = "localhost"
   port    = 1433
   user    = "tester"

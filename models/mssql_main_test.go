@@ -177,6 +177,7 @@ func (m *mssqlTester) conn() (*sql.DB, error) {
 
 	var err error
 	m.dbConn, err = sql.Open("mssql", driver.MSSQLBuildQueryString(m.user, m.pass, m.testDBName, m.host, m.port, m.sslmode))
+	//boil.DebugMode = true
 	if err != nil {
 		return nil, err
 	}

@@ -341,108 +341,6 @@ func testClaimHistoriesInsertWhitelist(t *testing.T) {
 	}
 }
 
-func testClaimHistoryToOneProfileUsingLogin(t *testing.T) {
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var local ClaimHistory
-	var foreign Profile
-
-	seed := randomize.NewSeed()
-	if err := randomize.Struct(seed, &local, claimHistoryDBTypes, false, claimHistoryColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize ClaimHistory struct: %s", err)
-	}
-	if err := randomize.Struct(seed, &foreign, profileDBTypes, false, profileColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Profile struct: %s", err)
-	}
-
-	if err := foreign.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	local.LoginID = foreign.ID
-	if err := local.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	check, err := local.Login().One(tx)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if check.ID != foreign.ID {
-		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
-	}
-
-	slice := ClaimHistorySlice{&local}
-	if err = local.L.LoadLogin(tx, false, (*[]*ClaimHistory)(&slice), nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.Login == nil {
-		t.Error("struct should have been eager loaded")
-	}
-
-	local.R.Login = nil
-	if err = local.L.LoadLogin(tx, true, &local, nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.Login == nil {
-		t.Error("struct should have been eager loaded")
-	}
-}
-
-func testClaimHistoryToOneTradeItemUsingTradeItem(t *testing.T) {
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var local ClaimHistory
-	var foreign TradeItem
-
-	seed := randomize.NewSeed()
-	if err := randomize.Struct(seed, &local, claimHistoryDBTypes, false, claimHistoryColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize ClaimHistory struct: %s", err)
-	}
-	if err := randomize.Struct(seed, &foreign, tradeItemDBTypes, false, tradeItemColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize TradeItem struct: %s", err)
-	}
-
-	if err := foreign.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	local.TradeItemID = foreign.ID
-	if err := local.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	check, err := local.TradeItem().One(tx)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if check.ID != foreign.ID {
-		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
-	}
-
-	slice := ClaimHistorySlice{&local}
-	if err = local.L.LoadTradeItem(tx, false, (*[]*ClaimHistory)(&slice), nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.TradeItem == nil {
-		t.Error("struct should have been eager loaded")
-	}
-
-	local.R.TradeItem = nil
-	if err = local.L.LoadTradeItem(tx, true, &local, nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.TradeItem == nil {
-		t.Error("struct should have been eager loaded")
-	}
-}
-
 func testClaimHistoryToOneClaimUsingClaim(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
@@ -494,118 +392,108 @@ func testClaimHistoryToOneClaimUsingClaim(t *testing.T) {
 	}
 }
 
-func testClaimHistoryToOneSetOpProfileUsingLogin(t *testing.T) {
-	var err error
+func testClaimHistoryToOneProfileUsingProfile(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
-	var a ClaimHistory
-	var b, c Profile
+	var local ClaimHistory
+	var foreign Profile
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, claimHistoryDBTypes, false, strmangle.SetComplement(claimHistoryPrimaryKeyColumns, claimHistoryColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
+	if err := randomize.Struct(seed, &local, claimHistoryDBTypes, false, claimHistoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize ClaimHistory struct: %s", err)
 	}
-	if err = randomize.Struct(seed, &b, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &c, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
+	if err := randomize.Struct(seed, &foreign, profileDBTypes, false, profileColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Profile struct: %s", err)
 	}
 
-	if err := a.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = b.Insert(tx, boil.Infer()); err != nil {
+	if err := foreign.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	for i, x := range []*Profile{&b, &c} {
-		err = a.SetLogin(tx, i != 0, x)
-		if err != nil {
-			t.Fatal(err)
-		}
+	local.ProfileID = foreign.ID
+	if err := local.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
 
-		if a.R.Login != x {
-			t.Error("relationship struct not set to correct value")
-		}
+	check, err := local.Profile().One(tx)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-		if x.R.LoginClaimHistories[0] != &a {
-			t.Error("failed to append to foreign relationship struct")
-		}
-		if a.LoginID != x.ID {
-			t.Error("foreign key was wrong value", a.LoginID)
-		}
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
 
-		zero := reflect.Zero(reflect.TypeOf(a.LoginID))
-		reflect.Indirect(reflect.ValueOf(&a.LoginID)).Set(zero)
+	slice := ClaimHistorySlice{&local}
+	if err = local.L.LoadProfile(tx, false, (*[]*ClaimHistory)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Profile == nil {
+		t.Error("struct should have been eager loaded")
+	}
 
-		if err = a.Reload(tx); err != nil {
-			t.Fatal("failed to reload", err)
-		}
-
-		if a.LoginID != x.ID {
-			t.Error("foreign key was wrong value", a.LoginID, x.ID)
-		}
+	local.R.Profile = nil
+	if err = local.L.LoadProfile(tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Profile == nil {
+		t.Error("struct should have been eager loaded")
 	}
 }
-func testClaimHistoryToOneSetOpTradeItemUsingTradeItem(t *testing.T) {
-	var err error
+
+func testClaimHistoryToOneTradeUsingTrade(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
-	var a ClaimHistory
-	var b, c TradeItem
+	var local ClaimHistory
+	var foreign Trade
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, claimHistoryDBTypes, false, strmangle.SetComplement(claimHistoryPrimaryKeyColumns, claimHistoryColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
+	if err := randomize.Struct(seed, &local, claimHistoryDBTypes, false, claimHistoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize ClaimHistory struct: %s", err)
 	}
-	if err = randomize.Struct(seed, &b, tradeItemDBTypes, false, strmangle.SetComplement(tradeItemPrimaryKeyColumns, tradeItemColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &c, tradeItemDBTypes, false, strmangle.SetComplement(tradeItemPrimaryKeyColumns, tradeItemColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
+	if err := randomize.Struct(seed, &foreign, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Trade struct: %s", err)
 	}
 
-	if err := a.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = b.Insert(tx, boil.Infer()); err != nil {
+	if err := foreign.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	for i, x := range []*TradeItem{&b, &c} {
-		err = a.SetTradeItem(tx, i != 0, x)
-		if err != nil {
-			t.Fatal(err)
-		}
+	local.TradeID = foreign.ID
+	if err := local.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
 
-		if a.R.TradeItem != x {
-			t.Error("relationship struct not set to correct value")
-		}
+	check, err := local.Trade().One(tx)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-		if x.R.ClaimHistories[0] != &a {
-			t.Error("failed to append to foreign relationship struct")
-		}
-		if a.TradeItemID != x.ID {
-			t.Error("foreign key was wrong value", a.TradeItemID)
-		}
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
 
-		zero := reflect.Zero(reflect.TypeOf(a.TradeItemID))
-		reflect.Indirect(reflect.ValueOf(&a.TradeItemID)).Set(zero)
+	slice := ClaimHistorySlice{&local}
+	if err = local.L.LoadTrade(tx, false, (*[]*ClaimHistory)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Trade == nil {
+		t.Error("struct should have been eager loaded")
+	}
 
-		if err = a.Reload(tx); err != nil {
-			t.Fatal("failed to reload", err)
-		}
-
-		if a.TradeItemID != x.ID {
-			t.Error("foreign key was wrong value", a.TradeItemID, x.ID)
-		}
+	local.R.Trade = nil
+	if err = local.L.LoadTrade(tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Trade == nil {
+		t.Error("struct should have been eager loaded")
 	}
 }
+
 func testClaimHistoryToOneSetOpClaimUsingClaim(t *testing.T) {
 	var err error
 
@@ -659,6 +547,118 @@ func testClaimHistoryToOneSetOpClaimUsingClaim(t *testing.T) {
 
 		if a.ClaimID != x.ID {
 			t.Error("foreign key was wrong value", a.ClaimID, x.ID)
+		}
+	}
+}
+func testClaimHistoryToOneSetOpProfileUsingProfile(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a ClaimHistory
+	var b, c Profile
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, claimHistoryDBTypes, false, strmangle.SetComplement(claimHistoryPrimaryKeyColumns, claimHistoryColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Profile{&b, &c} {
+		err = a.SetProfile(tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Profile != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.ClaimHistories[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.ProfileID != x.ID {
+			t.Error("foreign key was wrong value", a.ProfileID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.ProfileID))
+		reflect.Indirect(reflect.ValueOf(&a.ProfileID)).Set(zero)
+
+		if err = a.Reload(tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if a.ProfileID != x.ID {
+			t.Error("foreign key was wrong value", a.ProfileID, x.ID)
+		}
+	}
+}
+func testClaimHistoryToOneSetOpTradeUsingTrade(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a ClaimHistory
+	var b, c Trade
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, claimHistoryDBTypes, false, strmangle.SetComplement(claimHistoryPrimaryKeyColumns, claimHistoryColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, tradeDBTypes, false, strmangle.SetComplement(tradePrimaryKeyColumns, tradeColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, tradeDBTypes, false, strmangle.SetComplement(tradePrimaryKeyColumns, tradeColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Trade{&b, &c} {
+		err = a.SetTrade(tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Trade != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.ClaimHistories[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.TradeID != x.ID {
+			t.Error("foreign key was wrong value", a.TradeID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.TradeID))
+		reflect.Indirect(reflect.ValueOf(&a.TradeID)).Set(zero)
+
+		if err = a.Reload(tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if a.TradeID != x.ID {
+			t.Error("foreign key was wrong value", a.TradeID, x.ID)
 		}
 	}
 }
@@ -734,7 +734,7 @@ func testClaimHistoriesSelect(t *testing.T) {
 }
 
 var (
-	claimHistoryDBTypes = map[string]string{`ID`: `bigint`, `TradeItemID`: `bigint`, `ClaimID`: `bigint`, `PreviousClaimed`: `decimal`, `CreatedOn`: `datetime`, `LoginID`: `bigint`, `AutoIncrement`: `bigint`}
+	claimHistoryDBTypes = map[string]string{`ID`: `int`, `TradeID`: `int`, `ClaimID`: `int`, `ProfileID`: `int`, `PreviousClaimed`: `float`, `Created`: `datetime`, `Updated`: `datetime`}
 	_                   = bytes.MinRead
 )
 

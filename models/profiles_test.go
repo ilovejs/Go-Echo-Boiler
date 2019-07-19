@@ -341,7 +341,7 @@ func testProfilesInsertWhitelist(t *testing.T) {
 	}
 }
 
-func testProfileToManyLoginClaimHistories(t *testing.T) {
+func testProfileToManyClaimHistories(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -366,8 +366,8 @@ func testProfileToManyLoginClaimHistories(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b.LoginID = a.ID
-	c.LoginID = a.ID
+	b.ProfileID = a.ID
+	c.ProfileID = a.ID
 
 	if err = b.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -376,17 +376,17 @@ func testProfileToManyLoginClaimHistories(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.LoginClaimHistories().All(tx)
+	check, err := a.ClaimHistories().All(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.LoginID == b.LoginID {
+		if v.ProfileID == b.ProfileID {
 			bFound = true
 		}
-		if v.LoginID == c.LoginID {
+		if v.ProfileID == c.ProfileID {
 			cFound = true
 		}
 	}
@@ -399,18 +399,18 @@ func testProfileToManyLoginClaimHistories(t *testing.T) {
 	}
 
 	slice := ProfileSlice{&a}
-	if err = a.L.LoadLoginClaimHistories(tx, false, (*[]*Profile)(&slice), nil); err != nil {
+	if err = a.L.LoadClaimHistories(tx, false, (*[]*Profile)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.LoginClaimHistories); got != 2 {
+	if got := len(a.R.ClaimHistories); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.LoginClaimHistories = nil
-	if err = a.L.LoadLoginClaimHistories(tx, true, &a, nil); err != nil {
+	a.R.ClaimHistories = nil
+	if err = a.L.LoadClaimHistories(tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.LoginClaimHistories); got != 2 {
+	if got := len(a.R.ClaimHistories); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -419,7 +419,7 @@ func testProfileToManyLoginClaimHistories(t *testing.T) {
 	}
 }
 
-func testProfileToManyLoginClaims(t *testing.T) {
+func testProfileToManyClaims(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -444,8 +444,8 @@ func testProfileToManyLoginClaims(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b.LoginID = a.ID
-	c.LoginID = a.ID
+	b.ProfileID = a.ID
+	c.ProfileID = a.ID
 
 	if err = b.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -454,17 +454,17 @@ func testProfileToManyLoginClaims(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.LoginClaims().All(tx)
+	check, err := a.Claims().All(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.LoginID == b.LoginID {
+		if v.ProfileID == b.ProfileID {
 			bFound = true
 		}
-		if v.LoginID == c.LoginID {
+		if v.ProfileID == c.ProfileID {
 			cFound = true
 		}
 	}
@@ -477,96 +477,18 @@ func testProfileToManyLoginClaims(t *testing.T) {
 	}
 
 	slice := ProfileSlice{&a}
-	if err = a.L.LoadLoginClaims(tx, false, (*[]*Profile)(&slice), nil); err != nil {
+	if err = a.L.LoadClaims(tx, false, (*[]*Profile)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.LoginClaims); got != 2 {
+	if got := len(a.R.Claims); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.LoginClaims = nil
-	if err = a.L.LoadLoginClaims(tx, true, &a, nil); err != nil {
+	a.R.Claims = nil
+	if err = a.L.LoadClaims(tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.LoginClaims); got != 2 {
-		t.Error("number of eager loaded records wrong, got:", got)
-	}
-
-	if t.Failed() {
-		t.Logf("%#v", check)
-	}
-}
-
-func testProfileToManyUserContractorProjects(t *testing.T) {
-	var err error
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var a Profile
-	var b, c ContractorProject
-
-	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, profileDBTypes, true, profileColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Profile struct: %s", err)
-	}
-
-	if err := a.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	if err = randomize.Struct(seed, &b, contractorProjectDBTypes, false, contractorProjectColumnsWithDefault...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &c, contractorProjectDBTypes, false, contractorProjectColumnsWithDefault...); err != nil {
-		t.Fatal(err)
-	}
-
-	b.UserID = a.ID
-	c.UserID = a.ID
-
-	if err = b.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = c.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	check, err := a.UserContractorProjects().All(tx)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	bFound, cFound := false, false
-	for _, v := range check {
-		if v.UserID == b.UserID {
-			bFound = true
-		}
-		if v.UserID == c.UserID {
-			cFound = true
-		}
-	}
-
-	if !bFound {
-		t.Error("expected to find b")
-	}
-	if !cFound {
-		t.Error("expected to find c")
-	}
-
-	slice := ProfileSlice{&a}
-	if err = a.L.LoadUserContractorProjects(tx, false, (*[]*Profile)(&slice), nil); err != nil {
-		t.Fatal(err)
-	}
-	if got := len(a.R.UserContractorProjects); got != 2 {
-		t.Error("number of eager loaded records wrong, got:", got)
-	}
-
-	a.R.UserContractorProjects = nil
-	if err = a.L.LoadUserContractorProjects(tx, true, &a, nil); err != nil {
-		t.Fatal(err)
-	}
-	if got := len(a.R.UserContractorProjects); got != 2 {
+	if got := len(a.R.Claims); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -575,7 +497,7 @@ func testProfileToManyUserContractorProjects(t *testing.T) {
 	}
 }
 
-func testProfileToManyLoginProjects(t *testing.T) {
+func testProfileToManyCreatorProfileProjects(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -600,8 +522,8 @@ func testProfileToManyLoginProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b.LoginID = a.ID
-	c.LoginID = a.ID
+	b.CreatorProfileID = a.ID
+	c.CreatorProfileID = a.ID
 
 	if err = b.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -610,17 +532,17 @@ func testProfileToManyLoginProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.LoginProjects().All(tx)
+	check, err := a.CreatorProfileProjects().All(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.LoginID == b.LoginID {
+		if v.CreatorProfileID == b.CreatorProfileID {
 			bFound = true
 		}
-		if v.LoginID == c.LoginID {
+		if v.CreatorProfileID == c.CreatorProfileID {
 			cFound = true
 		}
 	}
@@ -633,18 +555,18 @@ func testProfileToManyLoginProjects(t *testing.T) {
 	}
 
 	slice := ProfileSlice{&a}
-	if err = a.L.LoadLoginProjects(tx, false, (*[]*Profile)(&slice), nil); err != nil {
+	if err = a.L.LoadCreatorProfileProjects(tx, false, (*[]*Profile)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.LoginProjects); got != 2 {
+	if got := len(a.R.CreatorProfileProjects); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.LoginProjects = nil
-	if err = a.L.LoadLoginProjects(tx, true, &a, nil); err != nil {
+	a.R.CreatorProfileProjects = nil
+	if err = a.L.LoadCreatorProfileProjects(tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.LoginProjects); got != 2 {
+	if got := len(a.R.CreatorProfileProjects); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -653,7 +575,7 @@ func testProfileToManyLoginProjects(t *testing.T) {
 	}
 }
 
-func testProfileToManyUserProjects(t *testing.T) {
+func testProfileToManyManagerProfileProjects(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -678,8 +600,8 @@ func testProfileToManyUserProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b.UserID = a.ID
-	c.UserID = a.ID
+	b.ManagerProfileID = a.ID
+	c.ManagerProfileID = a.ID
 
 	if err = b.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -688,17 +610,17 @@ func testProfileToManyUserProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.UserProjects().All(tx)
+	check, err := a.ManagerProfileProjects().All(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.UserID == b.UserID {
+		if v.ManagerProfileID == b.ManagerProfileID {
 			bFound = true
 		}
-		if v.UserID == c.UserID {
+		if v.ManagerProfileID == c.ManagerProfileID {
 			cFound = true
 		}
 	}
@@ -711,18 +633,18 @@ func testProfileToManyUserProjects(t *testing.T) {
 	}
 
 	slice := ProfileSlice{&a}
-	if err = a.L.LoadUserProjects(tx, false, (*[]*Profile)(&slice), nil); err != nil {
+	if err = a.L.LoadManagerProfileProjects(tx, false, (*[]*Profile)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.UserProjects); got != 2 {
+	if got := len(a.R.ManagerProfileProjects); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.UserProjects = nil
-	if err = a.L.LoadUserProjects(tx, true, &a, nil); err != nil {
+	a.R.ManagerProfileProjects = nil
+	if err = a.L.LoadManagerProfileProjects(tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.UserProjects); got != 2 {
+	if got := len(a.R.ManagerProfileProjects); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -731,14 +653,14 @@ func testProfileToManyUserProjects(t *testing.T) {
 	}
 }
 
-func testProfileToManyLoginTradeItems(t *testing.T) {
+func testProfileToManyTrades(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
 	var a Profile
-	var b, c TradeItem
+	var b, c Trade
 
 	seed := randomize.NewSeed()
 	if err = randomize.Struct(seed, &a, profileDBTypes, true, profileColumnsWithDefault...); err != nil {
@@ -749,15 +671,15 @@ func testProfileToManyLoginTradeItems(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err = randomize.Struct(seed, &b, tradeItemDBTypes, false, tradeItemColumnsWithDefault...); err != nil {
+	if err = randomize.Struct(seed, &b, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
 		t.Fatal(err)
 	}
-	if err = randomize.Struct(seed, &c, tradeItemDBTypes, false, tradeItemColumnsWithDefault...); err != nil {
+	if err = randomize.Struct(seed, &c, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
 		t.Fatal(err)
 	}
 
-	b.LoginID = a.ID
-	c.LoginID = a.ID
+	b.ProfileID = a.ID
+	c.ProfileID = a.ID
 
 	if err = b.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -766,17 +688,17 @@ func testProfileToManyLoginTradeItems(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.LoginTradeItems().All(tx)
+	check, err := a.Trades().All(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.LoginID == b.LoginID {
+		if v.ProfileID == b.ProfileID {
 			bFound = true
 		}
-		if v.LoginID == c.LoginID {
+		if v.ProfileID == c.ProfileID {
 			cFound = true
 		}
 	}
@@ -789,18 +711,18 @@ func testProfileToManyLoginTradeItems(t *testing.T) {
 	}
 
 	slice := ProfileSlice{&a}
-	if err = a.L.LoadLoginTradeItems(tx, false, (*[]*Profile)(&slice), nil); err != nil {
+	if err = a.L.LoadTrades(tx, false, (*[]*Profile)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.LoginTradeItems); got != 2 {
+	if got := len(a.R.Trades); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.LoginTradeItems = nil
-	if err = a.L.LoadLoginTradeItems(tx, true, &a, nil); err != nil {
+	a.R.Trades = nil
+	if err = a.L.LoadTrades(tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.LoginTradeItems); got != 2 {
+	if got := len(a.R.Trades); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -809,7 +731,85 @@ func testProfileToManyLoginTradeItems(t *testing.T) {
 	}
 }
 
-func testProfileToManyAddOpLoginClaimHistories(t *testing.T) {
+func testProfileToManyCreatorProfileUsers(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a Profile
+	var b, c User
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, profileDBTypes, true, profileColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Profile struct: %s", err)
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, userDBTypes, false, userColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, userDBTypes, false, userColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.CreatorProfileID = a.ID
+	c.CreatorProfileID = a.ID
+
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.CreatorProfileUsers().All(tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.CreatorProfileID == b.CreatorProfileID {
+			bFound = true
+		}
+		if v.CreatorProfileID == c.CreatorProfileID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := ProfileSlice{&a}
+	if err = a.L.LoadCreatorProfileUsers(tx, false, (*[]*Profile)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.CreatorProfileUsers); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.CreatorProfileUsers = nil
+	if err = a.L.LoadCreatorProfileUsers(tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.CreatorProfileUsers); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
+func testProfileToManyAddOpClaimHistories(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -845,7 +845,7 @@ func testProfileToManyAddOpLoginClaimHistories(t *testing.T) {
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddLoginClaimHistories(tx, i != 0, x...)
+		err = a.AddClaimHistories(tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -853,28 +853,28 @@ func testProfileToManyAddOpLoginClaimHistories(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.LoginID {
-			t.Error("foreign key was wrong value", a.ID, first.LoginID)
+		if a.ID != first.ProfileID {
+			t.Error("foreign key was wrong value", a.ID, first.ProfileID)
 		}
-		if a.ID != second.LoginID {
-			t.Error("foreign key was wrong value", a.ID, second.LoginID)
+		if a.ID != second.ProfileID {
+			t.Error("foreign key was wrong value", a.ID, second.ProfileID)
 		}
 
-		if first.R.Login != &a {
+		if first.R.Profile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Login != &a {
+		if second.R.Profile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.LoginClaimHistories[i*2] != first {
+		if a.R.ClaimHistories[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.LoginClaimHistories[i*2+1] != second {
+		if a.R.ClaimHistories[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.LoginClaimHistories().Count(tx)
+		count, err := a.ClaimHistories().Count(tx)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -883,7 +883,7 @@ func testProfileToManyAddOpLoginClaimHistories(t *testing.T) {
 		}
 	}
 }
-func testProfileToManyAddOpLoginClaims(t *testing.T) {
+func testProfileToManyAddOpClaims(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -919,7 +919,7 @@ func testProfileToManyAddOpLoginClaims(t *testing.T) {
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddLoginClaims(tx, i != 0, x...)
+		err = a.AddClaims(tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -927,28 +927,28 @@ func testProfileToManyAddOpLoginClaims(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.LoginID {
-			t.Error("foreign key was wrong value", a.ID, first.LoginID)
+		if a.ID != first.ProfileID {
+			t.Error("foreign key was wrong value", a.ID, first.ProfileID)
 		}
-		if a.ID != second.LoginID {
-			t.Error("foreign key was wrong value", a.ID, second.LoginID)
+		if a.ID != second.ProfileID {
+			t.Error("foreign key was wrong value", a.ID, second.ProfileID)
 		}
 
-		if first.R.Login != &a {
+		if first.R.Profile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Login != &a {
+		if second.R.Profile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.LoginClaims[i*2] != first {
+		if a.R.Claims[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.LoginClaims[i*2+1] != second {
+		if a.R.Claims[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.LoginClaims().Count(tx)
+		count, err := a.Claims().Count(tx)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -957,81 +957,7 @@ func testProfileToManyAddOpLoginClaims(t *testing.T) {
 		}
 	}
 }
-func testProfileToManyAddOpUserContractorProjects(t *testing.T) {
-	var err error
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var a Profile
-	var b, c, d, e ContractorProject
-
-	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	foreigners := []*ContractorProject{&b, &c, &d, &e}
-	for _, x := range foreigners {
-		if err = randomize.Struct(seed, x, contractorProjectDBTypes, false, strmangle.SetComplement(contractorProjectPrimaryKeyColumns, contractorProjectColumnsWithoutDefault)...); err != nil {
-			t.Fatal(err)
-		}
-	}
-
-	if err := a.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = b.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = c.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	foreignersSplitByInsertion := [][]*ContractorProject{
-		{&b, &c},
-		{&d, &e},
-	}
-
-	for i, x := range foreignersSplitByInsertion {
-		err = a.AddUserContractorProjects(tx, i != 0, x...)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		first := x[0]
-		second := x[1]
-
-		if a.ID != first.UserID {
-			t.Error("foreign key was wrong value", a.ID, first.UserID)
-		}
-		if a.ID != second.UserID {
-			t.Error("foreign key was wrong value", a.ID, second.UserID)
-		}
-
-		if first.R.User != &a {
-			t.Error("relationship was not added properly to the foreign slice")
-		}
-		if second.R.User != &a {
-			t.Error("relationship was not added properly to the foreign slice")
-		}
-
-		if a.R.UserContractorProjects[i*2] != first {
-			t.Error("relationship struct slice not set to correct value")
-		}
-		if a.R.UserContractorProjects[i*2+1] != second {
-			t.Error("relationship struct slice not set to correct value")
-		}
-
-		count, err := a.UserContractorProjects().Count(tx)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if want := int64((i + 1) * 2); count != want {
-			t.Error("want", want, "got", count)
-		}
-	}
-}
-func testProfileToManyAddOpLoginProjects(t *testing.T) {
+func testProfileToManyAddOpCreatorProfileProjects(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -1067,7 +993,7 @@ func testProfileToManyAddOpLoginProjects(t *testing.T) {
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddLoginProjects(tx, i != 0, x...)
+		err = a.AddCreatorProfileProjects(tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1075,28 +1001,28 @@ func testProfileToManyAddOpLoginProjects(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.LoginID {
-			t.Error("foreign key was wrong value", a.ID, first.LoginID)
+		if a.ID != first.CreatorProfileID {
+			t.Error("foreign key was wrong value", a.ID, first.CreatorProfileID)
 		}
-		if a.ID != second.LoginID {
-			t.Error("foreign key was wrong value", a.ID, second.LoginID)
+		if a.ID != second.CreatorProfileID {
+			t.Error("foreign key was wrong value", a.ID, second.CreatorProfileID)
 		}
 
-		if first.R.Login != &a {
+		if first.R.CreatorProfile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Login != &a {
+		if second.R.CreatorProfile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.LoginProjects[i*2] != first {
+		if a.R.CreatorProfileProjects[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.LoginProjects[i*2+1] != second {
+		if a.R.CreatorProfileProjects[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.LoginProjects().Count(tx)
+		count, err := a.CreatorProfileProjects().Count(tx)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1105,7 +1031,7 @@ func testProfileToManyAddOpLoginProjects(t *testing.T) {
 		}
 	}
 }
-func testProfileToManyAddOpUserProjects(t *testing.T) {
+func testProfileToManyAddOpManagerProfileProjects(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -1141,7 +1067,7 @@ func testProfileToManyAddOpUserProjects(t *testing.T) {
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddUserProjects(tx, i != 0, x...)
+		err = a.AddManagerProfileProjects(tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1149,28 +1075,28 @@ func testProfileToManyAddOpUserProjects(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.UserID {
-			t.Error("foreign key was wrong value", a.ID, first.UserID)
+		if a.ID != first.ManagerProfileID {
+			t.Error("foreign key was wrong value", a.ID, first.ManagerProfileID)
 		}
-		if a.ID != second.UserID {
-			t.Error("foreign key was wrong value", a.ID, second.UserID)
+		if a.ID != second.ManagerProfileID {
+			t.Error("foreign key was wrong value", a.ID, second.ManagerProfileID)
 		}
 
-		if first.R.User != &a {
+		if first.R.ManagerProfile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.User != &a {
+		if second.R.ManagerProfile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.UserProjects[i*2] != first {
+		if a.R.ManagerProfileProjects[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.UserProjects[i*2+1] != second {
+		if a.R.ManagerProfileProjects[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.UserProjects().Count(tx)
+		count, err := a.ManagerProfileProjects().Count(tx)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1179,22 +1105,22 @@ func testProfileToManyAddOpUserProjects(t *testing.T) {
 		}
 	}
 }
-func testProfileToManyAddOpLoginTradeItems(t *testing.T) {
+func testProfileToManyAddOpTrades(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
 	var a Profile
-	var b, c, d, e TradeItem
+	var b, c, d, e Trade
 
 	seed := randomize.NewSeed()
 	if err = randomize.Struct(seed, &a, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	foreigners := []*TradeItem{&b, &c, &d, &e}
+	foreigners := []*Trade{&b, &c, &d, &e}
 	for _, x := range foreigners {
-		if err = randomize.Struct(seed, x, tradeItemDBTypes, false, strmangle.SetComplement(tradeItemPrimaryKeyColumns, tradeItemColumnsWithoutDefault)...); err != nil {
+		if err = randomize.Struct(seed, x, tradeDBTypes, false, strmangle.SetComplement(tradePrimaryKeyColumns, tradeColumnsWithoutDefault)...); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -1209,13 +1135,13 @@ func testProfileToManyAddOpLoginTradeItems(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	foreignersSplitByInsertion := [][]*TradeItem{
+	foreignersSplitByInsertion := [][]*Trade{
 		{&b, &c},
 		{&d, &e},
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddLoginTradeItems(tx, i != 0, x...)
+		err = a.AddTrades(tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1223,28 +1149,28 @@ func testProfileToManyAddOpLoginTradeItems(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.LoginID {
-			t.Error("foreign key was wrong value", a.ID, first.LoginID)
+		if a.ID != first.ProfileID {
+			t.Error("foreign key was wrong value", a.ID, first.ProfileID)
 		}
-		if a.ID != second.LoginID {
-			t.Error("foreign key was wrong value", a.ID, second.LoginID)
+		if a.ID != second.ProfileID {
+			t.Error("foreign key was wrong value", a.ID, second.ProfileID)
 		}
 
-		if first.R.Login != &a {
+		if first.R.Profile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Login != &a {
+		if second.R.Profile != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.LoginTradeItems[i*2] != first {
+		if a.R.Trades[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.LoginTradeItems[i*2+1] != second {
+		if a.R.Trades[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.LoginTradeItems().Count(tx)
+		count, err := a.Trades().Count(tx)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1253,74 +1179,148 @@ func testProfileToManyAddOpLoginTradeItems(t *testing.T) {
 		}
 	}
 }
-func testProfileToOneLoginUsingLogin(t *testing.T) {
+func testProfileToManyAddOpCreatorProfileUsers(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a Profile
+	var b, c, d, e User
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*User{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, userDBTypes, false, strmangle.SetComplement(userPrimaryKeyColumns, userColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*User{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddCreatorProfileUsers(tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.CreatorProfileID {
+			t.Error("foreign key was wrong value", a.ID, first.CreatorProfileID)
+		}
+		if a.ID != second.CreatorProfileID {
+			t.Error("foreign key was wrong value", a.ID, second.CreatorProfileID)
+		}
+
+		if first.R.CreatorProfile != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.CreatorProfile != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.CreatorProfileUsers[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.CreatorProfileUsers[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.CreatorProfileUsers().Count(tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+func testProfileToOneUserUsingUser(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
 	var local Profile
-	var foreign Login
+	var foreign User
 
 	seed := randomize.NewSeed()
-	if err := randomize.Struct(seed, &local, profileDBTypes, true, profileColumnsWithDefault...); err != nil {
+	if err := randomize.Struct(seed, &local, profileDBTypes, false, profileColumnsWithDefault...); err != nil {
 		t.Errorf("Unable to randomize Profile struct: %s", err)
 	}
-	if err := randomize.Struct(seed, &foreign, loginDBTypes, false, loginColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Login struct: %s", err)
+	if err := randomize.Struct(seed, &foreign, userDBTypes, false, userColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize User struct: %s", err)
 	}
 
 	if err := foreign.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&local.LoginID, foreign.ID)
+	local.UserID = foreign.ID
 	if err := local.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	check, err := local.Login().One(tx)
+	check, err := local.User().One(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if !queries.Equal(check.ID, foreign.ID) {
+	if check.ID != foreign.ID {
 		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
 	}
 
 	slice := ProfileSlice{&local}
-	if err = local.L.LoadLogin(tx, false, (*[]*Profile)(&slice), nil); err != nil {
+	if err = local.L.LoadUser(tx, false, (*[]*Profile)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.Login == nil {
+	if local.R.User == nil {
 		t.Error("struct should have been eager loaded")
 	}
 
-	local.R.Login = nil
-	if err = local.L.LoadLogin(tx, true, &local, nil); err != nil {
+	local.R.User = nil
+	if err = local.L.LoadUser(tx, true, &local, nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.Login == nil {
+	if local.R.User == nil {
 		t.Error("struct should have been eager loaded")
 	}
 }
 
-func testProfileToOneSetOpLoginUsingLogin(t *testing.T) {
+func testProfileToOneSetOpUserUsingUser(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
 	var a Profile
-	var b, c Login
+	var b, c User
 
 	seed := randomize.NewSeed()
 	if err = randomize.Struct(seed, &a, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	if err = randomize.Struct(seed, &b, loginDBTypes, false, strmangle.SetComplement(loginPrimaryKeyColumns, loginColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &b, userDBTypes, false, strmangle.SetComplement(userPrimaryKeyColumns, userColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	if err = randomize.Struct(seed, &c, loginDBTypes, false, strmangle.SetComplement(loginPrimaryKeyColumns, loginColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &c, userDBTypes, false, strmangle.SetComplement(userPrimaryKeyColumns, userColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
 
@@ -1331,83 +1331,33 @@ func testProfileToOneSetOpLoginUsingLogin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for i, x := range []*Login{&b, &c} {
-		err = a.SetLogin(tx, i != 0, x)
+	for i, x := range []*User{&b, &c} {
+		err = a.SetUser(tx, i != 0, x)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if a.R.Login != x {
+		if a.R.User != x {
 			t.Error("relationship struct not set to correct value")
 		}
 
 		if x.R.Profiles[0] != &a {
 			t.Error("failed to append to foreign relationship struct")
 		}
-		if !queries.Equal(a.LoginID, x.ID) {
-			t.Error("foreign key was wrong value", a.LoginID)
+		if a.UserID != x.ID {
+			t.Error("foreign key was wrong value", a.UserID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.LoginID))
-		reflect.Indirect(reflect.ValueOf(&a.LoginID)).Set(zero)
+		zero := reflect.Zero(reflect.TypeOf(a.UserID))
+		reflect.Indirect(reflect.ValueOf(&a.UserID)).Set(zero)
 
 		if err = a.Reload(tx); err != nil {
 			t.Fatal("failed to reload", err)
 		}
 
-		if !queries.Equal(a.LoginID, x.ID) {
-			t.Error("foreign key was wrong value", a.LoginID, x.ID)
+		if a.UserID != x.ID {
+			t.Error("foreign key was wrong value", a.UserID, x.ID)
 		}
-	}
-}
-
-func testProfileToOneRemoveOpLoginUsingLogin(t *testing.T) {
-	var err error
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var a Profile
-	var b Login
-
-	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, profileDBTypes, false, strmangle.SetComplement(profilePrimaryKeyColumns, profileColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &b, loginDBTypes, false, strmangle.SetComplement(loginPrimaryKeyColumns, loginColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-
-	if err = a.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	if err = a.SetLogin(tx, true, &b); err != nil {
-		t.Fatal(err)
-	}
-
-	if err = a.RemoveLogin(tx, &b); err != nil {
-		t.Error("failed to remove relationship")
-	}
-
-	count, err := a.Login().Count(tx)
-	if err != nil {
-		t.Error(err)
-	}
-	if count != 0 {
-		t.Error("want no relationships remaining")
-	}
-
-	if a.R.Login != nil {
-		t.Error("R struct entry should be nil")
-	}
-
-	if !queries.IsValuerNil(a.LoginID) {
-		t.Error("foreign key value should be nil")
-	}
-
-	if len(b.R.Profiles) != 0 {
-		t.Error("failed to remove a from b's relationships")
 	}
 }
 
@@ -1482,7 +1432,7 @@ func testProfilesSelect(t *testing.T) {
 }
 
 var (
-	profileDBTypes = map[string]string{`ID`: `bigint`, `LoginID`: `bigint`, `Mobile`: `varchar`, `FirstName`: `nvarchar`, `LastName`: `nvarchar`, `Email`: `nvarchar`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`, `ForgetPasswordToken`: `varchar`, `TokenExpires`: `datetime`, `Company`: `nvarchar`}
+	profileDBTypes = map[string]string{`ID`: `int`, `UserID`: `int`, `ImageURL`: `varchar`, `Mobile`: `varchar`, `Company`: `varchar`, `FirstName`: `varchar`, `LastName`: `varchar`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
 	_              = bytes.MinRead
 )
 

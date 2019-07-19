@@ -6,15 +6,11 @@ package models
 import "testing"
 
 func TestUpsert(t *testing.T) {
-	t.Run("BasicTradeitems", testBasicTradeitemsUpsert)
+	t.Run("BasicTrades", testBasicTradesUpsert)
 
 	t.Run("ClaimHistories", testClaimHistoriesUpsert)
 
 	t.Run("Claims", testClaimsUpsert)
-
-	t.Run("ContractorProjects", testContractorProjectsUpsert)
-
-	t.Run("Logins", testLoginsUpsert)
 
 	t.Run("Profiles", testProfilesUpsert)
 
@@ -22,5 +18,7 @@ func TestUpsert(t *testing.T) {
 
 	t.Run("Roles", testRolesUpsert)
 
-	t.Run("TradeItems", testTradeItemsUpsert)
+	t.Run("Trades", testTradesUpsert)
+
+	t.Run("Users", testUsersUpsert)
 }

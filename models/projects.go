@@ -6,7 +6,6 @@ package models
 import (
 	"database/sql"
 	"fmt"
-	"github.com/volatiletech/sqlboiler/types"
 	"reflect"
 	"strconv"
 	"strings"
@@ -24,20 +23,20 @@ import (
 
 // Project is an object representing the database table.
 type Project struct {
-	ID                   int64             `boil:"id" json:"id" toml:"id" yaml:"id"`
-	UserID               int64             `boil:"user_id" json:"user_id" toml:"user_id" yaml:"user_id"`
-	Name                 null.String       `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
-	TotalItemBreakdown   types.NullDecimal `boil:"total_item_breakdown" json:"total_item_breakdown,omitempty" toml:"total_item_breakdown" yaml:"total_item_breakdown,omitempty"`
-	ContractorTotalClaim types.NullDecimal `boil:"contractor_total_claim" json:"contractor_total_claim,omitempty" toml:"contractor_total_claim" yaml:"contractor_total_claim,omitempty"`
-	IsDeleted            null.Bool         `boil:"is_deleted" json:"is_deleted,omitempty" toml:"is_deleted" yaml:"is_deleted,omitempty"`
-	Created              null.Time         `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
-	Updated              null.Time         `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
-	LoginID              int64             `boil:"login_id" json:"login_id" toml:"login_id" yaml:"login_id"`
-	SerialNo             null.String       `boil:"serial_no" json:"serial_no,omitempty" toml:"serial_no" yaml:"serial_no,omitempty"`
-	Details              null.String       `boil:"details" json:"details,omitempty" toml:"details" yaml:"details,omitempty"`
-	TotalContractValue   types.NullDecimal `boil:"total_contract_value" json:"total_contract_value,omitempty" toml:"total_contract_value" yaml:"total_contract_value,omitempty"`
-	QuantitySurveyor     null.String       `boil:"quantity_surveyor" json:"quantity_surveyor,omitempty" toml:"quantity_surveyor" yaml:"quantity_surveyor,omitempty"`
-	Notes                null.String       `boil:"notes" json:"notes,omitempty" toml:"notes" yaml:"notes,omitempty"`
+	ID                   int          `boil:"id" json:"id" toml:"id" yaml:"id"`
+	ManagerProfileID     int          `boil:"manager_profile_id" json:"manager_profile_id" toml:"manager_profile_id" yaml:"manager_profile_id"`
+	CreatorProfileID     int          `boil:"creator_profile_id" json:"creator_profile_id" toml:"creator_profile_id" yaml:"creator_profile_id"`
+	Name                 null.String  `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
+	TotalItemBreakdown   null.Float64 `boil:"total_item_breakdown" json:"total_item_breakdown,omitempty" toml:"total_item_breakdown" yaml:"total_item_breakdown,omitempty"`
+	ContractorTotalClaim null.Float64 `boil:"contractor_total_claim" json:"contractor_total_claim,omitempty" toml:"contractor_total_claim" yaml:"contractor_total_claim,omitempty"`
+	SerialNo             null.String  `boil:"serial_no" json:"serial_no,omitempty" toml:"serial_no" yaml:"serial_no,omitempty"`
+	Details              null.String  `boil:"details" json:"details,omitempty" toml:"details" yaml:"details,omitempty"`
+	TotalContractValue   null.Float64 `boil:"total_contract_value" json:"total_contract_value,omitempty" toml:"total_contract_value" yaml:"total_contract_value,omitempty"`
+	QuantitySurveyor     null.String  `boil:"quantity_surveyor" json:"quantity_surveyor,omitempty" toml:"quantity_surveyor" yaml:"quantity_surveyor,omitempty"`
+	Notes                null.String  `boil:"notes" json:"notes,omitempty" toml:"notes" yaml:"notes,omitempty"`
+	IsDeleted            null.Bool    `boil:"is_deleted" json:"is_deleted,omitempty" toml:"is_deleted" yaml:"is_deleted,omitempty"`
+	Created              null.Time    `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
+	Updated              null.Time    `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
 
 	R *projectR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L projectL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -45,89 +44,86 @@ type Project struct {
 
 var ProjectColumns = struct {
 	ID                   string
-	UserID               string
+	ManagerProfileID     string
+	CreatorProfileID     string
 	Name                 string
 	TotalItemBreakdown   string
 	ContractorTotalClaim string
-	IsDeleted            string
-	Created              string
-	Updated              string
-	LoginID              string
 	SerialNo             string
 	Details              string
 	TotalContractValue   string
 	QuantitySurveyor     string
 	Notes                string
+	IsDeleted            string
+	Created              string
+	Updated              string
 }{
 	ID:                   "id",
-	UserID:               "user_id",
+	ManagerProfileID:     "manager_profile_id",
+	CreatorProfileID:     "creator_profile_id",
 	Name:                 "name",
 	TotalItemBreakdown:   "total_item_breakdown",
 	ContractorTotalClaim: "contractor_total_claim",
-	IsDeleted:            "is_deleted",
-	Created:              "created",
-	Updated:              "updated",
-	LoginID:              "login_id",
 	SerialNo:             "serial_no",
 	Details:              "details",
 	TotalContractValue:   "total_contract_value",
 	QuantitySurveyor:     "quantity_surveyor",
 	Notes:                "notes",
+	IsDeleted:            "is_deleted",
+	Created:              "created",
+	Updated:              "updated",
 }
 
 // Generated where
 
 var ProjectWhere = struct {
-	ID                   whereHelperint64
-	UserID               whereHelperint64
+	ID                   whereHelperint
+	ManagerProfileID     whereHelperint
+	CreatorProfileID     whereHelperint
 	Name                 whereHelpernull_String
-	TotalItemBreakdown   whereHelpertypes_NullDecimal
-	ContractorTotalClaim whereHelpertypes_NullDecimal
+	TotalItemBreakdown   whereHelpernull_Float64
+	ContractorTotalClaim whereHelpernull_Float64
+	SerialNo             whereHelpernull_String
+	Details              whereHelpernull_String
+	TotalContractValue   whereHelpernull_Float64
+	QuantitySurveyor     whereHelpernull_String
+	Notes                whereHelpernull_String
 	IsDeleted            whereHelpernull_Bool
 	Created              whereHelpernull_Time
 	Updated              whereHelpernull_Time
-	LoginID              whereHelperint64
-	SerialNo             whereHelpernull_String
-	Details              whereHelpernull_String
-	TotalContractValue   whereHelpertypes_NullDecimal
-	QuantitySurveyor     whereHelpernull_String
-	Notes                whereHelpernull_String
 }{
-	ID:                   whereHelperint64{field: "[dbo].[projects].[id]"},
-	UserID:               whereHelperint64{field: "[dbo].[projects].[user_id]"},
+	ID:                   whereHelperint{field: "[dbo].[projects].[id]"},
+	ManagerProfileID:     whereHelperint{field: "[dbo].[projects].[manager_profile_id]"},
+	CreatorProfileID:     whereHelperint{field: "[dbo].[projects].[creator_profile_id]"},
 	Name:                 whereHelpernull_String{field: "[dbo].[projects].[name]"},
-	TotalItemBreakdown:   whereHelpertypes_NullDecimal{field: "[dbo].[projects].[total_item_breakdown]"},
-	ContractorTotalClaim: whereHelpertypes_NullDecimal{field: "[dbo].[projects].[contractor_total_claim]"},
+	TotalItemBreakdown:   whereHelpernull_Float64{field: "[dbo].[projects].[total_item_breakdown]"},
+	ContractorTotalClaim: whereHelpernull_Float64{field: "[dbo].[projects].[contractor_total_claim]"},
+	SerialNo:             whereHelpernull_String{field: "[dbo].[projects].[serial_no]"},
+	Details:              whereHelpernull_String{field: "[dbo].[projects].[details]"},
+	TotalContractValue:   whereHelpernull_Float64{field: "[dbo].[projects].[total_contract_value]"},
+	QuantitySurveyor:     whereHelpernull_String{field: "[dbo].[projects].[quantity_surveyor]"},
+	Notes:                whereHelpernull_String{field: "[dbo].[projects].[notes]"},
 	IsDeleted:            whereHelpernull_Bool{field: "[dbo].[projects].[is_deleted]"},
 	Created:              whereHelpernull_Time{field: "[dbo].[projects].[created]"},
 	Updated:              whereHelpernull_Time{field: "[dbo].[projects].[updated]"},
-	LoginID:              whereHelperint64{field: "[dbo].[projects].[login_id]"},
-	SerialNo:             whereHelpernull_String{field: "[dbo].[projects].[serial_no]"},
-	Details:              whereHelpernull_String{field: "[dbo].[projects].[details]"},
-	TotalContractValue:   whereHelpertypes_NullDecimal{field: "[dbo].[projects].[total_contract_value]"},
-	QuantitySurveyor:     whereHelpernull_String{field: "[dbo].[projects].[quantity_surveyor]"},
-	Notes:                whereHelpernull_String{field: "[dbo].[projects].[notes]"},
 }
 
 // ProjectRels is where relationship names are stored.
 var ProjectRels = struct {
-	Login              string
-	User               string
-	ContractorProjects string
-	TradeItems         string
+	CreatorProfile string
+	ManagerProfile string
+	Trades         string
 }{
-	Login:              "Login",
-	User:               "User",
-	ContractorProjects: "ContractorProjects",
-	TradeItems:         "TradeItems",
+	CreatorProfile: "CreatorProfile",
+	ManagerProfile: "ManagerProfile",
+	Trades:         "Trades",
 }
 
 // projectR is where relationships are stored.
 type projectR struct {
-	Login              *Profile
-	User               *Profile
-	ContractorProjects ContractorProjectSlice
-	TradeItems         TradeItemSlice
+	CreatorProfile *Profile
+	ManagerProfile *Profile
+	Trades         TradeSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -139,10 +135,10 @@ func (*projectR) NewStruct() *projectR {
 type projectL struct{}
 
 var (
-	projectAllColumns            = []string{"id", "user_id", "name", "total_item_breakdown", "contractor_total_claim", "is_deleted", "created", "updated", "login_id", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes"}
+	projectAllColumns            = []string{"id", "manager_profile_id", "creator_profile_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_deleted", "created", "updated"}
 	projectColumnsWithAuto       = []string{}
-	projectColumnsWithoutDefault = []string{"user_id", "name", "total_item_breakdown", "contractor_total_claim", "is_deleted", "created", "updated", "login_id", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes"}
-	projectColumnsWithDefault    = []string{"id"}
+	projectColumnsWithoutDefault = []string{"manager_profile_id", "creator_profile_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_deleted", "created"}
+	projectColumnsWithDefault    = []string{"id", "updated"}
 	projectPrimaryKeyColumns     = []string{"id"}
 )
 
@@ -237,10 +233,10 @@ func (q projectQuery) Exists(exec boil.Executor) (bool, error) {
 	return count > 0, nil
 }
 
-// Login pointed to by the foreign key.
-func (o *Project) Login(mods ...qm.QueryMod) profileQuery {
+// CreatorProfile pointed to by the foreign key.
+func (o *Project) CreatorProfile(mods ...qm.QueryMod) profileQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.LoginID),
+		qm.Where("id=?", o.CreatorProfileID),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -251,10 +247,10 @@ func (o *Project) Login(mods ...qm.QueryMod) profileQuery {
 	return query
 }
 
-// User pointed to by the foreign key.
-func (o *Project) User(mods ...qm.QueryMod) profileQuery {
+// ManagerProfile pointed to by the foreign key.
+func (o *Project) ManagerProfile(mods ...qm.QueryMod) profileQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.UserID),
+		qm.Where("id=?", o.ManagerProfileID),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -265,51 +261,30 @@ func (o *Project) User(mods ...qm.QueryMod) profileQuery {
 	return query
 }
 
-// ContractorProjects retrieves all the contractor_project's ContractorProjects with an executor.
-func (o *Project) ContractorProjects(mods ...qm.QueryMod) contractorProjectQuery {
+// Trades retrieves all the trade's Trades with an executor.
+func (o *Project) Trades(mods ...qm.QueryMod) tradeQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
 		queryMods = append(queryMods, mods...)
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("[dbo].[contractor_projects].[project_id]=?", o.ID),
+		qm.Where("[dbo].[trades].[project_id]=?", o.ID),
 	)
 
-	query := ContractorProjects(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[contractor_projects]")
+	query := Trades(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[trades]")
 
 	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[contractor_projects].*"})
+		queries.SetSelect(query.Query, []string{"[dbo].[trades].*"})
 	}
 
 	return query
 }
 
-// TradeItems retrieves all the trade_item's TradeItems with an executor.
-func (o *Project) TradeItems(mods ...qm.QueryMod) tradeItemQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("[dbo].[trade_items].[project_id]=?", o.ID),
-	)
-
-	query := TradeItems(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[trade_items]")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[trade_items].*"})
-	}
-
-	return query
-}
-
-// LoadLogin allows an eager lookup of values, cached into the
+// LoadCreatorProfile allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (projectL) LoadLogin(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
+func (projectL) LoadCreatorProfile(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
 	var slice []*Project
 	var object *Project
 
@@ -324,7 +299,7 @@ func (projectL) LoadLogin(e boil.Executor, singular bool, maybeProject interface
 		if object.R == nil {
 			object.R = &projectR{}
 		}
-		args = append(args, object.LoginID)
+		args = append(args, object.CreatorProfileID)
 
 	} else {
 	Outer:
@@ -334,12 +309,12 @@ func (projectL) LoadLogin(e boil.Executor, singular bool, maybeProject interface
 			}
 
 			for _, a := range args {
-				if a == obj.LoginID {
+				if a == obj.CreatorProfileID {
 					continue Outer
 				}
 			}
 
-			args = append(args, obj.LoginID)
+			args = append(args, obj.CreatorProfileID)
 
 		}
 	}
@@ -376,22 +351,22 @@ func (projectL) LoadLogin(e boil.Executor, singular bool, maybeProject interface
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Login = foreign
+		object.R.CreatorProfile = foreign
 		if foreign.R == nil {
 			foreign.R = &profileR{}
 		}
-		foreign.R.LoginProjects = append(foreign.R.LoginProjects, object)
+		foreign.R.CreatorProfileProjects = append(foreign.R.CreatorProfileProjects, object)
 		return nil
 	}
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if local.LoginID == foreign.ID {
-				local.R.Login = foreign
+			if local.CreatorProfileID == foreign.ID {
+				local.R.CreatorProfile = foreign
 				if foreign.R == nil {
 					foreign.R = &profileR{}
 				}
-				foreign.R.LoginProjects = append(foreign.R.LoginProjects, local)
+				foreign.R.CreatorProfileProjects = append(foreign.R.CreatorProfileProjects, local)
 				break
 			}
 		}
@@ -400,9 +375,9 @@ func (projectL) LoadLogin(e boil.Executor, singular bool, maybeProject interface
 	return nil
 }
 
-// LoadUser allows an eager lookup of values, cached into the
+// LoadManagerProfile allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (projectL) LoadUser(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
+func (projectL) LoadManagerProfile(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
 	var slice []*Project
 	var object *Project
 
@@ -417,7 +392,7 @@ func (projectL) LoadUser(e boil.Executor, singular bool, maybeProject interface{
 		if object.R == nil {
 			object.R = &projectR{}
 		}
-		args = append(args, object.UserID)
+		args = append(args, object.ManagerProfileID)
 
 	} else {
 	Outer:
@@ -427,12 +402,12 @@ func (projectL) LoadUser(e boil.Executor, singular bool, maybeProject interface{
 			}
 
 			for _, a := range args {
-				if a == obj.UserID {
+				if a == obj.ManagerProfileID {
 					continue Outer
 				}
 			}
 
-			args = append(args, obj.UserID)
+			args = append(args, obj.ManagerProfileID)
 
 		}
 	}
@@ -469,22 +444,22 @@ func (projectL) LoadUser(e boil.Executor, singular bool, maybeProject interface{
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.User = foreign
+		object.R.ManagerProfile = foreign
 		if foreign.R == nil {
 			foreign.R = &profileR{}
 		}
-		foreign.R.UserProjects = append(foreign.R.UserProjects, object)
+		foreign.R.ManagerProfileProjects = append(foreign.R.ManagerProfileProjects, object)
 		return nil
 	}
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if local.UserID == foreign.ID {
-				local.R.User = foreign
+			if local.ManagerProfileID == foreign.ID {
+				local.R.ManagerProfile = foreign
 				if foreign.R == nil {
 					foreign.R = &profileR{}
 				}
-				foreign.R.UserProjects = append(foreign.R.UserProjects, local)
+				foreign.R.ManagerProfileProjects = append(foreign.R.ManagerProfileProjects, local)
 				break
 			}
 		}
@@ -493,9 +468,9 @@ func (projectL) LoadUser(e boil.Executor, singular bool, maybeProject interface{
 	return nil
 }
 
-// LoadContractorProjects allows an eager lookup of values, cached into the
+// LoadTrades allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (projectL) LoadContractorProjects(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
+func (projectL) LoadTrades(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
 	var slice []*Project
 	var object *Project
 
@@ -532,33 +507,33 @@ func (projectL) LoadContractorProjects(e boil.Executor, singular bool, maybeProj
 		return nil
 	}
 
-	query := NewQuery(qm.From(`dbo.contractor_projects`), qm.WhereIn(`project_id in ?`, args...))
+	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`project_id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
 
 	results, err := query.Query(e)
 	if err != nil {
-		return errors.Wrap(err, "failed to eager load contractor_projects")
+		return errors.Wrap(err, "failed to eager load trades")
 	}
 
-	var resultSlice []*ContractorProject
+	var resultSlice []*Trade
 	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice contractor_projects")
+		return errors.Wrap(err, "failed to bind eager loaded slice trades")
 	}
 
 	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on contractor_projects")
+		return errors.Wrap(err, "failed to close results in eager load on trades")
 	}
 	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for contractor_projects")
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trades")
 	}
 
 	if singular {
-		object.R.ContractorProjects = resultSlice
+		object.R.Trades = resultSlice
 		for _, foreign := range resultSlice {
 			if foreign.R == nil {
-				foreign.R = &contractorProjectR{}
+				foreign.R = &tradeR{}
 			}
 			foreign.R.Project = object
 		}
@@ -568,9 +543,9 @@ func (projectL) LoadContractorProjects(e boil.Executor, singular bool, maybeProj
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
 			if local.ID == foreign.ProjectID {
-				local.R.ContractorProjects = append(local.R.ContractorProjects, foreign)
+				local.R.Trades = append(local.R.Trades, foreign)
 				if foreign.R == nil {
-					foreign.R = &contractorProjectR{}
+					foreign.R = &tradeR{}
 				}
 				foreign.R.Project = local
 				break
@@ -581,98 +556,10 @@ func (projectL) LoadContractorProjects(e boil.Executor, singular bool, maybeProj
 	return nil
 }
 
-// LoadTradeItems allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (projectL) LoadTradeItems(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
-	var slice []*Project
-	var object *Project
-
-	if singular {
-		object = maybeProject.(*Project)
-	} else {
-		slice = *maybeProject.(*[]*Project)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &projectR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &projectR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.trade_items`), qm.WhereIn(`project_id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load trade_items")
-	}
-
-	var resultSlice []*TradeItem
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice trade_items")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on trade_items")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trade_items")
-	}
-
-	if singular {
-		object.R.TradeItems = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &tradeItemR{}
-			}
-			foreign.R.Project = object
-		}
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.ProjectID {
-				local.R.TradeItems = append(local.R.TradeItems, foreign)
-				if foreign.R == nil {
-					foreign.R = &tradeItemR{}
-				}
-				foreign.R.Project = local
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// SetLogin of the project to the related item.
-// Sets o.R.Login to related.
-// Adds o to related.R.LoginProjects.
-func (o *Project) SetLogin(exec boil.Executor, insert bool, related *Profile) error {
+// SetCreatorProfile of the project to the related item.
+// Sets o.R.CreatorProfile to related.
+// Adds o to related.R.CreatorProfileProjects.
+func (o *Project) SetCreatorProfile(exec boil.Executor, insert bool, related *Profile) error {
 	var err error
 	if insert {
 		if err = related.Insert(exec, boil.Infer()); err != nil {
@@ -682,7 +569,7 @@ func (o *Project) SetLogin(exec boil.Executor, insert bool, related *Profile) er
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE [dbo].[projects] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"login_id"}),
+		strmangle.SetParamNames("[", "]", 1, []string{"creator_profile_id"}),
 		strmangle.WhereClause("[", "]", 2, projectPrimaryKeyColumns),
 	)
 	values := []interface{}{related.ID, o.ID}
@@ -696,30 +583,30 @@ func (o *Project) SetLogin(exec boil.Executor, insert bool, related *Profile) er
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.LoginID = related.ID
+	o.CreatorProfileID = related.ID
 	if o.R == nil {
 		o.R = &projectR{
-			Login: related,
+			CreatorProfile: related,
 		}
 	} else {
-		o.R.Login = related
+		o.R.CreatorProfile = related
 	}
 
 	if related.R == nil {
 		related.R = &profileR{
-			LoginProjects: ProjectSlice{o},
+			CreatorProfileProjects: ProjectSlice{o},
 		}
 	} else {
-		related.R.LoginProjects = append(related.R.LoginProjects, o)
+		related.R.CreatorProfileProjects = append(related.R.CreatorProfileProjects, o)
 	}
 
 	return nil
 }
 
-// SetUser of the project to the related item.
-// Sets o.R.User to related.
-// Adds o to related.R.UserProjects.
-func (o *Project) SetUser(exec boil.Executor, insert bool, related *Profile) error {
+// SetManagerProfile of the project to the related item.
+// Sets o.R.ManagerProfile to related.
+// Adds o to related.R.ManagerProfileProjects.
+func (o *Project) SetManagerProfile(exec boil.Executor, insert bool, related *Profile) error {
 	var err error
 	if insert {
 		if err = related.Insert(exec, boil.Infer()); err != nil {
@@ -729,7 +616,7 @@ func (o *Project) SetUser(exec boil.Executor, insert bool, related *Profile) err
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE [dbo].[projects] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"user_id"}),
+		strmangle.SetParamNames("[", "]", 1, []string{"manager_profile_id"}),
 		strmangle.WhereClause("[", "]", 2, projectPrimaryKeyColumns),
 	)
 	values := []interface{}{related.ID, o.ID}
@@ -743,31 +630,31 @@ func (o *Project) SetUser(exec boil.Executor, insert bool, related *Profile) err
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.UserID = related.ID
+	o.ManagerProfileID = related.ID
 	if o.R == nil {
 		o.R = &projectR{
-			User: related,
+			ManagerProfile: related,
 		}
 	} else {
-		o.R.User = related
+		o.R.ManagerProfile = related
 	}
 
 	if related.R == nil {
 		related.R = &profileR{
-			UserProjects: ProjectSlice{o},
+			ManagerProfileProjects: ProjectSlice{o},
 		}
 	} else {
-		related.R.UserProjects = append(related.R.UserProjects, o)
+		related.R.ManagerProfileProjects = append(related.R.ManagerProfileProjects, o)
 	}
 
 	return nil
 }
 
-// AddContractorProjects adds the given related objects to the existing relationships
+// AddTrades adds the given related objects to the existing relationships
 // of the project, optionally inserting them as new records.
-// Appends related to o.R.ContractorProjects.
+// Appends related to o.R.Trades.
 // Sets related.R.Project appropriately.
-func (o *Project) AddContractorProjects(exec boil.Executor, insert bool, related ...*ContractorProject) error {
+func (o *Project) AddTrades(exec boil.Executor, insert bool, related ...*Trade) error {
 	var err error
 	for _, rel := range related {
 		if insert {
@@ -777,9 +664,9 @@ func (o *Project) AddContractorProjects(exec boil.Executor, insert bool, related
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[contractor_projects] SET %s WHERE %s",
+				"UPDATE [dbo].[trades] SET %s WHERE %s",
 				strmangle.SetParamNames("[", "]", 1, []string{"project_id"}),
-				strmangle.WhereClause("[", "]", 2, contractorProjectPrimaryKeyColumns),
+				strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
 			)
 			values := []interface{}{o.ID, rel.ID}
 
@@ -798,68 +685,15 @@ func (o *Project) AddContractorProjects(exec boil.Executor, insert bool, related
 
 	if o.R == nil {
 		o.R = &projectR{
-			ContractorProjects: related,
+			Trades: related,
 		}
 	} else {
-		o.R.ContractorProjects = append(o.R.ContractorProjects, related...)
+		o.R.Trades = append(o.R.Trades, related...)
 	}
 
 	for _, rel := range related {
 		if rel.R == nil {
-			rel.R = &contractorProjectR{
-				Project: o,
-			}
-		} else {
-			rel.R.Project = o
-		}
-	}
-	return nil
-}
-
-// AddTradeItems adds the given related objects to the existing relationships
-// of the project, optionally inserting them as new records.
-// Appends related to o.R.TradeItems.
-// Sets related.R.Project appropriately.
-func (o *Project) AddTradeItems(exec boil.Executor, insert bool, related ...*TradeItem) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.ProjectID = o.ID
-			if err = rel.Insert(exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[trade_items] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"project_id"}),
-				strmangle.WhereClause("[", "]", 2, tradeItemPrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.DebugMode {
-				fmt.Fprintln(boil.DebugWriter, updateQuery)
-				fmt.Fprintln(boil.DebugWriter, values)
-			}
-
-			if _, err = exec.Exec(updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.ProjectID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &projectR{
-			TradeItems: related,
-		}
-	} else {
-		o.R.TradeItems = append(o.R.TradeItems, related...)
-	}
-
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &tradeItemR{
+			rel.R = &tradeR{
 				Project: o,
 			}
 		} else {
@@ -877,7 +711,7 @@ func Projects(mods ...qm.QueryMod) projectQuery {
 
 // FindProject retrieves a single record by ID with an executor.
 // If selectCols is empty Find will return all columns.
-func FindProject(exec boil.Executor, iD int64, selectCols ...string) (*Project, error) {
+func FindProject(exec boil.Executor, iD int, selectCols ...string) (*Project, error) {
 	projectObj := &Project{}
 
 	sel := "*"
@@ -1339,7 +1173,7 @@ func (o *ProjectSlice) ReloadAll(exec boil.Executor) error {
 }
 
 // ProjectExists checks if the Project row exists.
-func ProjectExists(exec boil.Executor, iD int64) (bool, error) {
+func ProjectExists(exec boil.Executor, iD int) (bool, error) {
 	var exists bool
 	sql := "select case when exists(select top(1) 1 from [dbo].[projects] where [id]=$1) then 1 else 0 end"
 

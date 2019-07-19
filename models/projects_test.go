@@ -341,14 +341,14 @@ func testProjectsInsertWhitelist(t *testing.T) {
 	}
 }
 
-func testProjectToManyContractorProjects(t *testing.T) {
+func testProjectToManyTrades(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
 	var a Project
-	var b, c ContractorProject
+	var b, c Trade
 
 	seed := randomize.NewSeed()
 	if err = randomize.Struct(seed, &a, projectDBTypes, true, projectColumnsWithDefault...); err != nil {
@@ -359,10 +359,10 @@ func testProjectToManyContractorProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err = randomize.Struct(seed, &b, contractorProjectDBTypes, false, contractorProjectColumnsWithDefault...); err != nil {
+	if err = randomize.Struct(seed, &b, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
 		t.Fatal(err)
 	}
-	if err = randomize.Struct(seed, &c, contractorProjectDBTypes, false, contractorProjectColumnsWithDefault...); err != nil {
+	if err = randomize.Struct(seed, &c, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
 		t.Fatal(err)
 	}
 
@@ -376,7 +376,7 @@ func testProjectToManyContractorProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.ContractorProjects().All(tx)
+	check, err := a.Trades().All(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -399,96 +399,18 @@ func testProjectToManyContractorProjects(t *testing.T) {
 	}
 
 	slice := ProjectSlice{&a}
-	if err = a.L.LoadContractorProjects(tx, false, (*[]*Project)(&slice), nil); err != nil {
+	if err = a.L.LoadTrades(tx, false, (*[]*Project)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.ContractorProjects); got != 2 {
+	if got := len(a.R.Trades); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.ContractorProjects = nil
-	if err = a.L.LoadContractorProjects(tx, true, &a, nil); err != nil {
+	a.R.Trades = nil
+	if err = a.L.LoadTrades(tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.ContractorProjects); got != 2 {
-		t.Error("number of eager loaded records wrong, got:", got)
-	}
-
-	if t.Failed() {
-		t.Logf("%#v", check)
-	}
-}
-
-func testProjectToManyTradeItems(t *testing.T) {
-	var err error
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var a Project
-	var b, c TradeItem
-
-	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, projectDBTypes, true, projectColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Project struct: %s", err)
-	}
-
-	if err := a.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	if err = randomize.Struct(seed, &b, tradeItemDBTypes, false, tradeItemColumnsWithDefault...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &c, tradeItemDBTypes, false, tradeItemColumnsWithDefault...); err != nil {
-		t.Fatal(err)
-	}
-
-	b.ProjectID = a.ID
-	c.ProjectID = a.ID
-
-	if err = b.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = c.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	check, err := a.TradeItems().All(tx)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	bFound, cFound := false, false
-	for _, v := range check {
-		if v.ProjectID == b.ProjectID {
-			bFound = true
-		}
-		if v.ProjectID == c.ProjectID {
-			cFound = true
-		}
-	}
-
-	if !bFound {
-		t.Error("expected to find b")
-	}
-	if !cFound {
-		t.Error("expected to find c")
-	}
-
-	slice := ProjectSlice{&a}
-	if err = a.L.LoadTradeItems(tx, false, (*[]*Project)(&slice), nil); err != nil {
-		t.Fatal(err)
-	}
-	if got := len(a.R.TradeItems); got != 2 {
-		t.Error("number of eager loaded records wrong, got:", got)
-	}
-
-	a.R.TradeItems = nil
-	if err = a.L.LoadTradeItems(tx, true, &a, nil); err != nil {
-		t.Fatal(err)
-	}
-	if got := len(a.R.TradeItems); got != 2 {
+	if got := len(a.R.Trades); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -497,22 +419,22 @@ func testProjectToManyTradeItems(t *testing.T) {
 	}
 }
 
-func testProjectToManyAddOpContractorProjects(t *testing.T) {
+func testProjectToManyAddOpTrades(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
 	var a Project
-	var b, c, d, e ContractorProject
+	var b, c, d, e Trade
 
 	seed := randomize.NewSeed()
 	if err = randomize.Struct(seed, &a, projectDBTypes, false, strmangle.SetComplement(projectPrimaryKeyColumns, projectColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	foreigners := []*ContractorProject{&b, &c, &d, &e}
+	foreigners := []*Trade{&b, &c, &d, &e}
 	for _, x := range foreigners {
-		if err = randomize.Struct(seed, x, contractorProjectDBTypes, false, strmangle.SetComplement(contractorProjectPrimaryKeyColumns, contractorProjectColumnsWithoutDefault)...); err != nil {
+		if err = randomize.Struct(seed, x, tradeDBTypes, false, strmangle.SetComplement(tradePrimaryKeyColumns, tradeColumnsWithoutDefault)...); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -527,13 +449,13 @@ func testProjectToManyAddOpContractorProjects(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	foreignersSplitByInsertion := [][]*ContractorProject{
+	foreignersSplitByInsertion := [][]*Trade{
 		{&b, &c},
 		{&d, &e},
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddContractorProjects(tx, i != 0, x...)
+		err = a.AddTrades(tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -555,14 +477,14 @@ func testProjectToManyAddOpContractorProjects(t *testing.T) {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.ContractorProjects[i*2] != first {
+		if a.R.Trades[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.ContractorProjects[i*2+1] != second {
+		if a.R.Trades[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.ContractorProjects().Count(tx)
+		count, err := a.Trades().Count(tx)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -571,81 +493,7 @@ func testProjectToManyAddOpContractorProjects(t *testing.T) {
 		}
 	}
 }
-func testProjectToManyAddOpTradeItems(t *testing.T) {
-	var err error
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var a Project
-	var b, c, d, e TradeItem
-
-	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, projectDBTypes, false, strmangle.SetComplement(projectPrimaryKeyColumns, projectColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	foreigners := []*TradeItem{&b, &c, &d, &e}
-	for _, x := range foreigners {
-		if err = randomize.Struct(seed, x, tradeItemDBTypes, false, strmangle.SetComplement(tradeItemPrimaryKeyColumns, tradeItemColumnsWithoutDefault)...); err != nil {
-			t.Fatal(err)
-		}
-	}
-
-	if err := a.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = b.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = c.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	foreignersSplitByInsertion := [][]*TradeItem{
-		{&b, &c},
-		{&d, &e},
-	}
-
-	for i, x := range foreignersSplitByInsertion {
-		err = a.AddTradeItems(tx, i != 0, x...)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		first := x[0]
-		second := x[1]
-
-		if a.ID != first.ProjectID {
-			t.Error("foreign key was wrong value", a.ID, first.ProjectID)
-		}
-		if a.ID != second.ProjectID {
-			t.Error("foreign key was wrong value", a.ID, second.ProjectID)
-		}
-
-		if first.R.Project != &a {
-			t.Error("relationship was not added properly to the foreign slice")
-		}
-		if second.R.Project != &a {
-			t.Error("relationship was not added properly to the foreign slice")
-		}
-
-		if a.R.TradeItems[i*2] != first {
-			t.Error("relationship struct slice not set to correct value")
-		}
-		if a.R.TradeItems[i*2+1] != second {
-			t.Error("relationship struct slice not set to correct value")
-		}
-
-		count, err := a.TradeItems().Count(tx)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if want := int64((i + 1) * 2); count != want {
-			t.Error("want", want, "got", count)
-		}
-	}
-}
-func testProjectToOneProfileUsingLogin(t *testing.T) {
+func testProjectToOneProfileUsingCreatorProfile(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
@@ -665,12 +513,12 @@ func testProjectToOneProfileUsingLogin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	local.LoginID = foreign.ID
+	local.CreatorProfileID = foreign.ID
 	if err := local.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	check, err := local.Login().One(tx)
+	check, err := local.CreatorProfile().One(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -680,23 +528,23 @@ func testProjectToOneProfileUsingLogin(t *testing.T) {
 	}
 
 	slice := ProjectSlice{&local}
-	if err = local.L.LoadLogin(tx, false, (*[]*Project)(&slice), nil); err != nil {
+	if err = local.L.LoadCreatorProfile(tx, false, (*[]*Project)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.Login == nil {
+	if local.R.CreatorProfile == nil {
 		t.Error("struct should have been eager loaded")
 	}
 
-	local.R.Login = nil
-	if err = local.L.LoadLogin(tx, true, &local, nil); err != nil {
+	local.R.CreatorProfile = nil
+	if err = local.L.LoadCreatorProfile(tx, true, &local, nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.Login == nil {
+	if local.R.CreatorProfile == nil {
 		t.Error("struct should have been eager loaded")
 	}
 }
 
-func testProjectToOneProfileUsingUser(t *testing.T) {
+func testProjectToOneProfileUsingManagerProfile(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
@@ -716,12 +564,12 @@ func testProjectToOneProfileUsingUser(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	local.UserID = foreign.ID
+	local.ManagerProfileID = foreign.ID
 	if err := local.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	check, err := local.User().One(tx)
+	check, err := local.ManagerProfile().One(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -731,23 +579,23 @@ func testProjectToOneProfileUsingUser(t *testing.T) {
 	}
 
 	slice := ProjectSlice{&local}
-	if err = local.L.LoadUser(tx, false, (*[]*Project)(&slice), nil); err != nil {
+	if err = local.L.LoadManagerProfile(tx, false, (*[]*Project)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.User == nil {
+	if local.R.ManagerProfile == nil {
 		t.Error("struct should have been eager loaded")
 	}
 
-	local.R.User = nil
-	if err = local.L.LoadUser(tx, true, &local, nil); err != nil {
+	local.R.ManagerProfile = nil
+	if err = local.L.LoadManagerProfile(tx, true, &local, nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.User == nil {
+	if local.R.ManagerProfile == nil {
 		t.Error("struct should have been eager loaded")
 	}
 }
 
-func testProjectToOneSetOpProfileUsingLogin(t *testing.T) {
+func testProjectToOneSetOpProfileUsingCreatorProfile(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -775,35 +623,35 @@ func testProjectToOneSetOpProfileUsingLogin(t *testing.T) {
 	}
 
 	for i, x := range []*Profile{&b, &c} {
-		err = a.SetLogin(tx, i != 0, x)
+		err = a.SetCreatorProfile(tx, i != 0, x)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if a.R.Login != x {
+		if a.R.CreatorProfile != x {
 			t.Error("relationship struct not set to correct value")
 		}
 
-		if x.R.LoginProjects[0] != &a {
+		if x.R.CreatorProfileProjects[0] != &a {
 			t.Error("failed to append to foreign relationship struct")
 		}
-		if a.LoginID != x.ID {
-			t.Error("foreign key was wrong value", a.LoginID)
+		if a.CreatorProfileID != x.ID {
+			t.Error("foreign key was wrong value", a.CreatorProfileID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.LoginID))
-		reflect.Indirect(reflect.ValueOf(&a.LoginID)).Set(zero)
+		zero := reflect.Zero(reflect.TypeOf(a.CreatorProfileID))
+		reflect.Indirect(reflect.ValueOf(&a.CreatorProfileID)).Set(zero)
 
 		if err = a.Reload(tx); err != nil {
 			t.Fatal("failed to reload", err)
 		}
 
-		if a.LoginID != x.ID {
-			t.Error("foreign key was wrong value", a.LoginID, x.ID)
+		if a.CreatorProfileID != x.ID {
+			t.Error("foreign key was wrong value", a.CreatorProfileID, x.ID)
 		}
 	}
 }
-func testProjectToOneSetOpProfileUsingUser(t *testing.T) {
+func testProjectToOneSetOpProfileUsingManagerProfile(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -831,31 +679,31 @@ func testProjectToOneSetOpProfileUsingUser(t *testing.T) {
 	}
 
 	for i, x := range []*Profile{&b, &c} {
-		err = a.SetUser(tx, i != 0, x)
+		err = a.SetManagerProfile(tx, i != 0, x)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if a.R.User != x {
+		if a.R.ManagerProfile != x {
 			t.Error("relationship struct not set to correct value")
 		}
 
-		if x.R.UserProjects[0] != &a {
+		if x.R.ManagerProfileProjects[0] != &a {
 			t.Error("failed to append to foreign relationship struct")
 		}
-		if a.UserID != x.ID {
-			t.Error("foreign key was wrong value", a.UserID)
+		if a.ManagerProfileID != x.ID {
+			t.Error("foreign key was wrong value", a.ManagerProfileID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.UserID))
-		reflect.Indirect(reflect.ValueOf(&a.UserID)).Set(zero)
+		zero := reflect.Zero(reflect.TypeOf(a.ManagerProfileID))
+		reflect.Indirect(reflect.ValueOf(&a.ManagerProfileID)).Set(zero)
 
 		if err = a.Reload(tx); err != nil {
 			t.Fatal("failed to reload", err)
 		}
 
-		if a.UserID != x.ID {
-			t.Error("foreign key was wrong value", a.UserID, x.ID)
+		if a.ManagerProfileID != x.ID {
+			t.Error("foreign key was wrong value", a.ManagerProfileID, x.ID)
 		}
 	}
 }
@@ -931,7 +779,7 @@ func testProjectsSelect(t *testing.T) {
 }
 
 var (
-	projectDBTypes = map[string]string{`ID`: `bigint`, `UserID`: `bigint`, `Name`: `nvarchar`, `TotalItemBreakdown`: `decimal`, `ContractorTotalClaim`: `decimal`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`, `LoginID`: `bigint`, `SerialNo`: `nvarchar`, `Details`: `nvarchar`, `TotalContractValue`: `decimal`, `QuantitySurveyor`: `nvarchar`, `Notes`: `nvarchar`}
+	projectDBTypes = map[string]string{`ID`: `int`, `ManagerProfileID`: `int`, `CreatorProfileID`: `int`, `Name`: `varchar`, `TotalItemBreakdown`: `float`, `ContractorTotalClaim`: `float`, `SerialNo`: `varchar`, `Details`: `varchar`, `TotalContractValue`: `float`, `QuantitySurveyor`: `varchar`, `Notes`: `varchar`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
 	_              = bytes.MinRead
 )
 

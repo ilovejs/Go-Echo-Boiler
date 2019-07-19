@@ -26,6 +26,7 @@ type Role struct {
 	ID           int         `boil:"id" json:"id" toml:"id" yaml:"id"`
 	UserRoleType null.String `boil:"user_role_type" json:"user_role_type,omitempty" toml:"user_role_type" yaml:"user_role_type,omitempty"`
 	Created      null.Time   `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
+	Updated      null.Time   `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
 
 	R *roleR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L roleL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -35,10 +36,12 @@ var RoleColumns = struct {
 	ID           string
 	UserRoleType string
 	Created      string
+	Updated      string
 }{
 	ID:           "id",
 	UserRoleType: "user_role_type",
 	Created:      "created",
+	Updated:      "updated",
 }
 
 // Generated where
@@ -47,22 +50,24 @@ var RoleWhere = struct {
 	ID           whereHelperint
 	UserRoleType whereHelpernull_String
 	Created      whereHelpernull_Time
+	Updated      whereHelpernull_Time
 }{
 	ID:           whereHelperint{field: "[dbo].[roles].[id]"},
 	UserRoleType: whereHelpernull_String{field: "[dbo].[roles].[user_role_type]"},
 	Created:      whereHelpernull_Time{field: "[dbo].[roles].[created]"},
+	Updated:      whereHelpernull_Time{field: "[dbo].[roles].[updated]"},
 }
 
 // RoleRels is where relationship names are stored.
 var RoleRels = struct {
-	UserRoleLogins string
+	UserRoleUsers string
 }{
-	UserRoleLogins: "UserRoleLogins",
+	UserRoleUsers: "UserRoleUsers",
 }
 
 // roleR is where relationships are stored.
 type roleR struct {
-	UserRoleLogins LoginSlice
+	UserRoleUsers UserSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -74,10 +79,10 @@ func (*roleR) NewStruct() *roleR {
 type roleL struct{}
 
 var (
-	roleAllColumns            = []string{"id", "user_role_type", "created"}
+	roleAllColumns            = []string{"id", "user_role_type", "created", "updated"}
 	roleColumnsWithAuto       = []string{}
 	roleColumnsWithoutDefault = []string{"user_role_type", "created"}
-	roleColumnsWithDefault    = []string{"id"}
+	roleColumnsWithDefault    = []string{"id", "updated"}
 	rolePrimaryKeyColumns     = []string{"id"}
 )
 
@@ -172,30 +177,30 @@ func (q roleQuery) Exists(exec boil.Executor) (bool, error) {
 	return count > 0, nil
 }
 
-// UserRoleLogins retrieves all the login's Logins with an executor via user_role_id column.
-func (o *Role) UserRoleLogins(mods ...qm.QueryMod) loginQuery {
+// UserRoleUsers retrieves all the user's Users with an executor via user_role_id column.
+func (o *Role) UserRoleUsers(mods ...qm.QueryMod) userQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
 		queryMods = append(queryMods, mods...)
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("[dbo].[logins].[user_role_id]=?", o.ID),
+		qm.Where("[dbo].[users].[user_role_id]=?", o.ID),
 	)
 
-	query := Logins(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[logins]")
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[users]")
 
 	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[logins].*"})
+		queries.SetSelect(query.Query, []string{"[dbo].[users].*"})
 	}
 
 	return query
 }
 
-// LoadUserRoleLogins allows an eager lookup of values, cached into the
+// LoadUserRoleUsers allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (roleL) LoadUserRoleLogins(e boil.Executor, singular bool, maybeRole interface{}, mods queries.Applicator) error {
+func (roleL) LoadUserRoleUsers(e boil.Executor, singular bool, maybeRole interface{}, mods queries.Applicator) error {
 	var slice []*Role
 	var object *Role
 
@@ -219,7 +224,7 @@ func (roleL) LoadUserRoleLogins(e boil.Executor, singular bool, maybeRole interf
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.ID) {
+				if a == obj.ID {
 					continue Outer
 				}
 			}
@@ -232,33 +237,33 @@ func (roleL) LoadUserRoleLogins(e boil.Executor, singular bool, maybeRole interf
 		return nil
 	}
 
-	query := NewQuery(qm.From(`dbo.logins`), qm.WhereIn(`user_role_id in ?`, args...))
+	query := NewQuery(qm.From(`dbo.users`), qm.WhereIn(`user_role_id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
 
 	results, err := query.Query(e)
 	if err != nil {
-		return errors.Wrap(err, "failed to eager load logins")
+		return errors.Wrap(err, "failed to eager load users")
 	}
 
-	var resultSlice []*Login
+	var resultSlice []*User
 	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice logins")
+		return errors.Wrap(err, "failed to bind eager loaded slice users")
 	}
 
 	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on logins")
+		return errors.Wrap(err, "failed to close results in eager load on users")
 	}
 	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for logins")
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
 	}
 
 	if singular {
-		object.R.UserRoleLogins = resultSlice
+		object.R.UserRoleUsers = resultSlice
 		for _, foreign := range resultSlice {
 			if foreign.R == nil {
-				foreign.R = &loginR{}
+				foreign.R = &userR{}
 			}
 			foreign.R.UserRole = object
 		}
@@ -267,10 +272,10 @@ func (roleL) LoadUserRoleLogins(e boil.Executor, singular bool, maybeRole interf
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.ID, foreign.UserRoleID) {
-				local.R.UserRoleLogins = append(local.R.UserRoleLogins, foreign)
+			if local.ID == foreign.UserRoleID {
+				local.R.UserRoleUsers = append(local.R.UserRoleUsers, foreign)
 				if foreign.R == nil {
-					foreign.R = &loginR{}
+					foreign.R = &userR{}
 				}
 				foreign.R.UserRole = local
 				break
@@ -281,23 +286,23 @@ func (roleL) LoadUserRoleLogins(e boil.Executor, singular bool, maybeRole interf
 	return nil
 }
 
-// AddUserRoleLogins adds the given related objects to the existing relationships
+// AddUserRoleUsers adds the given related objects to the existing relationships
 // of the role, optionally inserting them as new records.
-// Appends related to o.R.UserRoleLogins.
+// Appends related to o.R.UserRoleUsers.
 // Sets related.R.UserRole appropriately.
-func (o *Role) AddUserRoleLogins(exec boil.Executor, insert bool, related ...*Login) error {
+func (o *Role) AddUserRoleUsers(exec boil.Executor, insert bool, related ...*User) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.UserRoleID, o.ID)
+			rel.UserRoleID = o.ID
 			if err = rel.Insert(exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[logins] SET %s WHERE %s",
+				"UPDATE [dbo].[users] SET %s WHERE %s",
 				strmangle.SetParamNames("[", "]", 1, []string{"user_role_id"}),
-				strmangle.WhereClause("[", "]", 2, loginPrimaryKeyColumns),
+				strmangle.WhereClause("[", "]", 2, userPrimaryKeyColumns),
 			)
 			values := []interface{}{o.ID, rel.ID}
 
@@ -310,97 +315,27 @@ func (o *Role) AddUserRoleLogins(exec boil.Executor, insert bool, related ...*Lo
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.UserRoleID, o.ID)
+			rel.UserRoleID = o.ID
 		}
 	}
 
 	if o.R == nil {
 		o.R = &roleR{
-			UserRoleLogins: related,
+			UserRoleUsers: related,
 		}
 	} else {
-		o.R.UserRoleLogins = append(o.R.UserRoleLogins, related...)
+		o.R.UserRoleUsers = append(o.R.UserRoleUsers, related...)
 	}
 
 	for _, rel := range related {
 		if rel.R == nil {
-			rel.R = &loginR{
+			rel.R = &userR{
 				UserRole: o,
 			}
 		} else {
 			rel.R.UserRole = o
 		}
 	}
-	return nil
-}
-
-// SetUserRoleLogins removes all previously related items of the
-// role replacing them completely with the passed
-// in related items, optionally inserting them as new records.
-// Sets o.R.UserRole's UserRoleLogins accordingly.
-// Replaces o.R.UserRoleLogins with related.
-// Sets related.R.UserRole's UserRoleLogins accordingly.
-func (o *Role) SetUserRoleLogins(exec boil.Executor, insert bool, related ...*Login) error {
-	query := "update [dbo].[logins] set [user_role_id] = null where [user_role_id] = $1"
-	values := []interface{}{o.ID}
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, query)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	_, err := exec.Exec(query, values...)
-	if err != nil {
-		return errors.Wrap(err, "failed to remove relationships before set")
-	}
-
-	if o.R != nil {
-		for _, rel := range o.R.UserRoleLogins {
-			queries.SetScanner(&rel.UserRoleID, nil)
-			if rel.R == nil {
-				continue
-			}
-
-			rel.R.UserRole = nil
-		}
-
-		o.R.UserRoleLogins = nil
-	}
-	return o.AddUserRoleLogins(exec, insert, related...)
-}
-
-// RemoveUserRoleLogins relationships from objects passed in.
-// Removes related items from R.UserRoleLogins (uses pointer comparison, removal does not keep order)
-// Sets related.R.UserRole.
-func (o *Role) RemoveUserRoleLogins(exec boil.Executor, related ...*Login) error {
-	var err error
-	for _, rel := range related {
-		queries.SetScanner(&rel.UserRoleID, nil)
-		if rel.R != nil {
-			rel.R.UserRole = nil
-		}
-		if _, err = rel.Update(exec, boil.Whitelist("user_role_id")); err != nil {
-			return err
-		}
-	}
-	if o.R == nil {
-		return nil
-	}
-
-	for _, rel := range related {
-		for i, ri := range o.R.UserRoleLogins {
-			if rel != ri {
-				continue
-			}
-
-			ln := len(o.R.UserRoleLogins)
-			if ln > 1 && i < ln-1 {
-				o.R.UserRoleLogins[i] = o.R.UserRoleLogins[ln-1]
-			}
-			o.R.UserRoleLogins = o.R.UserRoleLogins[:ln-1]
-			break
-		}
-	}
-
 	return nil
 }
 
