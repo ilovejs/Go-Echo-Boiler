@@ -1,0 +1,480 @@
+POST http://localhost:8585/api/users/login
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+  "name":"Joe",
+  "email":"joe@labstack.com"
+}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+  "name":"Joe",
+  "email":"joe@labstack.com",
+  "age": 13
+}
+
+<> 2019-07-09T043200.200.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+  "name":"Joe",
+  "email":"joe@labstack.com",
+  "age": 13
+}
+
+<> 2019-07-09T041814.200.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{ "name":"Joe",
+  "email":"joe@labstack.com",
+  "age": 13
+}
+
+<> 2019-07-09T041757.200.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+<> 2019-07-09T041721.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+<> 2019-07-09T040826.500.json
+
+###
+
+POST http://localhost:3000/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST https://localhost:3000/users
+Accept: application/json
+
+###
+
+GET https://localhost:3000
+Accept: application/json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+<> 2019-07-09T040556.200.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+<> 2019-07-09T040514.200.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T040451.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+<> 2019-07-09T040444.200.json
+
+###
+
+POST http://localhost:3000/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack.com"}
+
+<> 2019-07-09T035530.200.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035429.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035322.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+'{"name":"Joe","email":"joe@labstack"}'
+
+<> 2019-07-09T035238.400.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035211-1.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035211.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035210.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035208.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035158-1.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035158.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035157.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035156-1.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035156.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035155.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035112.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035054.500.json
+
+###
+
+POST http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+
+{"name":"Joe","email":"joe@labstack"}
+
+<> 2019-07-09T035016.415.json
+
+###
+
+POST http://localhost:1323/users?name=wu&email=1@gmail.com
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-09T034931.400.json
+
+###
+
+POST http://localhost:1323/users?name=wu&email=1@gmail.com
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-09T034928.400.json
+
+###
+
+POST http://localhost:1323/users?name=&email=
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-09T034913.400.json
+
+###
+
+POST http://localhost:1323/users?=
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-09T034859.400.json
+
+###
+
+GET http://localhost:1323/users
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-09T034555.405.json
+
+###
+
+GET http://localhost:1323/resources
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-09T034548.404.json
+
+###
+
+GET http://localhost:8080/resources
+Accept: */*
+Cache-Control: no-cache
+
+###
+

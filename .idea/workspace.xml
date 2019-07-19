@@ -1,0 +1,1478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f08673bc-0587-4aa3-b5e7-334f3d2804c7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/handler/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/projectHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/projectHandler.go" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.idea/httpRequests/" />
+    <ignored path=".idea/" />
+    <ignored path="tmp/" />
+    <ignored path="vendor/" />
+    <ignored mask="*.exe" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MariaDB - @localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MariaDB - @localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MariaDB - @localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="test: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileEditorManager">
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/db/db.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="125">
+                  <caret line="5" column="30" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/model/userModel.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="25">
+                  <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+                  <folding>
+                    <element signature="e#15#99#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="uml://DATABASE/d9d68f6e-ce9c-4db3-aa76-d99275772a92.SCHEMA:test">
+              <provider selected="true" editor-type-id="UmlEditorProvider">
+                <state>
+                  <ID>DATABASE</ID>
+                  <OriginalElement>d9d68f6e-ce9c-4db3-aa76-d99275772a92.SCHEMA:test</OriginalElement>
+                  <nodes>
+                    <node x="215.0" y="127.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.jets</node>
+                    <node x="202.5" y="0.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots</node>
+                    <node x="15.0" y="160.5">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages</node>
+                    <node x="0.0" y="0.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.languages</node>
+                  </nodes>
+                  <notes />
+                  <edges>
+                    <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.languages">
+                      <point x="-45.0" y="-38.0" />
+                      <point x="0.0" y="38.5" />
+                    </edge>
+                    <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.jets" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots">
+                      <point x="0.0" y="-71.5" />
+                      <point x="22.5" y="38.5" />
+                    </edge>
+                    <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots">
+                      <point x="45.0" y="-38.0" />
+                      <point x="150.0" y="102.0" />
+                      <point x="225.0" y="102.0" />
+                      <point x="-22.5" y="38.5" />
+                    </edge>
+                  </edges>
+                  <settings layout="Hierarchic Group" zoom="1.0" x="162.5" y="135.0" />
+                  <SelectedNodes />
+                  <Categories>
+                    <Category>Key columns</Category>
+                    <Category>Columns</Category>
+                  </Categories>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="UML Sequence" />
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>xesina</find>
+      <find>v4</find>
+      <find>User</find>
+      <find>Login</find>
+      <find>getbyid</find>
+      <find>str</find>
+      <find>newArticleResponse</find>
+      <find>uint</find>
+      <find>GetByEmail</find>
+      <find>labstack</find>
+      <find>labstack/echo</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>User</replace>
+      <replace>int</replace>
+      <replace>labstack/echo/v4</replace>
+    </replaceStrings>
+  </component>
+  <component name="GOROOT" path="C:\Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/s.go" />
+        <option value="restClient/response15.txt" />
+        <option value="$PROJECT_DIR$/1.puml" />
+        <option value="$PROJECT_DIR$/doc/test.sh.go" />
+        <option value="$PROJECT_DIR$/doc/test.sh" />
+        <option value="$PROJECT_DIR$/router.go" />
+        <option value="$PROJECT_DIR$/air.conf" />
+        <option value="$PROJECT_DIR$/doc/test.md" />
+        <option value="$PROJECT_DIR$/doc/s.go" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" />
+        <option value="$PROJECT_DIR$/router/router.go" />
+        <option value="$PROJECT_DIR$/store/user.go" />
+        <option value="$PROJECT_DIR$/store/article.go" />
+        <option value="$PROJECT_DIR$/store/project.go" />
+        <option value="$PROJECT_DIR$/model/project.go" />
+        <option value="$PROJECT_DIR$/interface/project.go" />
+        <option value="$PROJECT_DIR$/glue/project.go" />
+        <option value="$PROJECT_DIR$/router/middleware/jwt.go" />
+        <option value="$PROJECT_DIR$/utils/errors.go" />
+        <option value="$PROJECT_DIR$/handler/article.go" />
+        <option value="$PROJECT_DIR$/go.mod" />
+        <option value="$PROJECT_DIR$/handler/dto/response.go" />
+        <option value="$PROJECT_DIR$/handler/dto/resp.go" />
+        <option value="$PROJECT_DIR$/handler/dto/req.go" />
+        <option value="$PROJECT_DIR$/model/articleModel.go" />
+        <option value="$PROJECT_DIR$/store/articleStore.go" />
+        <option value="$PROJECT_DIR$/handler/articleHandler.go" />
+        <option value="$PROJECT_DIR$/db/db.go" />
+        <option value="$PROJECT_DIR$/store/projectStore.go" />
+        <option value="$PROJECT_DIR$/handler/req.go" />
+        <option value="$PROJECT_DIR$/handler/resp.go" />
+        <option value="$PROJECT_DIR$/readme.md" />
+        <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/dto/req.go" />
+        <option value="$PROJECT_DIR$/userRequest.go" />
+        <option value="$PROJECT_DIR$/dto/userRequest.go" />
+        <option value="$PROJECT_DIR$/model/userModel.go" />
+        <option value="$PROJECT_DIR$/model/projectModel.go" />
+        <option value="$PROJECT_DIR$/dto/userReq.go" />
+        <option value="$PROJECT_DIR$/dto/userResp.go" />
+        <option value="$PROJECT_DIR$/glue/storeInterface.go" />
+        <option value="$PROJECT_DIR$/store/userStore.go" />
+        <option value="$PROJECT_DIR$/handler/userHandler.go" />
+        <option value="$PROJECT_DIR$/dto/projectResp.go" />
+        <option value="$PROJECT_DIR$/dto/projectReq.go" />
+        <option value="$PROJECT_DIR$/handler/projectHandler.go" />
+        <option value="$PROJECT_DIR$/handler/handler.go" />
+      </list>
+    </option>
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="VokxxSxE" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-6" />
+    <option name="y" value="140" />
+    <option name="width" value="936" />
+    <option name="height" value="948" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+              <item name="db" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+              <item name="dto" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+              <item name="glue" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+              <item name="handler" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+              <item name="router" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+              <item name="router" type="462c0819:PsiDirectoryNode" />
+              <item name="middleware" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-onsite2" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-onsite2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="sqlserver&#10;mariadb" />
+    <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="DefaultPlantUmlFileTemplate" value="UML Sequence" />
+    <property name="GO_FMT" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ToolWindowPlantUML.ShowToolbar" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="database.console.LAST_STATE" value="true" />
+    <property name="go.gopath.indexing.explicitly.defined" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.vendoring.notification.had.been.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../testXo" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\doc" />
+      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\dto" />
+      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\handler" />
+      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\model" />
+      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2" />
+      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\doc" />
+    </key>
+  </component>
+  <component name="RestClientSettings">
+    <option name="REQUEST_HISTORY">
+      <list>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323/users" />
+          <option name="urlPath" value="" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/json" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{&#10;  &quot;name&quot;:&quot;Joe&quot;,&#10;  &quot;email&quot;:&quot;joe@labstack.com&quot;,&#10;  &quot;age&quot;: 13&#10;}" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323/users" />
+          <option name="urlPath" value="" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/json" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{ &#10;  &quot;name&quot;:&quot;Joe&quot;,&#10;  &quot;email&quot;:&quot;joe@labstack.com&quot;,&#10;  &quot;age&quot;: 13&#10;}" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323/users" />
+          <option name="urlPath" value="" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/json" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{ &quot;name&quot;:&quot;Joe&quot;,&#10;  &quot;email&quot;:&quot;joe@labstack.com&quot;,&#10;  &quot;age&quot;: 13&#10;}" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323/users" />
+          <option name="urlPath" value="" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/json" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{&quot;name&quot;:&quot;Joe&quot;,&quot;email&quot;:&quot;joe@labstack.com&quot;}" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:3000/users" />
+          <option name="urlPath" value="" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/json" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{&quot;name&quot;:&quot;Joe&quot;,&quot;email&quot;:&quot;joe@labstack.com&quot;}" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323/users" />
+          <option name="urlPath" value="" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/json" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{&quot;name&quot;:&quot;Joe&quot;,&quot;email&quot;:&quot;joe@labstack&quot;}" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323" />
+          <option name="urlPath" value="/users" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/json" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="haveFileToSend" value="true" />
+          <option name="textToSend" value="'{&quot;name&quot;:&quot;Joe&quot;,&quot;email&quot;:&quot;joe@labstack&quot;}'" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323" />
+          <option name="urlPath" value="/users" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Content-Type" />
+                <option name="value" value="application/json" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="haveFileToSend" value="true" />
+          <option name="textToSend" value="{&quot;name&quot;:&quot;Joe&quot;,&quot;email&quot;:&quot;joe@labstack&quot;}" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323" />
+          <option name="urlPath" value="/users" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="haveFileToSend" value="true" />
+          <option name="textToSend" value="{&quot;name&quot;:&quot;Joe&quot;,&quot;email&quot;:&quot;joe@labstack&quot;}" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323" />
+          <option name="urlPath" value="/users" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="name" />
+                <option name="value" value="wu" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="email" />
+                <option name="value" value="1@gmail.com" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323" />
+          <option name="urlPath" value="/users" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="name" />
+                <option name="value" value="" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="email" />
+                <option name="value" value="" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:1323" />
+          <option name="urlPath" value="/users" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="" />
+                <option name="value" value="" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost:1323" />
+          <option name="urlPath" value="/users" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost:1323" />
+          <option name="urlPath" value="/resources" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+      </list>
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Go Build.go build main.go">
+    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="go-onsite2" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http">
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api#2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" index="2">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="HTTP Request.rest-api#1" />
+      <item itemvalue="HTTP Request.rest-api#2" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="HTTP Request.rest-api#1" />
+        <item itemvalue="HTTP Request.rest-api#2" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+  </component>
+  <component name="StructureViewFactory">
+    <option name="AUTOSCROLL_FROM_SOURCE" value="true" />
+    <option name="ACTIVE_ACTIONS" value=",Show package structure,ALPHA_COMPARATOR" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1865" height="1096" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.117451526" />
+      <window_info id="Favorites" order="1" side_tool="true" />
+      <window_info id="Structure" order="2" weight="0.21940464" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
+      <window_info anchor="bottom" id="Debug" order="2" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="5" />
+      <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="GraphQL" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" weight="0.32977587" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.23372465" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32972974" />
+      <window_info anchor="bottom" id="REST Client" order="12" weight="0.33405405" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32972974" />
+      <window_info anchor="bottom" id="Database Console" order="14" weight="0.32977587" />
+      <window_info anchor="bottom" x="2018" y="32" width="1476" height="963" id="Run" order="15" weight="0.29028815" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Cargo" order="3" weight="0.32995737" />
+      <window_info anchor="right" id="PlantUML" order="4" show_stripe_button="false" weight="0.32980832" />
+      <window_info anchor="right" id="make" order="5" show_stripe_button="false" weight="0.32980832" />
+      <window_info anchor="right" id="Database" order="6" weight="0.32132965" />
+      <window_info anchor="right" id="Json Parser" order="7" show_stripe_button="false" weight="0.32980832" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="1" />
+    <MESSAGE value="doc" />
+    <MESSAGE value="create model" />
+    <MESSAGE value="create model 1.1" />
+    <MESSAGE value="create model 1.2 fix claim" />
+    <MESSAGE value="create model 1.2 patch" />
+    <MESSAGE value="backup model and code fix for type&#10;before migration" />
+    <MESSAGE value="done migration" />
+    <MESSAGE value="annotation for fk" />
+    <MESSAGE value="add m2m table&#10;tweak fk name e.g. manager =&gt; managerID" />
+    <MESSAGE value="user role m2m relation&#10;impl user store" />
+    <MESSAGE value="migrate claim, trade_item&#10;todo:&#10;Project table has &#10;1.primaryContact&#10;2.secondaryContact" />
+    <MESSAGE value="update project api&#10;refine name from c# codebase" />
+    <MESSAGE value="list all contractors" />
+    <MESSAGE value="project api&#10;user api&#10;v1" />
+    <MESSAGE value="refresh user request" />
+    <MESSAGE value="update Echo v4.1.5" />
+    <option name="LAST_COMMIT_MESSAGE" value="update Echo v4.1.5" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+    <vendoring-mode>true</vendoring-mode>
+    <proxy>direct</proxy>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/dto/projectReq.go</url>
+          <line>19</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/vendor/modules.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/extensions/com.intellij.database/data/extractors/SQL-Insert-Statements.sql.groovy">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/extensions/com.intellij.database/schema/Generate POJOs.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1267" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/1.puml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/auth-requests.http">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="226" column="18" selection-start-line="226" selection-start-column="18" selection-end-line="226" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/get-requests.http">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/test.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="253">
+            <caret line="11" column="2" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state>
+          <caret column="2" selection-start-column="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/air.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/s.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
+          <folding>
+            <element signature="e#13#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/rest-api.http">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/go.sum">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-654" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/jwt.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#15#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/errors.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/router/validator.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/go.mod">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/SCHEMA:main.uml" />
+    <entry file="das://abb8559b-e96c-4978-a4cc-fcaa039e6b31/schema/main/table/users">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="4878f7ba-22f6-4617-8243-edb26ea9414e">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://abb8559b-e96c-4978-a4cc-fcaa039e6b31/schema/main/table/user_profiles">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="4878f7ba-22f6-4617-8243-edb26ea9414e">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://abb8559b-e96c-4978-a4cc-fcaa039e6b31/schema/main/table/logins">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="4878f7ba-22f6-4617-8243-edb26ea9414e">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://abb8559b-e96c-4978-a4cc-fcaa039e6b31/schema/main/table/items">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="4878f7ba-22f6-4617-8243-edb26ea9414e">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/8614063e-99c7-4886-b41a-c335be91fca5/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="das://abb8559b-e96c-4978-a4cc-fcaa039e6b31/schema/main/table/contractor_project">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="4878f7ba-22f6-4617-8243-edb26ea9414e">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/articleModel.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="das://abb8559b-e96c-4978-a4cc-fcaa039e6b31/schema/main/table/user_roles">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="4878f7ba-22f6-4617-8243-edb26ea9414e">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://DATABASE/8614063e-99c7-4886-b41a-c335be91fca5.DATABASE:contractworksummary">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>DATABASE</ID>
+          <OriginalElement>8614063e-99c7-4886-b41a-c335be91fca5.DATABASE:contractworksummary</OriginalElement>
+          <nodes>
+            <node x="201.74305555555554" y="149.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin</node>
+            <node x="230.24305555555554" y="452.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile</node>
+            <node x="850.9930555555555" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.sysdiagrams</node>
+            <node x="121.49305555555554" y="1255.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor</node>
+            <node x="53.875" y="941.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster</node>
+            <node x="252.73611111111106" y="831.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project</node>
+            <node x="343.97916666666663" y="2026.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory</node>
+            <node x="321.49305555555554" y="1222.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem</node>
+            <node x="0.0" y="1547.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim</node>
+            <node x="622.9930555555555" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.ErrorLog</node>
+            <node x="217.24305555555554" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserRole</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project">
+              <point x="60.0" y="-104.5" />
+              <point x="271.49305555555554" y="1202.0" />
+              <point x="307.9861111111111" y="1202.0" />
+              <point x="-55.25" y="170.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="55.25" y="-170.5" />
+              <point x="418.4861111111111" y="811.0" />
+              <point x="368.49305555555554" y="811.0" />
+              <point x="19.75" y="159.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim">
+              <point x="-76.66666666666663" y="-93.5" />
+              <point x="382.3125" y="2001.0" />
+              <point x="104.5" y="2001.0" />
+              <point x="0.0" y="214.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
+              <point x="0.0" y="-214.5" />
+              <point x="104.5" y="1522.0" />
+              <point x="90.04861111111106" y="1522.0" />
+              <point x="90.04861111111106" y="1202.0" />
+              <point x="80.375" y="1202.0" />
+              <point x="-53.0" y="60.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem">
+              <point x="69.66666666666669" y="-214.5" />
+              <point x="174.16666666666669" y="1522.0" />
+              <point x="373.74305555555554" y="1522.0" />
+              <point x="-52.25" y="137.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
+              <point x="-60.0" y="-104.5" />
+              <point x="151.49305555555554" y="1202.0" />
+              <point x="133.375" y="1202.0" />
+              <point x="0.0" y="60.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
+              <point x="-69.66666666666669" y="-137.5" />
+              <point x="356.32638888888886" y="1192.0" />
+              <point x="186.375" y="1192.0" />
+              <point x="53.0" y="60.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="-69.66666666666669" y="-214.5" />
+              <point x="34.833333333333314" y="1522.0" />
+              <point x="43.375" y="1522.0" />
+              <point x="43.375" y="801.0" />
+              <point x="249.99305555555554" y="801.0" />
+              <point x="-98.75" y="159.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="0.0" y="-104.5" />
+              <point x="211.49305555555554" y="1202.0" />
+              <point x="223.375" y="1202.0" />
+              <point x="223.375" y="811.0" />
+              <point x="289.49305555555554" y="811.0" />
+              <point x="-59.25" y="159.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="76.66666666666669" y="-93.5" />
+              <point x="535.6458333333333" y="2001.0" />
+              <point x="540.9930555555555" y="2001.0" />
+              <point x="540.9930555555555" y="791.0" />
+              <point x="447.49305555555554" y="791.0" />
+              <point x="98.75000000000001" y="159.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserRole">
+              <point x="0.0" y="-126.5" />
+              <point x="0.0" y="49.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project">
+              <point x="0.0" y="-137.5" />
+              <point x="425.99305555555554" y="1202.0" />
+              <point x="418.4861111111111" y="1202.0" />
+              <point x="55.25" y="170.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin">
+              <point x="0.0" y="-159.5" />
+              <point x="49.0" y="126.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem">
+              <point x="5.6843418860808015E-14" y="-93.5" />
+              <point x="458.9791666666667" y="2001.0" />
+              <point x="478.24305555555554" y="2001.0" />
+              <point x="52.250000000000014" y="137.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin">
+              <point x="-49.0" y="126.5" />
+              <point x="250.74305555555554" y="422.0" />
+              <point x="181.74305555555554" y="422.0" />
+              <point x="181.74305555555554" y="275.5" />
+              <point x="-98.0" y="-0.0" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="69.6666666666667" y="-137.5" />
+              <point x="495.65972222222223" y="1202.0" />
+              <point x="503.3611111111111" y="1202.0" />
+              <point x="503.3611111111111" y="801.0" />
+              <point x="407.99305555555554" y="801.0" />
+              <point x="59.25" y="159.5" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="0.3748320644872369" x="-1344.0" y="630.0" />
+          <SelectedNodes>
+            <node>8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserRole</node>
+          </SelectedNodes>
+          <Categories>
+            <Category>Key columns</Category>
+            <Category>Columns</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/router/routeSettings.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+          <folding>
+            <element signature="e#16#127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handler/articleHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1467">
+          <caret line="12" column="53" selection-start-line="12" selection-start-column="53" selection-end-line="12" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/builtin/builtin.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="74" column="5" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="594">
+            <caret line="26" selection-start-line="26" selection-end-line="26" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/router/middleware/jwt.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1124">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#20#125#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/projectStore.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://DATABASE/abb8559b-e96c-4978-a4cc-fcaa039e6b31.SCHEMA:main">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>DATABASE</ID>
+          <OriginalElement>abb8559b-e96c-4978-a4cc-fcaa039e6b31.SCHEMA:main</OriginalElement>
+          <nodes>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.roles</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.user_roles</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.claims</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.follows</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.contractor_project</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.users</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.claim_histories</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.projects</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.article_tags</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.articles</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.sqlite_sequence</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.logins</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.sqlite_master</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.favorites</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.comments</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.trade_items</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.tags</node>
+            <node x="" y="">abb8559b-e96c-4978-a4cc-fcaa039e6b31.TABLE:main.trade_item_types</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.4359673024523161" x="695.0" y="962.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Key columns</Category>
+            <Category>Columns</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/projectModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+          <folding>
+            <element signature="e#15#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dto/userReq.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2450">
+          <caret line="98" column="6" selection-start-line="98" selection-start-column="6" selection-end-line="98" selection-end-column="6" />
+          <folding>
+            <element signature="e#13#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dto/userResp.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="800">
+          <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dto/projectResp.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dto/projectReq.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/glue/storeInterface.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+          <folding>
+            <element signature="e#14#88#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handler/projectHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+          <folding>
+            <element signature="e#17#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/articleStore.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="725">
+          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/userStore.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="42" column="17" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
+          <folding>
+            <element signature="e#15#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handler/userHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="12" column="25" lean-forward="true" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+          <folding>
+            <element signature="e#17#118#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handler/handler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+          <folding>
+            <element signature="e#17#117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/db.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="30" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://DATABASE/8614063e-99c7-4886-b41a-c335be91fca5.SCHEMA:contractworksummary.dbo">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>DATABASE</ID>
+          <OriginalElement>8614063e-99c7-4886-b41a-c335be91fca5.SCHEMA:contractworksummary.dbo</OriginalElement>
+          <nodes>
+            <node x="219.2199074074074" y="149.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin</node>
+            <node x="242.7199074074074" y="452.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile</node>
+            <node x="127.30324074074082" y="1255.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor</node>
+            <node x="337.3032407407408" y="1222.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem</node>
+            <node x="361.27083333333337" y="2026.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory</node>
+            <node x="265.93055555555566" y="831.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project</node>
+            <node x="886.8032407407409" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.sysdiagrams</node>
+            <node x="55.95833333333337" y="941.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster</node>
+            <node x="0.0" y="1547.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim</node>
+            <node x="648.8032407407409" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.ErrorLog</node>
+            <node x="229.7199074074074" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserRole</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project">
+              <point x="63.333333333333314" y="-104.5" />
+              <point x="285.63657407407413" y="1202.0" />
+              <point x="323.68055555555566" y="1202.0" />
+              <point x="-57.75" y="170.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="57.74999999999994" y="-170.5" />
+              <point x="439.1805555555556" y="811.0" />
+              <point x="386.8032407407407" y="811.0" />
+              <point x="20.583333333333314" y="159.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim">
+              <point x="-80.0" y="-93.5" />
+              <point x="401.27083333333337" y="2001.0" />
+              <point x="109.5" y="2001.0" />
+              <point x="0.0" y="214.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
+              <point x="0.0" y="-214.5" />
+              <point x="109.5" y="1522.0" />
+              <point x="93.86805555555554" y="1522.0" />
+              <point x="93.86805555555554" y="1202.0" />
+              <point x="84.12500000000003" y="1202.0" />
+              <point x="-56.33333333333334" y="60.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
+              <point x="-63.33333333333343" y="-104.5" />
+              <point x="158.9699074074074" y="1202.0" />
+              <point x="140.45833333333337" y="1202.0" />
+              <point x="0.0" y="60.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem">
+              <point x="73.0" y="-214.5" />
+              <point x="182.5" y="1522.0" />
+              <point x="392.0532407407408" y="1522.0" />
+              <point x="-54.75" y="137.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
+              <point x="-73.0" y="-137.5" />
+              <point x="373.8032407407408" y="1192.0" />
+              <point x="196.7916666666667" y="1192.0" />
+              <point x="56.33333333333334" y="60.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="-73.0" y="-214.5" />
+              <point x="36.5" y="1522.0" />
+              <point x="45.458333333333314" y="1522.0" />
+              <point x="45.458333333333314" y="801.0" />
+              <point x="263.3032407407407" y="801.0" />
+              <point x="-102.91666666666669" y="159.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="-5.6843418860808015E-14" y="-104.5" />
+              <point x="222.30324074074076" y="1202.0" />
+              <point x="235.45833333333334" y="1202.0" />
+              <point x="235.45833333333334" y="811.0" />
+              <point x="304.4699074074074" y="811.0" />
+              <point x="-61.75" y="159.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="80.0" y="-93.5" />
+              <point x="561.2708333333334" y="2001.0" />
+              <point x="566.8032407407409" y="2001.0" />
+              <point x="566.8032407407409" y="791.0" />
+              <point x="469.1365740740741" y="791.0" />
+              <point x="102.91666666666667" y="159.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserRole">
+              <point x="0.0" y="-126.5" />
+              <point x="0.0" y="49.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin">
+              <point x="0.0" y="-159.5" />
+              <point x="49.0" y="126.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project">
+              <point x="0.0" y="-137.5" />
+              <point x="446.8032407407408" y="1202.0" />
+              <point x="439.18055555555566" y="1202.0" />
+              <point x="57.75" y="170.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem">
+              <point x="0.0" y="-93.5" />
+              <point x="481.27083333333337" y="2001.0" />
+              <point x="501.5532407407408" y="2001.0" />
+              <point x="54.750000000000014" y="137.5" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin">
+              <point x="-49.0" y="126.5" />
+              <point x="268.2199074074074" y="422.0" />
+              <point x="199.2199074074074" y="422.0" />
+              <point x="199.2199074074074" y="275.5" />
+              <point x="-98.0" y="-0.0" />
+            </edge>
+            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
+              <point x="73.00000000000001" y="-137.5" />
+              <point x="519.8032407407409" y="1202.0" />
+              <point x="527.8055555555557" y="1202.0" />
+              <point x="527.8055555555557" y="801.0" />
+              <point x="427.9699074074074" y="801.0" />
+              <point x="61.75" y="159.5" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="0.29869321717485997" x="763.5" y="774.5" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Key columns</Category>
+            <Category>Columns</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://DATABASE/d9d68f6e-ce9c-4db3-aa76-d99275772a92.SCHEMA:test">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>DATABASE</ID>
+          <OriginalElement>d9d68f6e-ce9c-4db3-aa76-d99275772a92.SCHEMA:test</OriginalElement>
+          <nodes>
+            <node x="215.0" y="127.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.jets</node>
+            <node x="202.5" y="0.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots</node>
+            <node x="15.0" y="160.5">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages</node>
+            <node x="0.0" y="0.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.languages</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.languages">
+              <point x="-45.0" y="-38.0" />
+              <point x="0.0" y="38.5" />
+            </edge>
+            <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.jets" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots">
+              <point x="0.0" y="-71.5" />
+              <point x="22.5" y="38.5" />
+            </edge>
+            <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots">
+              <point x="45.0" y="-38.0" />
+              <point x="150.0" y="102.0" />
+              <point x="225.0" y="102.0" />
+              <point x="-22.5" y="38.5" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="1.0" x="162.5" y="135.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Key columns</Category>
+            <Category>Columns</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/d9d68f6e-ce9c-4db3-aa76-d99275772a92/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/userModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#15#99#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
