@@ -15,28 +15,28 @@ func NewUserLoginStore(db *sql.DB) *UserLoginStore {
 	}
 }
 
-func (us *UserLoginStore) Create(u *models.UserLogin) (err error) {
+func (us *UserLoginStore) Create(u *models.Login) (err error) {
 	panic("x")
 }
 
-func (us *UserLoginStore) GetByID(id uint) (*models.UserLogin, error) {
+func (us *UserLoginStore) GetByID(id uint) (*models.Login, error) {
 
 	panic("not done")
 }
 
-func (us *UserLoginStore) GetByEmail(e string) (*models.UserLogin, error) {
+func (us *UserLoginStore) GetByEmail(e string) (*models.Login, error) {
 
 	panic("not done")
 }
 
-func (us *UserLoginStore) GetByUserLoginName(u string) (*models.UserLogin, error) {
+func (us *UserLoginStore) GetByUserLoginName(u string) (*models.Login, error) {
 	panic("not done")
 }
 
-func (us *UserLoginStore) Update(u *models.UserLogin) error {
+func (us *UserLoginStore) Update(u *models.Login) error {
 	panic("not done")
 }
 
-func (us *UserLoginStore) Delete(u *models.UserLogin) error {
+func (us *UserLoginStore) Delete(u *models.Login) error {
 	panic("not done")
 }

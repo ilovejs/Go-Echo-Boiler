@@ -18,6 +18,12 @@ go mod download
 go mod vendor
 ```
 
+### IF not using vendor mode GO module in different folder
+
+copy onsite folder to GOPATH
+
+`go get -v`
+
 ### Logs
 
 ### Updates
