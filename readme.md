@@ -7,6 +7,7 @@
 go get -u github.com/sirupsen/logrus
 go get -u github.com/labstack/echo/...
 go get -u github.com/labstack/echo
+go get -u -v github.com/kat-co/vala
 ```
 
 Code hot reload [air](https://github.com/cosmtrek/air)
