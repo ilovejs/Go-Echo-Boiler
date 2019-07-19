@@ -1,0 +1,7 @@
+[mssql]
+  dbname  = "db2"
+  host    = "localhost"
+  port    = 1433
+  user    = "tester"
+  pass    = "tester"
+  sslmode = "disable"

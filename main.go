@@ -12,13 +12,11 @@ func main() {
 	// not to mix with page router
 	v1 := r.Group("/api")
 
-	//todo: turn off in prod
+	//init db and logger
 	d := db.New()
-	db.AutoMigrate(d)
 
 	//store
-	us := store.NewUserStore(d)
-	//as := store.NewArticleStore(d)
+	us := store.NewUserLoginStore(d)
 	ps := store.NewProjectStore(d)
 
 	// handler

@@ -1,6 +1,6 @@
 package dto
 
-import "onsite/model"
+import "onsite/models"
 
 //Read Project
 type readProjectResponse struct {

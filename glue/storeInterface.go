@@ -1,6 +1,6 @@
 package glue
 
-import "onsite/model"
+import "onsite/models"
 
 type UserStoreInterface interface {
 	Create(*model.User) error

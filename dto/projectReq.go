@@ -2,7 +2,7 @@ package dto
 
 import (
 	"github.com/labstack/echo/v4"
-	"onsite/model"
+	"onsite/models"
 )
 
 type CreateProjectRequest struct {

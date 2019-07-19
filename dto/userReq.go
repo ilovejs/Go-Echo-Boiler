@@ -2,20 +2,20 @@ package dto
 
 import (
 	"github.com/labstack/echo/v4"
-	"onsite/model"
+	"onsite/models"
 )
 
 type userUpdateRequest struct {
 	User struct {
-		UserName 	string `json:"username"`
-		FirstName   string `json:"firstname"`
-		LastName    string `json:"lastname"`
-		Company     string `json:"company"`
-		Email    	string `json:"email" validate:"email"`
-		Mobile      string `json:"mobile"`
-		Password 	string `json:"password"`
-		Bio      	string `json:"bio"`
-		Image    	string `json:"image"`
+		UserName  string `json:"username"`
+		FirstName string `json:"firstname"`
+		LastName  string `json:"lastname"`
+		Company   string `json:"company"`
+		Email     string `json:"email" validate:"email"`
+		Mobile    string `json:"mobile"`
+		Password  string `json:"password"`
+		Bio       string `json:"bio"`
+		Image     string `json:"image"`
 	} `json:"user"`
 }
 
@@ -113,4 +113,3 @@ func (r *UserLoginRequest) Bind(c echo.Context) error {
 	}
 	return nil
 }
-

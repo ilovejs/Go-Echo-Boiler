@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"onsite/model"
+	"onsite/models"
 	"onsite/utils"
 )
 
@@ -27,9 +27,9 @@ func NewUserResponse(u *model.User) *UserResponse {
 
 type ProfileResponse struct {
 	Profile struct {
-		Username  string  `json:"username"`
-		Bio       *string `json:"bio"`
-		Image     *string `json:"image"`
+		Username string  `json:"username"`
+		Bio      *string `json:"bio"`
+		Image    *string `json:"image"`
 	} `json:"profile"`
 }
 
@@ -40,4 +40,3 @@ func NewProfileResponse(u *model.User) *ProfileResponse {
 	r.Profile.Image = u.Image
 	return r
 }
-
