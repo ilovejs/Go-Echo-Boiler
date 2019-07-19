@@ -1,11 +1,14 @@
+/*
 -- Note: No mysqldump or pg_dump equivalent for Microsoft SQL Server,
 -- so generated tests must be supplemented by tables_schema.sql with CREATE TABLE ... queries
+-- Don't run in test environment
 
 USE [master]
 DROP DATABASE test2;
 create database test2;
 ALTER AUTHORIZATION ON DATABASE::test2 TO tester;
 use test2;
+*/
 
 create table roles
 (
@@ -21,7 +24,6 @@ create table users
     id               int identity(1,1) primary key,
 
     user_role_id       int not null,
-    creator_profile_id int not null,
 
     username         varchar(200) unique,
     password         varchar(256),
@@ -35,10 +37,6 @@ create table users
     created          datetime,
     updated          datetime default(getdate()),
 )
-go
-
-alter table users add constraint FK__logins__user_role_id foreign key (user_role_id) references roles (id);
-
 go
 
 create table profiles
@@ -58,10 +56,6 @@ create table profiles
     updated               datetime default(getdate()),
 )
 go
-
---from user
-alter table users add constraint FK__logins__creator_profile_id foreign key (creator_profile_id) references profiles (id);
-alter table profiles add constraint FK__profiles__user_id foreign key(user_id) references users (id);
 
 go
 
@@ -88,33 +82,14 @@ create table projects
 )
 go
 
-alter table projects add constraint FK__projects__creator_profile_id foreign key(creator_profile_id) references profiles (id);
-alter table projects add constraint FK__projects__manager_profile_id foreign key(manager_profile_id) references profiles (id);
 
-/*
-create table contractor_projects
+create table basic_trades
 (
-    id         int identity(1,1)(1,1) primary key,
-    user_id    int not null,
-
-    project_id int not null references projects,
-    trade_id   int    not null references basic_tradeitems,
-    notes      varchar(max),
-
-    is_deleted bit,
-    created    datetime,
-    updated    datetime
-)
-go
-*/
-
-create table basic_trades (
-                              id			int identity(1,1) primary key,
-
-                              name		varchar(200) not null,
-                              created		datetime null,
-                              updated	    datetime default(getdate()),
-                              is_deleted  bit      default(null),
+  id			int identity(1,1) primary key,
+  name		varchar(200) not null,
+  created		datetime null,
+  updated	    datetime default(getdate()),
+  is_deleted  bit      default(null),
 )
 
 create table trades
@@ -136,10 +111,6 @@ create table trades
 )
 go
 
-alter table trades add constraint FK__trades__basic_trade_id foreign key (basic_trade_id)   references basic_trades (id);
-alter table trades add constraint FK__trades__profile_id     foreign key (profile_id) references profiles (id);
-alter table trades add constraint FK__trades__project_id     foreign key (project_id) references projects (id)
-
 create table claims
 (
     id                 int identity(1,1) primary key,
@@ -157,7 +128,6 @@ create table claims
     claim_period        varchar(50),
     action_claim        bit,
 
-    --AutoIncrement      int,
     old_claimed_amount float,
     claim_percentage   float,
 
@@ -166,10 +136,6 @@ create table claims
     updated            datetime default(getdate()),
 )
 go
-
-alter table claims add constraint FK__claims__trade_id foreign key (trade_id) references trades (id)
-alter table claims add constraint FK__claims__profile_id foreign key (profile_id) references profiles (id)
-alter table claims add constraint FK__claims__basic_trade_id foreign key (basic_trade_id) references basic_trades (id)
 
 create table claim_histories
 (
@@ -181,10 +147,40 @@ create table claim_histories
     previous_claimed  float,
     created           datetime,
     updated           datetime default(getdate()),
-    --AutoIncrement   int
 )
 go
+
+/* Do not run in test environment
+alter table users add constraint FK__users__user_role_id foreign key (user_role_id) references roles (id);
+
+alter table profiles add constraint FK__profiles__user_id foreign key(user_id) references users (id);
+alter table projects add constraint FK__projects__creator_profile_id foreign key(creator_profile_id) references profiles (id);
+alter table projects add constraint FK__projects__manager_profile_id foreign key(manager_profile_id) references profiles (id);
+
+alter table trades add constraint FK__trades__basic_trade_id foreign key (basic_trade_id)   references basic_trades (id);
+alter table trades add constraint FK__trades__profile_id     foreign key (profile_id) references profiles (id);
+alter table trades add constraint FK__trades__project_id     foreign key (project_id) references projects (id)
+
+alter table claims add constraint FK__claims__trade_id foreign key (trade_id) references trades (id)
+alter table claims add constraint FK__claims__profile_id foreign key (profile_id) references profiles (id)
+alter table claims add constraint FK__claims__basic_trade_id foreign key (basic_trade_id) references basic_trades (id)
 
 alter table claim_histories add constraint FK__claim_histories_trade_id foreign key (trade_id) references trades (id);
 alter table claim_histories add constraint FK__claim_histories_claim_id foreign key (claim_id) references claims (id);
 alter table claim_histories add constraint FK__claim_histories_profile_id foreign key (profile_id) references profiles (id);
+
+create table contractor_projects
+(
+    id         int identity(1,1)(1,1) primary key,
+    user_id    int not null,
+
+    project_id int not null references projects,
+    trade_id   int    not null references basic_tradeitems,
+    notes      varchar(max),
+
+    is_deleted bit,
+    created    datetime,
+    updated    datetime
+)
+go
+*/

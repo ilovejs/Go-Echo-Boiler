@@ -1,14 +1,15 @@
 /*
--- Note: No mysqldump or pg_dump equivalent for Microsoft SQL Server,
--- so generated tests must be supplemented by tables_schema.sql with CREATE TABLE ... queries
--- Don't run in test environment
+	Database first approach for go sqlboiler.
+	Run this on db side
+*/
 
 USE [master]
-DROP DATABASE test2;
+DROP DATABASE if exists test2; --db
 create database test2;
-ALTER AUTHORIZATION ON DATABASE::test2 TO tester;
+
+ALTER AUTHORIZATION ON DATABASE::test2 TO tester; --user
 use test2;
-*/
+go
 
 create table roles
 (
@@ -57,8 +58,6 @@ create table profiles
 )
 go
 
-go
-
 create table projects
 (
     id                     int identity(1,1) primary key,
@@ -82,15 +81,31 @@ create table projects
 )
 go
 
-
-create table basic_trades
+/*
+create table contractor_projects
 (
-  id			int identity(1,1) primary key,
-  name		varchar(200) not null,
-  created		datetime null,
-  updated	    datetime default(getdate()),
-  is_deleted  bit      default(null),
+    id         int identity(1,1) primary key,
+    user_id    int not null,
+
+    project_id int not null references projects,
+    trade_id   int    not null references basic_tradeitems,
+    notes      varchar(max),
+
+    is_deleted bit,
+    created    datetime,
+    updated    datetime
 )
+go
+*/
+
+create table basic_trades (
+                              id			int identity(1,1) primary key,
+                              name		varchar(200) not null,
+                              created		datetime null,
+                              updated	    datetime default(getdate()),
+                              is_deleted  bit      default(null),
+)
+go
 
 create table trades
 (
@@ -150,7 +165,7 @@ create table claim_histories
 )
 go
 
-/* Do not run in test environment
+--/*
 alter table users add constraint FK__users__user_role_id foreign key (user_role_id) references roles (id);
 
 alter table profiles add constraint FK__profiles__user_id foreign key(user_id) references users (id);
@@ -168,19 +183,4 @@ alter table claims add constraint FK__claims__basic_trade_id foreign key (basic_
 alter table claim_histories add constraint FK__claim_histories_trade_id foreign key (trade_id) references trades (id);
 alter table claim_histories add constraint FK__claim_histories_claim_id foreign key (claim_id) references claims (id);
 alter table claim_histories add constraint FK__claim_histories_profile_id foreign key (profile_id) references profiles (id);
-
-create table contractor_projects
-(
-    id         int identity(1,1)(1,1) primary key,
-    user_id    int not null,
-
-    project_id int not null references projects,
-    trade_id   int    not null references basic_tradeitems,
-    notes      varchar(max),
-
-    is_deleted bit,
-    created    datetime,
-    updated    datetime
-)
-go
-*/
+--*/

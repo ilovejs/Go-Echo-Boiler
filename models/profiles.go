@@ -101,7 +101,6 @@ var ProfileRels = struct {
 	CreatorProfileProjects string
 	ManagerProfileProjects string
 	Trades                 string
-	CreatorProfileUsers    string
 }{
 	User:                   "User",
 	ClaimHistories:         "ClaimHistories",
@@ -109,7 +108,6 @@ var ProfileRels = struct {
 	CreatorProfileProjects: "CreatorProfileProjects",
 	ManagerProfileProjects: "ManagerProfileProjects",
 	Trades:                 "Trades",
-	CreatorProfileUsers:    "CreatorProfileUsers",
 }
 
 // profileR is where relationships are stored.
@@ -120,7 +118,6 @@ type profileR struct {
 	CreatorProfileProjects ProjectSlice
 	ManagerProfileProjects ProjectSlice
 	Trades                 TradeSlice
-	CreatorProfileUsers    UserSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -344,27 +341,6 @@ func (o *Profile) Trades(mods ...qm.QueryMod) tradeQuery {
 
 	if len(queries.GetSelect(query.Query)) == 0 {
 		queries.SetSelect(query.Query, []string{"[dbo].[trades].*"})
-	}
-
-	return query
-}
-
-// CreatorProfileUsers retrieves all the user's Users with an executor via creator_profile_id column.
-func (o *Profile) CreatorProfileUsers(mods ...qm.QueryMod) userQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("[dbo].[users].[creator_profile_id]=?", o.ID),
-	)
-
-	query := Users(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[users]")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[users].*"})
 	}
 
 	return query
@@ -903,94 +879,6 @@ func (profileL) LoadTrades(e boil.Executor, singular bool, maybeProfile interfac
 	return nil
 }
 
-// LoadCreatorProfileUsers allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (profileL) LoadCreatorProfileUsers(e boil.Executor, singular bool, maybeProfile interface{}, mods queries.Applicator) error {
-	var slice []*Profile
-	var object *Profile
-
-	if singular {
-		object = maybeProfile.(*Profile)
-	} else {
-		slice = *maybeProfile.(*[]*Profile)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &profileR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &profileR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.users`), qm.WhereIn(`creator_profile_id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load users")
-	}
-
-	var resultSlice []*User
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice users")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on users")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
-	}
-
-	if singular {
-		object.R.CreatorProfileUsers = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &userR{}
-			}
-			foreign.R.CreatorProfile = object
-		}
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.CreatorProfileID {
-				local.R.CreatorProfileUsers = append(local.R.CreatorProfileUsers, foreign)
-				if foreign.R == nil {
-					foreign.R = &userR{}
-				}
-				foreign.R.CreatorProfile = local
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
 // SetUser of the profile to the related item.
 // Sets o.R.User to related.
 // Adds o to related.R.Profiles.
@@ -1298,59 +1186,6 @@ func (o *Profile) AddTrades(exec boil.Executor, insert bool, related ...*Trade) 
 			}
 		} else {
 			rel.R.Profile = o
-		}
-	}
-	return nil
-}
-
-// AddCreatorProfileUsers adds the given related objects to the existing relationships
-// of the profile, optionally inserting them as new records.
-// Appends related to o.R.CreatorProfileUsers.
-// Sets related.R.CreatorProfile appropriately.
-func (o *Profile) AddCreatorProfileUsers(exec boil.Executor, insert bool, related ...*User) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.CreatorProfileID = o.ID
-			if err = rel.Insert(exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[users] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"creator_profile_id"}),
-				strmangle.WhereClause("[", "]", 2, userPrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.DebugMode {
-				fmt.Fprintln(boil.DebugWriter, updateQuery)
-				fmt.Fprintln(boil.DebugWriter, values)
-			}
-
-			if _, err = exec.Exec(updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.CreatorProfileID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &profileR{
-			CreatorProfileUsers: related,
-		}
-	} else {
-		o.R.CreatorProfileUsers = append(o.R.CreatorProfileUsers, related...)
-	}
-
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &userR{
-				CreatorProfile: o,
-			}
-		} else {
-			rel.R.CreatorProfile = o
 		}
 	}
 	return nil

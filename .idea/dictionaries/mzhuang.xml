@@ -4,6 +4,7 @@
       <w>firstname</w>
       <w>keyvals</w>
       <w>lastname</w>
+      <w>mysqldump</w>
       <w>unfollow</w>
     </words>
   </dictionary>

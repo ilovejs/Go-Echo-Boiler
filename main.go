@@ -16,7 +16,7 @@ func main() {
 	d := db.New()
 
 	//store
-	us := store.NewUserLoginStore(d)
+	us := store.NewUserStore(d)
 	ps := store.NewProjectStore(d)
 
 	// handler

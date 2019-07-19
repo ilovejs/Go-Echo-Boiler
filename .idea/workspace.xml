@@ -2,33 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f08673bc-0587-4aa3-b5e7-334f3d2804c7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/doc/sql/db_side_run.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/mzhuang.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/mzhuang.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gen.sh" beforeDir="false" afterPath="$PROJECT_DIR$/gen.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/basic_tradeitems.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/basic_tradeitems_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/boil_suites_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/boil_suites_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/boil_table_names.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/boil_table_names.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/claim_histories.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/claim_histories.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/claim_histories_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/claim_histories_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/claims.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/claims.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/claims_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/claims_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/contractor_projects.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/contractor_projects_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/logins.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/logins_test.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/mssql_main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/mssql_main_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/mssql_suites_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/mssql_suites_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/profiles.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/profiles.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/profiles_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/profiles_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projects.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projects.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projects_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projects_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/roles.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/roles.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/roles_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/roles_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/tables_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/models/tables_schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trade_items.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trade_items_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mssql_main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/mssql_main_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sqlboiler.toml" beforeDir="false" afterPath="$PROJECT_DIR$/sqlboiler.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mssql_main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/mssql_main_test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/store/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tables_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tables_schema.sql" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/httpRequests/" />
@@ -88,47 +73,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tables_schema.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4180">
-              <caret line="190" selection-start-line="190" selection-end-line="190" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mssql_main_test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="180" column="19" selection-start-line="180" selection-start-column="19" selection-end-line="180" selection-end-column="19" />
-              <folding>
-                <element signature="e#184#495#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models/claim_histories_test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="45" selection-start-line="45" selection-end-line="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gen.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -157,6 +102,7 @@
       <find>created_at</find>
       <find>v4</find>
       <find>6660</find>
+      <find>UserUserStore</find>
     </findStrings>
     <replaceStrings>
       <replace>User</replace>
@@ -165,6 +111,7 @@
       <replace>models</replace>
       <replace>onsite/models</replace>
       <replace>UserLogin</replace>
+      <replace>UserStore</replace>
     </replaceStrings>
   </component>
   <component name="GOROOT" path="C:\Go" />
@@ -181,8 +128,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/doc/s.go" />
-        <option value="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http" />
         <option value="$PROJECT_DIR$/router/router.go" />
         <option value="$PROJECT_DIR$/store/article.go" />
         <option value="$PROJECT_DIR$/model/project.go" />
@@ -211,8 +156,6 @@
         <option value="$PROJECT_DIR$/store/projectStore.go" />
         <option value="$PROJECT_DIR$/utils/utils.go" />
         <option value="$PROJECT_DIR$/db/db.go" />
-        <option value="$PROJECT_DIR$/store/project.go" />
-        <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/doc/alter_fk.sql" />
         <option value="$PROJECT_DIR$/doc/sql/sp.sql" />
         <option value="$PROJECT_DIR$/utils/errors.go" />
@@ -221,15 +164,19 @@
         <option value="$PROJECT_DIR$/router/routeSettings.go" />
         <option value="$PROJECT_DIR$/handler/projectHandler.go" />
         <option value="$PROJECT_DIR$/glue/storeInterface.go" />
-        <option value="$PROJECT_DIR$/store/user.go" />
         <option value="$PROJECT_DIR$/handler/userHandler.go" />
         <option value="$PROJECT_DIR$/handler/handler.go" />
         <option value="$PROJECT_DIR$/readme.md" />
-        <option value="$PROJECT_DIR$/models/mssql_main_test.go" />
-        <option value="$PROJECT_DIR$/models/tables_schema.sql" />
         <option value="$PROJECT_DIR$/sqlboiler.toml" />
         <option value="$PROJECT_DIR$/models/claim_histories_test.go" />
         <option value="$PROJECT_DIR$/mssql_main_test.go" />
+        <option value="$PROJECT_DIR$/models/mssql_main_test.go" />
+        <option value="$PROJECT_DIR$/store/user.go" />
+        <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/models/tables_schema.sql" />
+        <option value="$PROJECT_DIR$/mssql_main_test.txt" />
+        <option value="$PROJECT_DIR$/store/project.go" />
+        <option value="$PROJECT_DIR$/doc/sql/db_side_run.sql" />
         <option value="$PROJECT_DIR$/gen.sh" />
         <option value="$PROJECT_DIR$/tables_schema.sql" />
       </list>
@@ -252,7 +199,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -263,12 +209,24 @@
             <path>
               <item name="onsite" type="b2602c69:ProjectViewProjectNode" />
               <item name="onsite" type="462c0819:PsiDirectoryNode" />
+              <item name="doc" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="onsite" type="b2602c69:ProjectViewProjectNode" />
+              <item name="onsite" type="462c0819:PsiDirectoryNode" />
+              <item name="doc" type="462c0819:PsiDirectoryNode" />
+              <item name="sql" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="onsite" type="b2602c69:ProjectViewProjectNode" />
+              <item name="onsite" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -289,7 +247,7 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.MS SQL Server" />
+    <property name="settings.editor.selected.configurable" value="settings.jsgraphql" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -673,23 +631,23 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestDelete/ClaimHistories in onsite/models">
+  <component name="RunManager" selected="Go Test.go test models">
+    <configuration name="gen.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
+      <module name="go-onsite2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="C:\msys64\usr\bin\bash.exe" />
+      <option name="PROJECT_INTERPRETER" value="false" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\mzhuang\go\src\onsite" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\mzhuang\go\src\onsite\gen.sh" />
+      <option name="PARAMETERS" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="go-onsite2" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
       <filePath value="$PROJECT_DIR$/main.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestDelete in onsite/models" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="go-onsite2" />
-      <working_directory value="$PROJECT_DIR$/models" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="onsite/models" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestDelete$" />
       <method v="2" />
     </configuration>
     <configuration name="TestDelete/ClaimHistories in onsite/models" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -703,6 +661,16 @@
       <pattern value="^TestDelete$/^ClaimHistories$" />
       <method v="2" />
     </configuration>
+    <configuration name="go test models" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="go-onsite2" />
+      <working_directory value="$PROJECT_DIR$/models" />
+      <framework value="gotest" />
+      <kind value="DIRECTORY" />
+      <package value="onsite" />
+      <directory value="$PROJECT_DIR$/models" />
+      <filePath value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <configuration name="go test onsite/models" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="go-onsite2" />
       <working_directory value="$PROJECT_DIR$/models" />
@@ -713,70 +681,67 @@
       <filePath value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="rest-api#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api.http">
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Bash.gen.sh" />
       <item itemvalue="Go Build.go build main.go" />
       <item itemvalue="Go Test.go test onsite/models" />
-      <item itemvalue="HTTP Request.rest-api#1" />
-      <item itemvalue="Go Test.TestDelete in onsite/models" />
       <item itemvalue="Go Test.TestDelete/ClaimHistories in onsite/models" />
+      <item itemvalue="Go Test.go test models" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestDelete/ClaimHistories in onsite/models" />
-        <item itemvalue="Go Test.TestDelete in onsite/models" />
+        <item itemvalue="Go Test.go test models" />
+        <item itemvalue="Bash.gen.sh" />
         <item itemvalue="Go Test.go test onsite/models" />
         <item itemvalue="Go Build.go build main.go" />
-        <item itemvalue="HTTP Request.rest-api#1" />
+        <item itemvalue="Go Test.TestDelete/ClaimHistories in onsite/models" />
       </list>
     </recent_temporary>
   </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+    <option name="version" value="2" />
   </component>
   <component name="StructureViewFactory">
     <option name="AUTOSCROLL_FROM_SOURCE" value="true" />
     <option name="ACTIVE_ACTIONS" value=",Show package structure,ALPHA_COMPARATOR" />
   </component>
   <component name="TestHistory">
-    <history-entry file="TestDelete_in_onsite_models - 2019.07.19 at 19h 15m 23s.xml">
-      <configuration name="TestDelete in onsite/models" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="go_test_onsite_models - 2019.07.19 at 19h 15m 35s.xml">
-      <configuration name="go test onsite/models" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="go_test_onsite_models - 2019.07.19 at 19h 22m 37s.xml">
-      <configuration name="go test onsite/models" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestDelete_in_onsite_models - 2019.07.19 at 19h 26m 56s.xml">
-      <configuration name="TestDelete in onsite/models" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestDelete_in_onsite_models - 2019.07.19 at 19h 29m 23s.xml">
-      <configuration name="TestDelete in onsite/models" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestDelete_in_onsite_models - 2019.07.19 at 19h 30m 24s.xml">
-      <configuration name="TestDelete in onsite/models" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 19h 31m 30s.xml">
-      <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 19h 40m 42s.xml">
-      <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
-    </history-entry>
     <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 19h 42m 04s.xml">
       <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
     </history-entry>
     <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 19h 49m 37s.xml">
       <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
     </history-entry>
+    <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 19h 55m 28s.xml">
+      <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 20h 00m 50s.xml">
+      <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 20h 40m 16s.xml">
+      <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 20h 45m 14s.xml">
+      <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestDelete_ClaimHistories_in_onsite_models - 2019.07.19 at 20h 52m 29s.xml">
+      <configuration name="TestDelete/ClaimHistories in onsite/models" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="go_test_onsite_models - 2019.07.19 at 20h 58m 43s.xml">
+      <configuration name="go test onsite/models" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="go_test_onsite_models - 2019.07.19 at 21h 06m 40s.xml">
+      <configuration name="go test onsite/models" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="go_test_onsite_models - 2019.07.19 at 21h 08m 43s.xml">
+      <configuration name="go test onsite/models" configurationId="GoTestRunConfiguration" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1633" height="1063" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1752381" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1772554" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info id="Structure" order="2" weight="0.21940464" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -789,12 +754,13 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.18122977" />
       <window_info anchor="bottom" id="GraphQL" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" weight="0.32977587" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.35490832" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32972974" />
-      <window_info anchor="bottom" id="REST Client" order="12" weight="0.33405405" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.32972974" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32972974" />
+      <window_info anchor="bottom" id="REST Client" order="11" weight="0.33405405" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32972974" />
+      <window_info anchor="bottom" id="Terminal" order="13" weight="0.2837109" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.32901832" />
-      <window_info active="true" anchor="bottom" x="2018" y="32" width="1476" height="963" id="Run" order="15" visible="true" weight="0.35814455" />
+      <window_info anchor="bottom" x="2018" y="32" width="1476" height="963" id="Run" order="15" weight="0.5307443" />
+      <window_info anchor="right" id="Call Graph" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -833,196 +799,19 @@
     <MESSAGE value="model" />
     <MESSAGE value="move to GOPATH for the sake of sqlboiler&#10;update echo to v4 in local" />
     <MESSAGE value="rebuilt sql database" />
-    <option name="LAST_COMMIT_MESSAGE" value="rebuilt sql database" />
+    <MESSAGE value="not working,&#10;update sql" />
+    <option name="LAST_COMMIT_MESSAGE" value="not working,&#10;update sql" />
   </component>
   <component name="VgoProject">
     <proxy>direct</proxy>
   </component>
   <component name="editorHistoryManager">
-    <entry file="uml://DATABASE/8614063e-99c7-4886-b41a-c335be91fca5.SCHEMA:contractworksummary.dbo">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>DATABASE</ID>
-          <OriginalElement>8614063e-99c7-4886-b41a-c335be91fca5.SCHEMA:contractworksummary.dbo</OriginalElement>
-          <nodes>
-            <node x="219.2199074074074" y="149.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin</node>
-            <node x="242.7199074074074" y="452.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile</node>
-            <node x="127.30324074074082" y="1255.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor</node>
-            <node x="337.3032407407408" y="1222.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem</node>
-            <node x="361.27083333333337" y="2026.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory</node>
-            <node x="265.93055555555566" y="831.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project</node>
-            <node x="886.8032407407409" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.sysdiagrams</node>
-            <node x="55.95833333333337" y="941.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster</node>
-            <node x="0.0" y="1547.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim</node>
-            <node x="648.8032407407409" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.ErrorLog</node>
-            <node x="229.7199074074074" y="0.0">8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserRole</node>
-          </nodes>
-          <notes />
-          <edges>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project">
-              <point x="63.333333333333314" y="-104.5" />
-              <point x="285.63657407407413" y="1202.0" />
-              <point x="323.68055555555566" y="1202.0" />
-              <point x="-57.75" y="170.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
-              <point x="57.74999999999994" y="-170.5" />
-              <point x="439.1805555555556" y="811.0" />
-              <point x="386.8032407407407" y="811.0" />
-              <point x="20.583333333333314" y="159.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim">
-              <point x="-80.0" y="-93.5" />
-              <point x="401.27083333333337" y="2001.0" />
-              <point x="109.5" y="2001.0" />
-              <point x="0.0" y="214.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
-              <point x="0.0" y="-214.5" />
-              <point x="109.5" y="1522.0" />
-              <point x="93.86805555555554" y="1522.0" />
-              <point x="93.86805555555554" y="1202.0" />
-              <point x="84.12500000000003" y="1202.0" />
-              <point x="-56.33333333333334" y="60.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
-              <point x="-63.33333333333343" y="-104.5" />
-              <point x="158.9699074074074" y="1202.0" />
-              <point x="140.45833333333337" y="1202.0" />
-              <point x="0.0" y="60.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem">
-              <point x="73.0" y="-214.5" />
-              <point x="182.5" y="1522.0" />
-              <point x="392.0532407407408" y="1522.0" />
-              <point x="-54.75" y="137.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeMaster">
-              <point x="-73.0" y="-137.5" />
-              <point x="373.8032407407408" y="1192.0" />
-              <point x="196.7916666666667" y="1192.0" />
-              <point x="56.33333333333334" y="60.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaim" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
-              <point x="-73.0" y="-214.5" />
-              <point x="36.5" y="1522.0" />
-              <point x="45.458333333333314" y="1522.0" />
-              <point x="45.458333333333314" y="801.0" />
-              <point x="263.3032407407407" y="801.0" />
-              <point x="-102.91666666666669" y="159.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.AssignContarctor" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
-              <point x="-5.6843418860808015E-14" y="-104.5" />
-              <point x="222.30324074074076" y="1202.0" />
-              <point x="235.45833333333334" y="1202.0" />
-              <point x="235.45833333333334" y="811.0" />
-              <point x="304.4699074074074" y="811.0" />
-              <point x="-61.75" y="159.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
-              <point x="80.0" y="-93.5" />
-              <point x="561.2708333333334" y="2001.0" />
-              <point x="566.8032407407409" y="2001.0" />
-              <point x="566.8032407407409" y="791.0" />
-              <point x="469.1365740740741" y="791.0" />
-              <point x="102.91666666666667" y="159.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserRole">
-              <point x="0.0" y="-126.5" />
-              <point x="0.0" y="49.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin">
-              <point x="0.0" y="-159.5" />
-              <point x="49.0" y="126.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.Project">
-              <point x="0.0" y="-137.5" />
-              <point x="446.8032407407408" y="1202.0" />
-              <point x="439.18055555555566" y="1202.0" />
-              <point x="57.75" y="170.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItemClaimHistory" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem">
-              <point x="0.0" y="-93.5" />
-              <point x="481.27083333333337" y="2001.0" />
-              <point x="501.5532407407408" y="2001.0" />
-              <point x="54.750000000000014" y="137.5" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserLogin">
-              <point x="-49.0" y="126.5" />
-              <point x="268.2199074074074" y="422.0" />
-              <point x="199.2199074074074" y="422.0" />
-              <point x="199.2199074074074" y="275.5" />
-              <point x="-98.0" y="-0.0" />
-            </edge>
-            <edge source="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.TradeItem" target="8614063e-99c7-4886-b41a-c335be91fca5.TABLE:contractworksummary.dbo.UserProfile">
-              <point x="73.00000000000001" y="-137.5" />
-              <point x="519.8032407407409" y="1202.0" />
-              <point x="527.8055555555557" y="1202.0" />
-              <point x="527.8055555555557" y="801.0" />
-              <point x="427.9699074074074" y="801.0" />
-              <point x="61.75" y="159.5" />
-            </edge>
-          </edges>
-          <settings layout="Hierarchic Group" zoom="0.29869321717485997" x="764.0" y="775.0" />
-          <SelectedNodes />
-          <Categories>
-            <Category>Key columns</Category>
-            <Category>Columns</Category>
-          </Categories>
-          <SCOPE>All</SCOPE>
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://DATABASE/d9d68f6e-ce9c-4db3-aa76-d99275772a92.SCHEMA:test">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>DATABASE</ID>
-          <OriginalElement>d9d68f6e-ce9c-4db3-aa76-d99275772a92.SCHEMA:test</OriginalElement>
-          <nodes>
-            <node x="215.0" y="127.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.jets</node>
-            <node x="202.5" y="0.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots</node>
-            <node x="15.0" y="160.5">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages</node>
-            <node x="0.0" y="0.0">d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.languages</node>
-          </nodes>
-          <notes />
-          <edges>
-            <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.languages">
-              <point x="-45.0" y="-38.0" />
-              <point x="0.0" y="38.5" />
-            </edge>
-            <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.jets" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots">
-              <point x="0.0" y="-71.5" />
-              <point x="22.5" y="38.5" />
-            </edge>
-            <edge source="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilot_languages" target="d9d68f6e-ce9c-4db3-aa76-d99275772a92.TABLE:test.pilots">
-              <point x="45.0" y="-38.0" />
-              <point x="150.0" y="102.0" />
-              <point x="225.0" y="102.0" />
-              <point x="-22.5" y="38.5" />
-            </edge>
-          </edges>
-          <settings layout="Hierarchic Group" zoom="1.0" x="163.0" y="135.0" />
-          <SelectedNodes />
-          <Categories>
-            <Category>Key columns</Category>
-            <Category>Columns</Category>
-          </Categories>
-          <SCOPE>All</SCOPE>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/d9d68f6e-ce9c-4db3-aa76-d99275772a92/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/model/userModel.go" />
     <entry file="file://$PROJECT_DIR$/tsconfig.json" />
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/luna-duclos/instrumentedsql/logger.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/luna-duclos/instrumentedsql/logger.go" />
     <entry file="file://$PROJECT_DIR$/utils/utils.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -1041,16 +830,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4699">
           <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/store/project.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="4" selection-start-column="4" selection-end-column="4" />
-          <folding>
-            <element signature="e#15#71#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1137,26 +916,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/volatiletech/sqlboiler/drivers/sqlboiler-mssql/driver/mssql.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3036" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/volatiletech/sqlboiler/drivers/binary_driver.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/go.mod">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-44">
-          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/modules.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2068" />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/volatiletech/sqlboiler/drivers/sqlboiler-mssql/driver/mssql.go" />
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/volatiletech/sqlboiler/drivers/binary_driver.go" />
+    <entry file="file://$PROJECT_DIR$/go.mod" />
+    <entry file="file://$PROJECT_DIR$/vendor/modules.txt" />
     <entry file="file://$PROJECT_DIR$/models/roles.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3696" />
@@ -1172,20 +935,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dto/projectReq.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dto/userReq.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/dto/projectReq.go" />
+    <entry file="file://$PROJECT_DIR$/dto/userReq.go" />
     <entry file="file://$PROJECT_DIR$/handler/projectHandler.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
@@ -1204,16 +955,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/store/user.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="31" column="64" selection-start-line="31" selection-start-column="64" selection-end-line="31" selection-end-column="64" />
-          <folding>
-            <element signature="e#15#58#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1244,16 +985,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="19" column="33" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
-          <folding>
-            <element signature="e#14#88#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/readme.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -1261,23 +992,6 @@
             <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/mssql_main_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="70" column="46" selection-end-line="185" />
-          <folding>
-            <element signature="e#184#495#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/tables_schema.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1716">
-          <caret line="102" selection-start-line="102" selection-end-line="102" />
         </state>
       </provider>
     </entry>
@@ -1289,33 +1003,13 @@
         <state relative-caret-position="-2013" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/trade_items_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/basic_tradeitems.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
-          <folding>
-            <element signature="e#184#560#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/models/trade_items_test.go" />
+    <entry file="file://$PROJECT_DIR$/models/basic_tradeitems.go" />
     <entry file="file://$PROJECT_DIR$/sqlboiler.toml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
           <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/basic_trades.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-132" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/basic_trades_test.go">
@@ -1339,36 +1033,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tables_schema.sql">
+    <entry file="file://$PROJECT_DIR$/models/claim_histories.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4180">
-          <caret line="190" selection-start-line="190" selection-end-line="190" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mssql_main_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="180" column="19" selection-start-line="180" selection-start-column="19" selection-end-line="180" selection-end-column="19" />
+        <state relative-caret-position="374">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
           <folding>
-            <element signature="e#184#495#0" expanded="true" />
+            <element signature="e#184#560#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/claim_histories_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        <state relative-caret-position="110">
+          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+          <folding>
+            <element signature="e#184#407#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/mssql_main_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+          <folding>
+            <element signature="e#14#88#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <element signature="e#15#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mssql_main_test.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="76" selection-start-line="2" selection-start-column="76" selection-end-line="2" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/project.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/sql/db_side_run.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4092">
+          <caret line="186" selection-start-line="186" selection-end-line="186" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tables_schema.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="152" column="33" selection-start-line="152" selection-start-column="33" selection-end-line="152" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/tables_schema.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-660">
+          <caret column="2" lean-forward="true" selection-start-column="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/basic_trades.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6468" />
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

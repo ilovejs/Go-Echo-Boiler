@@ -155,7 +155,6 @@ func TestToOne(t *testing.T) {
 	t.Run("TradeToBasicTradeUsingBasicTrade", testTradeToOneBasicTradeUsingBasicTrade)
 	t.Run("TradeToProfileUsingProfile", testTradeToOneProfileUsingProfile)
 	t.Run("TradeToProjectUsingProject", testTradeToOneProjectUsingProject)
-	t.Run("UserToProfileUsingCreatorProfile", testUserToOneProfileUsingCreatorProfile)
 	t.Run("UserToRoleUsingUserRole", testUserToOneRoleUsingUserRole)
 }
 
@@ -174,7 +173,6 @@ func TestToMany(t *testing.T) {
 	t.Run("ProfileToCreatorProfileProjects", testProfileToManyCreatorProfileProjects)
 	t.Run("ProfileToManagerProfileProjects", testProfileToManyManagerProfileProjects)
 	t.Run("ProfileToTrades", testProfileToManyTrades)
-	t.Run("ProfileToCreatorProfileUsers", testProfileToManyCreatorProfileUsers)
 	t.Run("ProjectToTrades", testProjectToManyTrades)
 	t.Run("RoleToUserRoleUsers", testRoleToManyUserRoleUsers)
 	t.Run("TradeToClaimHistories", testTradeToManyClaimHistories)
@@ -197,7 +195,6 @@ func TestToOneSet(t *testing.T) {
 	t.Run("TradeToBasicTradeUsingTrades", testTradeToOneSetOpBasicTradeUsingBasicTrade)
 	t.Run("TradeToProfileUsingTrades", testTradeToOneSetOpProfileUsingProfile)
 	t.Run("TradeToProjectUsingTrades", testTradeToOneSetOpProjectUsingProject)
-	t.Run("UserToProfileUsingCreatorProfileUsers", testUserToOneSetOpProfileUsingCreatorProfile)
 	t.Run("UserToRoleUsingUserRoleUsers", testUserToOneSetOpRoleUsingUserRole)
 }
 
@@ -224,7 +221,6 @@ func TestToManyAdd(t *testing.T) {
 	t.Run("ProfileToCreatorProfileProjects", testProfileToManyAddOpCreatorProfileProjects)
 	t.Run("ProfileToManagerProfileProjects", testProfileToManyAddOpManagerProfileProjects)
 	t.Run("ProfileToTrades", testProfileToManyAddOpTrades)
-	t.Run("ProfileToCreatorProfileUsers", testProfileToManyAddOpCreatorProfileUsers)
 	t.Run("ProjectToTrades", testProjectToManyAddOpTrades)
 	t.Run("RoleToUserRoleUsers", testRoleToManyAddOpUserRoleUsers)
 	t.Run("TradeToClaimHistories", testTradeToManyAddOpClaimHistories)

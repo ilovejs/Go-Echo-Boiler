@@ -5,38 +5,38 @@ import (
 	"onsite/models"
 )
 
-type UserLoginStore struct {
+type UserStore struct {
 	db *sql.DB
 }
 
-func NewUserLoginStore(db *sql.DB) *UserLoginStore {
-	return &UserLoginStore{
+func NewUserStore(db *sql.DB) *UserStore {
+	return &UserStore{
 		db: db,
 	}
 }
 
-func (us *UserLoginStore) Create(u *models.Login) (err error) {
+func (us *UserStore) Create(u *models.User) (err error) {
 	panic("x")
 }
 
-func (us *UserLoginStore) GetByID(id uint) (*models.Login, error) {
+func (us *UserStore) GetByID(id uint) (*models.User, error) {
 
 	panic("not done")
 }
 
-func (us *UserLoginStore) GetByEmail(e string) (*models.Login, error) {
+func (us *UserStore) GetByEmail(e string) (*models.User, error) {
 
 	panic("not done")
 }
 
-func (us *UserLoginStore) GetByUserLoginName(u string) (*models.Login, error) {
+func (us *UserStore) GetByUserUserName(u string) (*models.User, error) {
 	panic("not done")
 }
 
-func (us *UserLoginStore) Update(u *models.Login) error {
+func (us *UserStore) Update(u *models.User) error {
 	panic("not done")
 }
 
-func (us *UserLoginStore) Delete(u *models.Login) error {
+func (us *UserStore) Delete(u *models.User) error {
 	panic("not done")
 }
