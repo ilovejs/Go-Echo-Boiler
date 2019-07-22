@@ -4,9 +4,10 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/go-sql-driver/mysql"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/denisenkom/go-mssqldb"
+	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/luna-duclos/instrumentedsql"
+	"github.com/volatiletech/sqlboiler/boil"
 	"log"
 	"onsite/utils"
 	"strings"
@@ -15,6 +16,8 @@ import (
 func setupLoggerFn() instrumentedsql.LoggerFunc {
 	logFn := instrumentedsql.LoggerFunc(
 		func(ctx context.Context, msg string, keyvals ...interface{}) {
+			//fmt.Println("Driver Logger hits, otherwise driver issue")
+
 			a := msg == "sql-stmt-query" //select
 			b := msg == "sql-stmt-exec"  //insert
 			if a || b {
@@ -33,9 +36,9 @@ func setupLoggerFn() instrumentedsql.LoggerFunc {
 				//log.Println("Args: ", arr)
 
 				originSql := keyvals[1].(string)
-				//multiple assignments
-				for i, times := 0, strings.Count(originSql, "?"); i < times; i++ {
-					originSql = strings.Replace(originSql, "?", arr[i], 1)
+				//multiple assignments, mysql style ?, mssql style $1
+				for i, times := 0, strings.Count(originSql, "$"); i < times; i++ {
+					originSql = strings.Replace(originSql, "$", arr[i], 1)
 					//log.Println(originSql)
 				}
 				log.Println(originSql)
@@ -48,24 +51,31 @@ func setupLoggerFn() instrumentedsql.LoggerFunc {
 
 //todo: env
 const (
-	db       = "test2"
-	host     = "localhost"
-	user     = "tester"
-	password = "tester"
+	db         = "test2"
+	host       = "localhost"
+	user       = "tester"
+	password   = "tester"
+	driverName = "instrumented-mssql"
 )
 
 func New() *sql.DB {
 	logger := setupLoggerFn()
 
-	//wrap driver and set logger
-	sql.Register("instrumented-mysql",
-		instrumentedsql.WrapDriver(mysql.MySQLDriver{},
+	//wrap driver with logger
+	sql.Register(driverName,
+		instrumentedsql.WrapDriver(&mssql.Driver{}, //check
 			instrumentedsql.WithLogger(logger)))
 
 	dsn := fmt.Sprintf("%s:%s@%s/%s", user, password, host, db)
-	db, err := sql.Open("instrumented-mysql", dsn)
+	log.Println(dsn)
+
+	db, err := sql.Open(driverName, dsn)
 	utils.DieIf(err)
 
-	//boil.DebugMode = true
+	log.Println("Database is Connected. Check driver if any issue.")
+
+	// default sql debugger
+	boil.DebugMode = true
+
 	return db
 }

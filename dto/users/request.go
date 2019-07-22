@@ -9,9 +9,9 @@ import (
 
 type userUpdateRequest struct {
 	User struct {
-		UserRoleId string `json:"user_role_id"`
-		UserName   string `json:"username"`
-		Password   string `json:"password"`
+		UserRoleId string `json:"user_role_id" validate:"required"`
+		UserName   string `json:"username" validate:"required"`
+		Password   string `json:"password" validate:"required"`
 		Email      string `json:"email" validate:"email"`
 	} `json:"user"`
 }
