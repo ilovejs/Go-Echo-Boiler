@@ -53,6 +53,7 @@ func setupLoggerFn() instrumentedsql.LoggerFunc {
 const (
 	db         = "test2"
 	host       = "localhost"
+	port       = "1433"
 	user       = "tester"
 	password   = "tester"
 	driverName = "instrumented-mssql"
@@ -66,7 +67,8 @@ func New() *sql.DB {
 		instrumentedsql.WrapDriver(&mssql.Driver{}, //check
 			instrumentedsql.WithLogger(logger)))
 
-	dsn := fmt.Sprintf("%s:%s@%s/%s", user, password, host, db)
+	//sqlserver://username:password@host/instance?param1=value&param2=value
+	dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s&connection+timeout=30", user, password, host, port, db)
 	log.Println(dsn)
 
 	db, err := sql.Open(driverName, dsn)
