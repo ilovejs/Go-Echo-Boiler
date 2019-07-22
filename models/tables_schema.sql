@@ -25,7 +25,7 @@ create table users
 
     user_role_id       int not null,
 
-    username         varchar(200) unique,
+    username         varchar(200) not null,   -- used to be unique
     password         varchar(256),
     email            varchar(256) not null,
     password_token   varchar(200),

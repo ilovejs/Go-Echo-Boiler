@@ -3,24 +3,27 @@ package users
 import (
 	. "onsite/models"
 	"onsite/utils"
+	"strconv"
 )
 
 type UserResponse struct {
 	User struct {
-		Username string `json:"username"`
-		Email    string `json:"email"`
-		Token    string `json:"token"`
+		ID         string `json:"id"`
+		UserRoleID string `json:"user_role_id"`
+		Username   string `json:"username"`
+		Email      string `json:"email"`
+		Token      string `json:"token"`
 	} `json:"user"`
 }
 
 func NewUserResponse(u *User) *UserResponse {
 	r := new(UserResponse)
-
-	err := u.Username.Scan(r.User.Username)
-	utils.LogIf(err)
-
+	r.User.ID = strconv.Itoa(u.ID)
+	r.User.UserRoleID = strconv.Itoa(u.UserRoleID)
 	r.User.Email = u.Email
 	r.User.Token = utils.GenerateJWT(u.ID)
+	r.User.Username = u.Username
+	//utils.LogIf(err)
 	return r
 }
 
@@ -34,7 +37,7 @@ type ProfileResponse struct {
 
 func NewProfileResponse(u User) *ProfileResponse {
 	r := new(ProfileResponse)
-	err := u.Username.Scan(r.Profile.Username)
-	utils.LogIf(err)
+	//err := u.Username.Scan(&r.Profile.Username)
+	r.Profile.Username = u.Username
 	return r
 }

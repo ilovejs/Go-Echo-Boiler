@@ -25,7 +25,7 @@ import (
 type User struct {
 	ID             int         `boil:"id" json:"id" toml:"id" yaml:"id"`
 	UserRoleID     int         `boil:"user_role_id" json:"user_role_id" toml:"user_role_id" yaml:"user_role_id"`
-	Username       null.String `boil:"username" json:"username,omitempty" toml:"username" yaml:"username,omitempty"`
+	Username       string      `boil:"username" json:"username" toml:"username" yaml:"username"`
 	Password       null.String `boil:"password" json:"password,omitempty" toml:"password" yaml:"password,omitempty"`
 	Email          string      `boil:"email" json:"email" toml:"email" yaml:"email"`
 	PasswordToken  null.String `boil:"password_token" json:"password_token,omitempty" toml:"password_token" yaml:"password_token,omitempty"`
@@ -73,7 +73,7 @@ var UserColumns = struct {
 var UserWhere = struct {
 	ID             whereHelperint
 	UserRoleID     whereHelperint
-	Username       whereHelpernull_String
+	Username       whereHelperstring
 	Password       whereHelpernull_String
 	Email          whereHelperstring
 	PasswordToken  whereHelpernull_String
@@ -86,7 +86,7 @@ var UserWhere = struct {
 }{
 	ID:             whereHelperint{field: "[dbo].[users].[id]"},
 	UserRoleID:     whereHelperint{field: "[dbo].[users].[user_role_id]"},
-	Username:       whereHelpernull_String{field: "[dbo].[users].[username]"},
+	Username:       whereHelperstring{field: "[dbo].[users].[username]"},
 	Password:       whereHelpernull_String{field: "[dbo].[users].[password]"},
 	Email:          whereHelperstring{field: "[dbo].[users].[email]"},
 	PasswordToken:  whereHelpernull_String{field: "[dbo].[users].[password_token]"},

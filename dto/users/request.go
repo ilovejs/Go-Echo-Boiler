@@ -24,10 +24,11 @@ func NewUserUpdateRequest() *userUpdateRequest {
 func (r *userUpdateRequest) Extract(u *m.User) {
 	r.User.UserRoleId = string(u.UserRoleID)
 
-	err := u.Username.Scan(r.User.UserName)
-	LogIf(err)
+	//err := u.Username.Scan(&r.User.UserName)
+	//LogIf(err)
+	r.User.UserName = u.Username
 
-	err = u.Password.Scan(r.User.Password)
+	err := u.Password.Scan(&r.User.Password)
 	LogIf(err)
 
 	u.Email = r.User.Email
@@ -44,7 +45,8 @@ func (r *userUpdateRequest) Bind(c echo.Context, u *m.User) error {
 		return err
 	}
 
-	u.Username.SetValid(r.User.UserName)
+	//u.Username.SetValid(r.User.UserName)
+	u.Username = r.User.UserName
 
 	u.Email = r.User.Email
 
@@ -81,7 +83,8 @@ func (r *UserRegisterRequest) Bind(c echo.Context, u *m.User) error {
 		return err
 	}
 	u.UserRoleID = r.User.UserRoleId
-	u.Username = null.StringFrom(r.User.Username)
+	//u.Username = null.StringFrom(r.User.Username)
+	u.Username = r.User.Username
 	u.Email = r.User.Email
 	hashed, err := HashPassword(r.User.Password)
 	if err != nil {

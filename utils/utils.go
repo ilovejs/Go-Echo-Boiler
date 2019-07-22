@@ -25,7 +25,7 @@ func DieIf(err error) {
 
 func LogIf(err error) {
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 }
 
