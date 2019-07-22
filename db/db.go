@@ -3,8 +3,6 @@ package db
 import (
 	"context"
 	"database/sql"
-	"fmt"
-	"github.com/denisenkom/go-mssqldb"
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/luna-duclos/instrumentedsql"
 	"github.com/volatiletech/sqlboiler/boil"
@@ -51,24 +49,26 @@ func setupLoggerFn() instrumentedsql.LoggerFunc {
 
 //todo: env
 const (
-	db         = "test2"
-	host       = "localhost"
-	port       = "1433"
-	user       = "tester"
-	password   = "tester"
-	driverName = "instrumented-mssql"
+	db       = "test2"
+	host     = "localhost"
+	port     = "1433"
+	user     = "tester"
+	password = "tester"
+	//driverName = "instrumented-mssql"
+	driverName = "mssql"
 )
 
 func New() *sql.DB {
-	logger := setupLoggerFn()
+	//logger := setupLoggerFn()
 
 	//wrap driver with logger
-	sql.Register(driverName,
-		instrumentedsql.WrapDriver(&mssql.Driver{}, //check
-			instrumentedsql.WithLogger(logger)))
+	//sql.Register(driverName,
+	//	instrumentedsql.WrapDriver(&mssql.Driver{}, //check
+	//		instrumentedsql.WithLogger(logger)))
 
 	//sqlserver://username:password@host/instance?param1=value&param2=value
-	dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s&connection+timeout=30", user, password, host, port, db)
+	//dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s&connection+timeout=30", user, password, host, port, db)
+	dsn := "sqlserver://tester:tester@localhost:1433?database=test2"
 	log.Println(dsn)
 
 	db, err := sql.Open(driverName, dsn)
