@@ -8,7 +8,7 @@ import (
 
 var JWTSecret = []byte("!!SECRET!!")
 
-func GenerateJWT(id uint) string {
+func GenerateJWT(id int) string {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["id"] = id

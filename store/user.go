@@ -29,7 +29,7 @@ func (us *UserStore) GetByEmail(e string) (*models.User, error) {
 	panic("not done")
 }
 
-func (us *UserStore) GetByUserUserName(u string) (*models.User, error) {
+func (us *UserStore) GetByUserName(u string) (*models.User, error) {
 	panic("not done")
 }
 

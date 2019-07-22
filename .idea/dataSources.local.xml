@@ -17,7 +17,7 @@
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <secret-storage>master_key</secret-storage>
       <user-name>tester</user-name>
-      <introspection-schemas>@:@|dev:dbo</introspection-schemas>
+      <introspection-schemas>@:@</introspection-schemas>
     </data-source>
     <data-source name="MariaDB - @localhost" uuid="d9d68f6e-ce9c-4db3-aa76-d99275772a92">
       <database-info product="MariaDB" version="10.4.6-MariaDB" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="2.4.1" dbms="MARIADB" exact-version="10.4.6" exact-driver-version="2.4">

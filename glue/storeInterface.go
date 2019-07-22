@@ -1,12 +1,16 @@
 package glue
 
+import (
+	"onsite/models"
+)
+
 type UserStoreInterface interface {
-	//Create(*model.User) error
-	//GetByID(uint) (*model.User, error)
-	//GetByEmail(string) (*model.User, error)
-	//GetByUserName(string) (*model.User, error)
-	//Update(*model.User) error
-	//Delete(user *model.User) error
+	Create(*models.User) error
+	GetByID(uint) (*models.User, error)
+	GetByEmail(string) (*models.User, error)
+	GetByUserName(string) (*models.User, error)
+	Update(*models.User) error
+	Delete(user *models.User) error
 }
 
 type ProjectStoreInterface interface {

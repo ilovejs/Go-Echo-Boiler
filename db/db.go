@@ -46,9 +46,10 @@ func setupLoggerFn() instrumentedsql.LoggerFunc {
 	return logFn
 }
 
+//todo: env
 const (
+	db       = "test2"
 	host     = "localhost"
-	db       = "db2"
 	user     = "tester"
 	password = "tester"
 )
