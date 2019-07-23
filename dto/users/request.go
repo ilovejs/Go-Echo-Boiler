@@ -8,10 +8,12 @@ import (
 
 type userUpdateRequest struct {
 	User struct {
-		UserRoleId string `json:"user_role_id" validate:"required"`
+		UserRoleId int    `json:"user_role_id" validate:"required"`
 		UserName   string `json:"username" validate:"required"`
 		Password   string `json:"password" validate:"required"`
 		Email      string `json:"email" validate:"email"`
+		IsDeleted  bool   `json:"is_deleted"`
+		IsActive   bool   `json:"is_active"`
 	} `json:"user"`
 }
 
@@ -21,32 +23,28 @@ func NewUserUpdateRequest() *userUpdateRequest {
 
 // take data from model
 func (r *userUpdateRequest) Extract(u *m.User) {
-	r.User.UserRoleId = string(u.UserRoleID)
-
-	//err := u.Username.Scan(&r.User.UserName)
-	//LogIf(err)
+	r.User.UserRoleId = u.UserRoleID
 	r.User.UserName = u.Username
-
 	r.User.Password = u.Password
-
-	u.Email = r.User.Email
+	r.User.Email = u.Email
+	r.User.IsDeleted = u.IsDeleted
+	r.User.IsActive = u.IsActive
 }
 
-//custom binder https://echo.labstack.com/guide/request
-//mutate model object so as to be saved in next
+// Custom binder https://echo.labstack.com/guide/request
+// Mutate model object so as to be saved in next
 func (r *userUpdateRequest) Bind(c echo.Context, u *m.User) error {
+	var err error
 	// calling default bind
-	if err := c.Bind(r); err != nil {
+	if err = c.Bind(r); err != nil {
 		return err
 	}
-	if err := c.Validate(r); err != nil {
+	if err = c.Validate(r); err != nil {
 		return err
 	}
-
-	//u.Username.SetValid(r.User.UserName)
+	// fields to update in model
+	u.UserRoleID = r.User.UserRoleId
 	u.Username = r.User.UserName
-
-	u.Email = r.User.Email
 
 	// change password due to not match previous password
 	if r.User.Password != u.Password {
@@ -56,6 +54,13 @@ func (r *userUpdateRequest) Bind(c echo.Context, u *m.User) error {
 		}
 		u.Password = h
 	}
+
+	// todo: Don't update email, cuz we don't send email to let user reset password themselves yet
+	//  email is unique so safe from impersonating a different user
+	//u.Email = r.User.Email
+
+	u.IsDeleted = r.User.IsDeleted
+	u.IsActive = r.User.IsActive
 	return nil
 }
 

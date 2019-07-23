@@ -57,7 +57,7 @@ package handler
 //			return c.JSON(http.StatusInternalServerError, nil)
 //		}
 //	}
-//	return c.JSON(http.StatusOK, newArticleListResponse(h.userStore, userIDFromToken(c), articles, count))
+//	return c.JSON(http.StatusOK, newArticleListResponse(h.userStore, getUserId(c), articles, count))
 //}
 //
 //func (h *Handler) Feed(c echo.Context) error {
@@ -71,11 +71,11 @@ package handler
 //	if err != nil {
 //		limit = 20
 //	}
-//	articles, count, err = h.articleStore.ListFeed(userIDFromToken(c), offset, limit)
+//	articles, count, err = h.articleStore.ListFeed(getUserId(c), offset, limit)
 //	if err != nil {
 //		return c.JSON(http.StatusInternalServerError, nil)
 //	}
-//	return c.JSON(http.StatusOK, newArticleListResponse(h.userStore, userIDFromToken(c), articles, count))
+//	return c.JSON(http.StatusOK, newArticleListResponse(h.userStore, getUserId(c), articles, count))
 //}
 //
 //func (h *Handler) CreateArticle(c echo.Context) error {
@@ -84,7 +84,7 @@ package handler
 //	if err := req.bind(c, &a); err != nil {
 //		return c.JSON(http.StatusUnprocessableEntity, utils.NewError(err))
 //	}
-//	a.AuthorID = userIDFromToken(c)
+//	a.AuthorID = getUserId(c)
 //	err := h.articleStore.CreateArticle(&a)
 //	if err != nil {
 //		return c.JSON(http.StatusUnprocessableEntity, utils.NewError(err))
@@ -95,7 +95,7 @@ package handler
 //
 //func (h *Handler) UpdateArticle(c echo.Context) error {
 //	slug := c.Param("slug")
-//	a, err := h.articleStore.GetUserArticleBySlug(userIDFromToken(c), slug)
+//	a, err := h.articleStore.GetUserArticleBySlug(getUserId(c), slug)
 //	if err != nil {
 //		return c.JSON(http.StatusInternalServerError, utils.NewError(err))
 //	}
@@ -115,7 +115,7 @@ package handler
 //
 //func (h *Handler) DeleteArticle(c echo.Context) error {
 //	slug := c.Param("slug")
-//	a, err := h.articleStore.GetUserArticleBySlug(userIDFromToken(c), slug)
+//	a, err := h.articleStore.GetUserArticleBySlug(getUserId(c), slug)
 //	if err != nil {
 //		return c.JSON(http.StatusInternalServerError, utils.NewError(err))
 //	}
@@ -171,7 +171,7 @@ package handler
 //	if cm == nil {
 //		return c.JSON(http.StatusNotFound, utils.NotFound())
 //	}
-//	if cm.UserID != userIDFromToken(c) {
+//	if cm.UserID != getUserId(c) {
 //		return c.JSON(http.StatusUnauthorized, utils.NewError(errors.New("unauthorized action")))
 //	}
 //	if err := h.articleStore.DeleteComment(cm); err != nil {
@@ -189,7 +189,7 @@ package handler
 //	if a == nil {
 //		return c.JSON(http.StatusNotFound, utils.NotFound())
 //	}
-//	if err := h.articleStore.AddFavorite(a, userIDFromToken(c)); err != nil {
+//	if err := h.articleStore.AddFavorite(a, getUserId(c)); err != nil {
 //		return c.JSON(http.StatusUnprocessableEntity, utils.NewError(err))
 //	}
 //	return c.JSON(http.StatusOK, newArticleResponse(c, a))
@@ -205,7 +205,7 @@ package handler
 //		return c.JSON(http.StatusNotFound, utils.NotFound())
 //	}
 //	//rm favorite
-//	if err := h.articleStore.RemoveFavorite(a, userIDFromToken(c)); err != nil {
+//	if err := h.articleStore.RemoveFavorite(a, getUserId(c)); err != nil {
 //		return c.JSON(http.StatusUnprocessableEntity, utils.NewError(err))
 //	}
 //	return c.JSON(http.StatusOK, newArticleResponse(c, a))

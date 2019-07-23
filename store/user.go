@@ -3,9 +3,11 @@ package store
 import (
 	"database/sql"
 	"fmt"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/volatiletech/sqlboiler/boil"
 	. "github.com/volatiletech/sqlboiler/queries/qm"
 	m "onsite/models"
+	"time"
 )
 
 type UserStore struct {
@@ -43,12 +45,22 @@ func (us *UserStore) GetByEmail(e string) (*m.User, error) {
 	return u, nil
 }
 
-func (us *UserStore) GetByUserName(u string) (*m.User, error) {
-	panic("not done")
+func (us *UserStore) GetByUserName(un string) (*m.User, error) {
+	u, err := m.Users(Where("username = ?", un)).One(us.db)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
 }
 
 func (us *UserStore) Update(u *m.User) error {
-	panic("not done")
+	u.Updated.SetValid(time.Now())
+	updated, err := u.Update(us.db, boil.Infer())
+	if err != nil {
+		return err
+	}
+	spew.Dump(updated)
+	return nil
 }
 
 func (us *UserStore) Delete(u *m.User) error {

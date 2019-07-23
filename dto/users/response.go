@@ -3,27 +3,30 @@ package users
 import (
 	. "onsite/models"
 	"onsite/utils"
-	"strconv"
 )
 
 type UserResponse struct {
 	User struct {
-		ID         string `json:"id"`
-		UserRoleID string `json:"user_role_id"`
+		ID         int    `json:"id"`
+		UserRoleID int    `json:"user_role_id"`
 		Username   string `json:"username"`
 		Email      string `json:"email"`
 		Token      string `json:"token"`
+		IsDeleted  bool   `json:"is_deleted"`
+		IsActive   bool   `json:"is_active"`
 	} `json:"user"`
 }
 
 func NewUserResponse(u *User) *UserResponse {
 	r := new(UserResponse)
-	r.User.ID = strconv.Itoa(u.ID)
-	r.User.UserRoleID = strconv.Itoa(u.UserRoleID)
+	r.User.ID = u.ID
+	r.User.UserRoleID = u.UserRoleID
 	r.User.Email = u.Email
 	//for each login action, we generate token
 	r.User.Token = utils.GenerateJWT(u.ID)
 	r.User.Username = u.Username
+	r.User.IsDeleted = u.IsDeleted
+	r.User.IsActive = u.IsActive
 	return r
 }
 

@@ -41,7 +41,7 @@ func (h *Handler) Login(c echo.Context) error {
 }
 
 func (h *Handler) CurrentUser(c echo.Context) error {
-	u, err := h.userStore.GetByID(userIDFromToken(c))
+	u, err := h.userStore.GetByID(getUserId(c))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
@@ -52,25 +52,26 @@ func (h *Handler) CurrentUser(c echo.Context) error {
 }
 
 func (h *Handler) UpdateUser(c echo.Context) error {
-	userToUpdate, err := h.userStore.GetByID(userIDFromToken(c))
+	u, err := h.userStore.GetByID(getUserId(c))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
-	if userToUpdate == nil {
+	if u == nil {
 		return c.JSON(http.StatusNotFound, NotFound())
 	}
 
 	req := NewUserUpdateRequest()
-	req.Extract(userToUpdate)
-	//bind context to model struct
-	if err := req.Bind(c, userToUpdate); err != nil {
+	req.Extract(u)
+	// take context to validate against request format,
+	// attach validated data to u (existing record object)
+	if err := req.Bind(c, u); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
 	//update
-	if err := h.userStore.Update(userToUpdate); err != nil {
+	if err := h.userStore.Update(u); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	return c.JSON(http.StatusOK, NewUserResponse(userToUpdate))
+	return c.JSON(http.StatusOK, NewUserResponse(u))
 }
 
 func (h *Handler) GetProfile(c echo.Context) error {
@@ -87,7 +88,7 @@ func (h *Handler) GetProfile(c echo.Context) error {
 
 /* utils of handler */
 
-func userIDFromToken(c echo.Context) int {
+func getUserId(c echo.Context) int {
 	id, ok := c.Get("user").(int)
 	if !ok {
 		return 0
