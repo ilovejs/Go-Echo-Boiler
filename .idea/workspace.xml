@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f08673bc-0587-4aa3-b5e7-334f3d2804c7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8614063e-99c7-4886-b41a-c335be91fca5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8614063e-99c7-4886-b41a-c335be91fca5.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/users/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/users/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/glue/storeInterface.go" beforeDir="false" afterPath="$PROJECT_DIR$/glue/storeInterface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/userHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/userHandler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/store/user.go" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/httpRequests/" />
     <ignored path=".idea/" />
@@ -66,8 +70,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/handler/userHandler.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+            <state relative-caret-position="352">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
               <folding>
                 <element signature="n#!!block;n#Login#0" />
                 <element signature="n#!!block;n#CurrentUser#0" />
@@ -80,22 +84,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/users.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
-              <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
-              <folding>
-                <element signature="e#184#560#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dto/users/request.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1782">
-              <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
+            <state relative-caret-position="617">
+              <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
               <folding>
                 <element signature="e#15#122#0" expanded="true" />
               </folding>
@@ -104,22 +96,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/store/user.go">
+        <entry file="file://$PROJECT_DIR$/dto/users/response.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-              <folding>
-                <element signature="e#15#109#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="462">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/db.go">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/store/user.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+            <state relative-caret-position="221">
+              <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
+              <folding>
+                <element signature="e#15#109#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -136,29 +128,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="das://8614063e-99c7-4886-b41a-c335be91fca5/database/test2/schema/dbo/table/users">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state projectRestartId="9c817177-c25f-4cd8-9701-6e9083e2d5be">
-              <filtering />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dto/users/response.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="792">
-              <caret line="40" column="35" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utils/utils.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+            <state relative-caret-position="534">
+              <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -268,16 +242,16 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/doc/sql/bootstrap_data.sql" />
         <option value="$PROJECT_DIR$/utils/jwt.go" />
+        <option value="$PROJECT_DIR$/models/tables_schema.sql" />
+        <option value="$PROJECT_DIR$/db/db.go" />
+        <option value="$PROJECT_DIR$/tables_schema.sql" />
+        <option value="$PROJECT_DIR$/utils/utils.go" />
+        <option value="$PROJECT_DIR$/dto/users/request.go" />
+        <option value="$PROJECT_DIR$/models/users.go" />
         <option value="$PROJECT_DIR$/glue/storeInterface.go" />
+        <option value="$PROJECT_DIR$/dto/users/response.go" />
         <option value="$PROJECT_DIR$/store/user.go" />
         <option value="$PROJECT_DIR$/handler/userHandler.go" />
-        <option value="$PROJECT_DIR$/utils/utils.go" />
-        <option value="$PROJECT_DIR$/models/tables_schema.sql" />
-        <option value="$PROJECT_DIR$/tables_schema.sql" />
-        <option value="$PROJECT_DIR$/dto/users/request.go" />
-        <option value="$PROJECT_DIR$/dto/users/response.go" />
-        <option value="$PROJECT_DIR$/models/users.go" />
-        <option value="$PROJECT_DIR$/db/db.go" />
       </list>
     </option>
   </component>
@@ -881,7 +855,7 @@
     <frame x="-8" y="-8" width="1554" height="1216" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16867469" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15930389" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32901832" />
@@ -897,7 +871,7 @@
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32972974" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.2831766" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32901832" />
-      <window_info anchor="bottom" x="2018" y="32" width="1476" height="963" id="Run" order="14" weight="0.22545847" />
+      <window_info active="true" anchor="bottom" x="2018" y="32" width="1476" height="963" id="Run" order="14" visible="true" weight="0.26090994" />
       <window_info anchor="bottom" x="323" y="356" width="901" height="212" id="Debug" maximized="true" order="15" weight="0.28422153" />
       <window_info anchor="bottom" id="Call Graph" order="16" weight="0.3294979" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -906,7 +880,7 @@
       <window_info anchor="right" id="Cargo" order="3" weight="0.32995737" />
       <window_info anchor="right" id="PlantUML" order="4" show_stripe_button="false" weight="0.32980832" />
       <window_info anchor="right" id="make" order="5" show_stripe_button="false" weight="0.32980832" />
-      <window_info anchor="right" id="Database" order="6" weight="0.26350605" />
+      <window_info anchor="right" id="Database" order="6" weight="0.26238286" />
       <window_info anchor="right" id="Json Parser" order="7" show_stripe_button="false" weight="0.32980832" />
       <window_info anchor="right" id="Structure" order="8" weight="0.21940464" />
     </layout>
@@ -957,8 +931,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="create model 1.2 fix claim" />
-    <MESSAGE value="create model 1.2 patch" />
     <MESSAGE value="backup model and code fix for type&#10;before migration" />
     <MESSAGE value="done migration" />
     <MESSAGE value="annotation for fk" />
@@ -982,7 +954,9 @@
     <MESSAGE value="well, mssql use dynamic query.&#10;issue when user insert" />
     <MESSAGE value="dsn str bug fixed.&#10;trace 'master' database for the leak...&#10;bug is hard since sql profiler keep getting dynamic query but it's value is wrong" />
     <MESSAGE value="most of handler type bug got fixed&#10;but not Data bug&#10;Insertion may be depends on driver...&#10;Dynamic sp_exec is not acceptable" />
-    <option name="LAST_COMMIT_MESSAGE" value="most of handler type bug got fixed&#10;but not Data bug&#10;Insertion may be depends on driver...&#10;Dynamic sp_exec is not acceptable" />
+    <MESSAGE value="turn off mysql custom logger that i wrote&#10;change dsn to constant.&#10;now it is working" />
+    <MESSAGE value="model change" />
+    <option name="LAST_COMMIT_MESSAGE" value="model change" />
   </component>
   <component name="VgoProject">
     <proxy>direct</proxy>
@@ -992,28 +966,18 @@
       <breakpoints>
         <line-breakpoint type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/db/db.go</url>
-          <line>42</line>
+          <line>41</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/db/db.go</url>
-          <line>38</line>
+          <line>37</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/store/user.go</url>
-          <line>26</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/handler/userHandler.go</url>
-          <line>21</line>
+          <line>17</line>
           <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/dto/users/request.go</url>
-          <line>78</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/models/users_test.go</url>
@@ -1297,13 +1261,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/glue/storeInterface.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="uml://DATABASE/8614063e-99c7-4886-b41a-c335be91fca5.SCHEMA:test2.dbo">
       <provider selected="true" editor-type-id="UmlEditorProvider">
         <state>
@@ -1339,17 +1296,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/db/db.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="70" column="11" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tables_schema.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="27" column="101" selection-start-line="27" selection-start-column="101" selection-end-line="27" selection-end-column="101" />
+        <state relative-caret-position="-2061">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://8614063e-99c7-4886-b41a-c335be91fca5/database/test2/schema/dbo/table/users">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="9c817177-c25f-4cd8-9701-6e9083e2d5be">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/users.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
+          <folding>
+            <element signature="e#184#560#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/glue/storeInterface.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/handler/userHandler.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+        <state relative-caret-position="352">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
           <folding>
             <element signature="n#!!block;n#Login#0" />
             <element signature="n#!!block;n#CurrentUser#0" />
@@ -1362,41 +1352,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dto/users/request.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1782">
-          <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
+        <state relative-caret-position="617">
+          <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
           <folding>
             <element signature="e#15#122#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="das://8614063e-99c7-4886-b41a-c335be91fca5/database/test2/schema/dbo/table/users">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="9c817177-c25f-4cd8-9701-6e9083e2d5be">
-          <filtering />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dto/users/response.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="40" column="35" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/utils.go">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
-          <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/users.go">
+    <entry file="file://$PROJECT_DIR$/store/user.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
+        <state relative-caret-position="221">
+          <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
           <folding>
-            <element signature="e#184#560#0" expanded="true" />
+            <element signature="e#15#109#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1411,20 +1387,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/store/user.go">
+    <entry file="file://$PROJECT_DIR$/utils/utils.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="e#15#109#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/db.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+        <state relative-caret-position="534">
+          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
         </state>
       </provider>
     </entry>

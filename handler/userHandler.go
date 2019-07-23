@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"github.com/davecgh/go-spew/spew"
 	"github.com/labstack/echo"
 	"net/http"
 	. "onsite/dto/users"
@@ -12,16 +11,14 @@ import (
 func (h *Handler) SignUp(c echo.Context) error {
 	var u models.User
 	req := &UserRegisterRequest{}
-
 	if err := req.Bind(c, &u); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-
-	spew.Dump(u)
 	// create user
 	if err := h.userStore.Create(&u); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
+	//spew.Dump(u)
 	return c.JSON(http.StatusCreated, NewUserResponse(&u))
 }
 

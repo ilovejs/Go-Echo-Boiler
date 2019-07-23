@@ -91,7 +91,7 @@
     </schema>
     <schema id="24" parent="13" name="dbo">
       <ObjectId>1</ObjectId>
-      <IntrospectionTimestamp>2019-07-23.07:58:20.347</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2019-07-23.23:23:16.600</IntrospectionTimestamp>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -144,7 +144,7 @@
     <table id="35" parent="24" name="users">
       <ObjectId>949578421</ObjectId>
       <CreatedTimestamp>2019-07-20.07:30:50.483</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-23.07:58:20.120</ModifiedTimestamp>
+      <ModifiedTimestamp>2019-07-23.19:45:57.213</ModifiedTimestamp>
     </table>
     <routine id="36" parent="24" name="fn_diagramobjects">
       <ObjectId>1701581100</ObjectId>
@@ -932,10 +932,14 @@ name</ColNames>
     </column>
     <column id="165" parent="35" name="is_active">
       <Position>9</Position>
+      <DefaultConstraintName>DF__users__is_active__6E01572D</DefaultConstraintName>
+      <DefaultExpression>1</DefaultExpression>
       <DataType>bit|0s</DataType>
     </column>
     <column id="166" parent="35" name="is_deleted">
       <Position>10</Position>
+      <DefaultConstraintName>DF__users__is_delete__6EF57B66</DefaultConstraintName>
+      <DefaultExpression>0</DefaultExpression>
       <DataType>bit|0s</DataType>
     </column>
     <column id="167" parent="35" name="created">
@@ -982,75 +986,89 @@ name</ColNames>
       <ColNames>updated</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
     </default>
-    <argument id="173" parent="36">
+    <default id="173" parent="35" name="DF__users__is_active__6E01572D">
+      <ObjectId>1845581613</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <ModifiedTimestamp>2019-07-23.19:45:57.200</ModifiedTimestamp>
+      <ColNames>is_active</ColNames>
+      <DefaultExpression>1</DefaultExpression>
+    </default>
+    <default id="174" parent="35" name="DF__users__is_delete__6EF57B66">
+      <ObjectId>1861581670</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <ModifiedTimestamp>2019-07-23.19:45:57.213</ModifiedTimestamp>
+      <ColNames>is_deleted</ColNames>
+      <DefaultExpression>0</DefaultExpression>
+    </default>
+    <argument id="175" parent="36">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="174" parent="37" name="@diagramname">
+    <argument id="176" parent="37" name="@diagramname">
       <Position>1</Position>
       <DataType>sysname|0s</DataType>
     </argument>
-    <argument id="175" parent="37" name="@owner_id">
+    <argument id="177" parent="37" name="@owner_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="176" parent="37" name="@version">
+    <argument id="178" parent="37" name="@version">
       <Position>3</Position>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="177" parent="37" name="@definition">
+    <argument id="179" parent="37" name="@definition">
       <Position>4</Position>
       <DataType>varbinary(max)|0s</DataType>
     </argument>
-    <argument id="178" parent="38" name="@diagramname">
+    <argument id="180" parent="38" name="@diagramname">
       <Position>1</Position>
       <DataType>sysname|0s</DataType>
     </argument>
-    <argument id="179" parent="38" name="@owner_id">
+    <argument id="181" parent="38" name="@owner_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="180" parent="38" name="@version">
+    <argument id="182" parent="38" name="@version">
       <Position>3</Position>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="181" parent="38" name="@definition">
+    <argument id="183" parent="38" name="@definition">
       <Position>4</Position>
       <DataType>varbinary(max)|0s</DataType>
     </argument>
-    <argument id="182" parent="39" name="@diagramname">
+    <argument id="184" parent="39" name="@diagramname">
       <Position>1</Position>
       <DataType>sysname|0s</DataType>
     </argument>
-    <argument id="183" parent="39" name="@owner_id">
+    <argument id="185" parent="39" name="@owner_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="184" parent="40" name="@diagramname">
+    <argument id="186" parent="40" name="@diagramname">
       <Position>1</Position>
       <DataType>sysname|0s</DataType>
     </argument>
-    <argument id="185" parent="40" name="@owner_id">
+    <argument id="187" parent="40" name="@owner_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="186" parent="41" name="@diagramname">
+    <argument id="188" parent="41" name="@diagramname">
       <Position>1</Position>
       <DataType>sysname|0s</DataType>
     </argument>
-    <argument id="187" parent="41" name="@owner_id">
+    <argument id="189" parent="41" name="@owner_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="188" parent="42" name="@diagramname">
+    <argument id="190" parent="42" name="@diagramname">
       <Position>1</Position>
       <DataType>sysname|0s</DataType>
     </argument>
-    <argument id="189" parent="42" name="@owner_id">
+    <argument id="191" parent="42" name="@owner_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
     </argument>
-    <argument id="190" parent="42" name="@new_diagramname">
+    <argument id="192" parent="42" name="@new_diagramname">
       <Position>3</Position>
       <DataType>sysname|0s</DataType>
     </argument>

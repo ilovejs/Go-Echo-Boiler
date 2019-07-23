@@ -23,7 +23,6 @@ func NewUserResponse(u *User) *UserResponse {
 	r.User.Email = u.Email
 	r.User.Token = utils.GenerateJWT(u.ID)
 	r.User.Username = u.Username
-	//utils.LogIf(err)
 	return r
 }
 

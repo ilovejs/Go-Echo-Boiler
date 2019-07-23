@@ -18,17 +18,11 @@ func NewUserStore(db *sql.DB) *UserStore {
 }
 
 func (us *UserStore) Create(u *m.User) (err error) {
-	newUser := &m.User{
-		UserRoleID: u.UserRoleID,
-		Username:   u.Username,
-		Email:      u.Email,
-		Password:   u.Password}
-
-	err = newUser.Insert(us.db, boil.Infer())
+	err = u.Insert(us.db, boil.Infer())
 	if err != nil {
 		return err
 	}
-	fmt.Println("New User", newUser.ID)
+	fmt.Println("Store: Create User", u.ID)
 	return nil
 }
 
