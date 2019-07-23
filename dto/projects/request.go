@@ -28,8 +28,8 @@ func (r *CreateProjectRequest) Bind(c echo.Context, p *m.Project) error {
 	if err := c.Validate(r); err != nil {
 		return err
 	}
-	p.ManagerProfileID = r.Project.ManagerProfileID
-	p.CreatorProfileID = r.Project.CreatorProfileID
+	p.ManagerID = r.Project.ManagerProfileID
+	p.CreatorID = r.Project.CreatorProfileID
 	//optional
 	p.Name.SetValid(r.Project.Name)
 	p.SerialNo.SetValid(r.Project.SerialNo)

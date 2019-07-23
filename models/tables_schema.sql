@@ -11,214 +11,272 @@ ALTER AUTHORIZATION ON DATABASE::test2 TO tester;
 use test2;
 */
 
+create table basic_trades
+(
+    id         int identity,
+    name       varchar(200)       not null,
+    is_active  bit      default 1 not null,
+    is_deleted bit      default 0 not null,
+    created    datetime,
+    updated    datetime default getdate(),
+    primary key (id)
+)
+go
+
+-- create unique index basic_trades_name_uindex
+--     on basic_trades (name)
+-- go
+
+alter table basic_trades
+    add constraint DF__basic_tra__is_ac__48CFD27E default 1 for is_active
+go
+
+alter table basic_trades
+    add constraint DF__basic_tra__is_de__49C3F6B7 default 0 for is_deleted
+go
+
+alter table basic_trades
+    add constraint DF__basic_tra__updat__4AB81AF0 default getdate() for updated
+go
+
 create table roles
 (
-    id             int identity(1,1) primary key,
+    id             int identity,
     user_role_type varchar(50) not null,
-
-    created        datetime not null,
-    updated        datetime default(getdate()),
+    created        datetime    not null,
+    updated        datetime default getdate(),
+    primary key (id)
 )
+go
+
+alter table roles
+    add constraint DF__roles__updated__37A5467C default getdate() for updated
 go
 
 create table users
 (
-    id               int identity(1,1) primary key,
-
-    user_role_id     int not null,
-
-    username         varchar(200) not null, -- used to UNIQUE index and constraint... bad for testing
-    password         varchar(256) not null,
-    email            varchar(256) not null,
-    password_token   varchar(200),
-    token_expires    datetime,
-    deletion_reason  varchar(200),
-
-    is_active        bit not null default ((1)),
-    is_deleted       bit not null default ((0)),
-    created          datetime,
-    updated          datetime default(getdate()),
+    id              int identity,
+    user_role_id    int                not null,
+    username        varchar(200)       not null,
+    password        varchar(256)       not null,
+    email           varchar(256)       not null,
+    password_token  varchar(200),
+    token_expires   datetime,
+    deletion_reason varchar(200),
+    is_active       bit      default 1 not null,
+    is_deleted      bit      default 0 not null,
+    created         datetime,
+    updated         datetime default getdate(),
+    primary key (id),
+--     constraint users_roles_id_fk
+--         foreign key (user_role_id)
+--             references roles
 )
 go
 
 create table profiles
 (
-    id                    int identity(1,1) primary key,
-    user_id               int not null,
-
-    image_url			  varchar(200),
-    mobile                varchar(50),
-    company               varchar(200),
-    first_name            varchar(200),
-    last_name             varchar(200),
-
-    is_active             bit not null default ((1)),
-    is_deleted            bit not null default ((0)),
-    created               datetime,
-    updated               datetime default(getdate()),
+    id         int identity,
+    user_id    int                not null,
+    image_url  varchar(200),
+    mobile     varchar(50),
+    company    varchar(200),
+    first_name varchar(200),
+    last_name  varchar(200),
+    is_active  bit      default 1 not null,
+    is_deleted bit      default 0 not null,
+    created    datetime,
+    updated    datetime default getdate(),
+    primary key (id),
+--     constraint profiles_users_id_fk
+--         foreign key (user_id)
+--             references users
 )
 go
 
+alter table profiles
+    add constraint DF__profiles__is_act__3F466844 default 1 for is_active
+go
+
+alter table profiles
+    add constraint DF__profiles__is_del__403A8C7D default 0 for is_deleted
+go
+
+alter table profiles
+    add constraint DF__profiles__update__412EB0B6 default getdate() for updated
+go
 
 create table projects
 (
-    id                     int identity(1,1) primary key,
-
-    manager_profile_id     int not null,
-    creator_profile_id     int not null,
-
+    id                     int identity,
+    manager_id             int                not null,
+    creator_id             int                not null,
     name                   varchar(200),
     total_item_breakdown   float,
     contractor_total_claim float,
-
     serial_no              varchar(50),
     details                varchar(200),
     total_contract_value   float,
-    quantity_surveyor      varchar(200), --?
+    quantity_surveyor      varchar(200),
     notes                  varchar(200),
-
-    is_active			   bit not null default ((1)),
-    is_deleted			   bit not null default ((0)),
+    is_active              bit      default 1 not null,
+    is_deleted             bit      default 0 not null,
     created                datetime,
-    updated                datetime default(getdate()),
+    updated                datetime default getdate(),
+    primary key (id),
+--     constraint fk_project_creator_id
+--         foreign key (creator_id)
+--             references users,
+--     constraint fk_project_manager_id
+--         foreign key (manager_id)
+--             references users
 )
 go
 
+alter table projects
+    add constraint DF__projects__is_act__440B1D61 default 1 for is_active
+go
 
-create table basic_trades
-(
-    id			int identity(1,1) primary key,
-    name		varchar(200) not null,
+alter table projects
+    add constraint DF__projects__is_del__44FF419A default 0 for is_deleted
+go
 
-
-    is_active        bit not null default ((1)),
-    is_deleted       bit not null default ((0)),
-    created			 datetime,
-    updated			 datetime default(getdate()),
-)
+alter table projects
+    add constraint DF__projects__update__45F365D3 default getdate() for updated
+go
 
 create table trades
 (
-    id              int identity(1,1) primary key,
-
-    basic_trade_id  int      not null,
-    profile_id      int      not null,
-    project_id      int      not null,
-
-    floor_level     varchar(20) not null,
-    work_desc       varchar(200),
-    item_breakdown  float,
+    id             int identity,
+    basic_trade_id int                not null,
+    surveyor_id    int                not null,
+    project_id     int                not null,
+    floor_level    varchar(20)        not null,
+    work_desc      varchar(200),
+    item_breakdown float,
     tempcheck      bit,
-
-    is_active        bit not null default ((1)),
-    is_deleted       bit not null default ((0)),
-    created			 datetime,
-    updated			 datetime default(getdate()),
+    is_active      bit      default 1 not null,
+    is_deleted     bit      default 0 not null,
+    created        datetime,
+    updated        datetime default getdate(),
+    primary key (id),
+--     constraint trades_basic_trades_id_fk
+--         foreign key (basic_trade_id)
+--             references basic_trades,
+--     constraint trades_projects_id_fk
+--         foreign key (project_id)
+--             references projects,
+--     constraint trades_users_id_fk
+--         foreign key (surveyor_id)
+--             references users
 )
 go
 
 create table claims
 (
-    id                 int identity(1,1) primary key,
-    trade_id           int not null,
-    profile_id         int not null,
-    basic_trade_id     int not null,
-
+    id                 int identity,
+    trade_id           int                not null,
+    user_id            int                not null,
+    basic_trade_id     int                not null,
     total_amount       float,
     claimed_amount     float,
     previous_claimed   float,
     amount_due         float,
     cost_to_completed  float,
-
-    claim_number        varchar(200),
-    claim_period        varchar(50),
-    action_claim        bit,
-
+    claim_number       varchar(200),
+    claim_period       varchar(50),
+    action_claim       bit,
     old_claimed_amount float,
     claim_percentage   float,
-
-    is_active        bit not null default ((1)),
-    is_deleted       bit not null default ((0)),
-    created			 datetime,
-    updated			 datetime default(getdate()),
+    is_active          bit      default 1 not null,
+    is_deleted         bit      default 0 not null,
+    created            datetime,
+    updated            datetime default getdate(),
+    primary key (id),
+--     constraint claims_basic_trades_id_fk
+--         foreign key (basic_trade_id)
+--             references basic_trades,
+--     constraint claims_trades_id_fk
+--         foreign key (trade_id)
+--             references trades,
+--     constraint claims_users_id_fk
+--         foreign key (user_id)
+--             references users
 )
 go
 
 create table claim_histories
 (
-    id              int identity(1,1) primary key,
-    trade_id        int not null,
-    claim_id        int not null,
-    profile_id      int not null,
-
-    previous_claimed  float,
-
-    is_active        bit not null default ((1)),
-    is_deleted       bit not null default ((0)),
-    created			 datetime,
-    updated			 datetime default(getdate()),
+    id               int identity,
+    trade_id         int                not null,
+    claim_id         int                not null,
+    profile_id       int                not null,
+    previous_claimed float,
+    is_active        bit      default 1 not null,
+    is_deleted       bit      default 0 not null,
+    created          datetime,
+    updated          datetime default getdate(),
+    primary key (id),
+--     constraint claim_histories_claims_id_fk
+--         foreign key (claim_id)
+--             references claims,
+--     constraint claim_histories_trades_id_fk
+--         foreign key (trade_id)
+--             references trades
 )
 go
 
-/* Do not run in test environment
-alter table users add constraint FK__users__user_role_id foreign key (user_role_id) references roles (id);
+alter table claim_histories
+    add constraint DF__claim_his__is_ac__571DF1D5 default 1 for is_active
+go
 
-alter table profiles add constraint FK__profiles__user_id foreign key(user_id) references users (id);
-alter table projects add constraint FK__projects__creator_profile_id foreign key(creator_profile_id) references profiles (id);
-alter table projects add constraint FK__projects__manager_profile_id foreign key(manager_profile_id) references profiles (id);
+alter table claim_histories
+    add constraint DF__claim_his__is_de__5812160E default 0 for is_deleted
+go
 
-alter table trades add constraint FK__trades__basic_trade_id foreign key (basic_trade_id)   references basic_trades (id);
-alter table trades add constraint FK__trades__profile_id     foreign key (profile_id) references profiles (id);
-alter table trades add constraint FK__trades__project_id     foreign key (project_id) references projects (id)
+alter table claim_histories
+    add constraint DF__claim_his__updat__59063A47 default getdate() for updated
+go
 
-alter table claims add constraint FK__claims__trade_id foreign key (trade_id) references trades (id)
-alter table claims add constraint FK__claims__profile_id foreign key (profile_id) references profiles (id)
-alter table claims add constraint FK__claims__basic_trade_id foreign key (basic_trade_id) references basic_trades (id)
+alter table claims
+    add constraint DF__claims__is_activ__52593CB8 default 1 for is_active
+go
 
-alter table claim_histories add constraint FK__claim_histories_trade_id foreign key (trade_id) references trades (id);
-alter table claim_histories add constraint FK__claim_histories_claim_id foreign key (claim_id) references claims (id);
-alter table claim_histories add constraint FK__claim_histories_profile_id foreign key (profile_id) references profiles (id);
+alter table claims
+    add constraint DF__claims__is_delet__534D60F1 default 0 for is_deleted
+go
 
-create table contractor_projects
-(
-    id         int identity(1,1)(1,1) primary key,
-    user_id    int not null,
+alter table claims
+    add constraint DF__claims__updated__5441852A default getdate() for updated
+go
 
-    project_id int not null references projects,
-    trade_id   int    not null references basic_tradeitems,
-    notes      varchar(max),
+alter table trades
+    add constraint DF__trades__is_activ__4D94879B default 1 for is_active
+go
 
-    is_deleted bit,
-    created    datetime,
-    updated    datetime
-)
+alter table trades
+    add constraint DF__trades__is_delet__4E88ABD4 default 0 for is_deleted
+go
+
+alter table trades
+    add constraint DF__trades__updated__4F7CD00D default getdate() for updated
+go
+
+-- create unique index users_email_uindex
+--     on users (email)
+-- go
+
+alter table users
+    add constraint DF__users__is_active__3A81B327 default 1 for is_active
+go
+
+alter table users
+    add constraint DF__users__is_delete__3B75D760 default 0 for is_deleted
+go
+
+alter table users
+    add constraint DF__users__updated__3C69FB99 default getdate() for updated
 go
 
 
-SELECT TOP (1000) [id]
-      ,[user_role_id]
-      ,[username]
-      ,[password]
-      ,[email]
-      ,[password_token]
-      ,[token_expires]
-      ,[deletion_reason]
-      ,[is_active]
-      ,[is_deleted]
-      ,[created]
-      ,[updated]
-  FROM [test2].[dbo].[users];
 
-  delete from test2.dbo.users;
-
- alter table users alter column is_deleted bit not null
- alter table users alter column is_deleted bit not null
-go
-
-  INSERT INTO [dbo].[users] ([user_role_id],[username],[password],[email],[password_token],[token_expires],
-  [deletion_reason],[created])
-  OUTPUT INSERTED.[id],INSERTED.[updated]
-  VALUES (1,'sammy','pas','em',NULL,NULL,
-  null,getdate());
-
-*/

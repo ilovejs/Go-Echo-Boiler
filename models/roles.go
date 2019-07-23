@@ -81,10 +81,14 @@ var RoleWhere = struct {
 
 // RoleRels is where relationship names are stored.
 var RoleRels = struct {
-}{}
+	UserRoleUsers string
+}{
+	UserRoleUsers: "UserRoleUsers",
+}
 
 // roleR is where relationships are stored.
 type roleR struct {
+	UserRoleUsers UserSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -192,6 +196,168 @@ func (q roleQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
+}
+
+// UserRoleUsers retrieves all the user's Users with an executor via user_role_id column.
+func (o *Role) UserRoleUsers(mods ...qm.QueryMod) userQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[users].[user_role_id]=?", o.ID),
+	)
+
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[users]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[users].*"})
+	}
+
+	return query
+}
+
+// LoadUserRoleUsers allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (roleL) LoadUserRoleUsers(e boil.Executor, singular bool, maybeRole interface{}, mods queries.Applicator) error {
+	var slice []*Role
+	var object *Role
+
+	if singular {
+		object = maybeRole.(*Role)
+	} else {
+		slice = *maybeRole.(*[]*Role)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &roleR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &roleR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.users`), qm.WhereIn(`user_role_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load users")
+	}
+
+	var resultSlice []*User
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice users")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on users")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
+	}
+
+	if singular {
+		object.R.UserRoleUsers = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &userR{}
+			}
+			foreign.R.UserRole = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.UserRoleID {
+				local.R.UserRoleUsers = append(local.R.UserRoleUsers, foreign)
+				if foreign.R == nil {
+					foreign.R = &userR{}
+				}
+				foreign.R.UserRole = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// AddUserRoleUsers adds the given related objects to the existing relationships
+// of the role, optionally inserting them as new records.
+// Appends related to o.R.UserRoleUsers.
+// Sets related.R.UserRole appropriately.
+func (o *Role) AddUserRoleUsers(exec boil.Executor, insert bool, related ...*User) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.UserRoleID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[users] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"user_role_id"}),
+				strmangle.WhereClause("[", "]", 2, userPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.UserRoleID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &roleR{
+			UserRoleUsers: related,
+		}
+	} else {
+		o.R.UserRoleUsers = append(o.R.UserRoleUsers, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &userR{
+				UserRole: o,
+			}
+		} else {
+			rel.R.UserRole = o
+		}
+	}
+	return nil
 }
 
 // Roles retrieves all the records using an executor.

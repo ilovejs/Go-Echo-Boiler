@@ -25,7 +25,7 @@ import (
 type Trade struct {
 	ID            int          `boil:"id" json:"id" toml:"id" yaml:"id"`
 	BasicTradeID  int          `boil:"basic_trade_id" json:"basic_trade_id" toml:"basic_trade_id" yaml:"basic_trade_id"`
-	ProfileID     int          `boil:"profile_id" json:"profile_id" toml:"profile_id" yaml:"profile_id"`
+	SurveyorID    int          `boil:"surveyor_id" json:"surveyor_id" toml:"surveyor_id" yaml:"surveyor_id"`
 	ProjectID     int          `boil:"project_id" json:"project_id" toml:"project_id" yaml:"project_id"`
 	FloorLevel    string       `boil:"floor_level" json:"floor_level" toml:"floor_level" yaml:"floor_level"`
 	WorkDesc      null.String  `boil:"work_desc" json:"work_desc,omitempty" toml:"work_desc" yaml:"work_desc,omitempty"`
@@ -43,7 +43,7 @@ type Trade struct {
 var TradeColumns = struct {
 	ID            string
 	BasicTradeID  string
-	ProfileID     string
+	SurveyorID    string
 	ProjectID     string
 	FloorLevel    string
 	WorkDesc      string
@@ -56,7 +56,7 @@ var TradeColumns = struct {
 }{
 	ID:            "id",
 	BasicTradeID:  "basic_trade_id",
-	ProfileID:     "profile_id",
+	SurveyorID:    "surveyor_id",
 	ProjectID:     "project_id",
 	FloorLevel:    "floor_level",
 	WorkDesc:      "work_desc",
@@ -73,7 +73,7 @@ var TradeColumns = struct {
 var TradeWhere = struct {
 	ID            whereHelperint
 	BasicTradeID  whereHelperint
-	ProfileID     whereHelperint
+	SurveyorID    whereHelperint
 	ProjectID     whereHelperint
 	FloorLevel    whereHelperstring
 	WorkDesc      whereHelpernull_String
@@ -86,7 +86,7 @@ var TradeWhere = struct {
 }{
 	ID:            whereHelperint{field: "[dbo].[trades].[id]"},
 	BasicTradeID:  whereHelperint{field: "[dbo].[trades].[basic_trade_id]"},
-	ProfileID:     whereHelperint{field: "[dbo].[trades].[profile_id]"},
+	SurveyorID:    whereHelperint{field: "[dbo].[trades].[surveyor_id]"},
 	ProjectID:     whereHelperint{field: "[dbo].[trades].[project_id]"},
 	FloorLevel:    whereHelperstring{field: "[dbo].[trades].[floor_level]"},
 	WorkDesc:      whereHelpernull_String{field: "[dbo].[trades].[work_desc]"},
@@ -100,10 +100,26 @@ var TradeWhere = struct {
 
 // TradeRels is where relationship names are stored.
 var TradeRels = struct {
-}{}
+	BasicTrade     string
+	Project        string
+	Surveyor       string
+	ClaimHistories string
+	Claims         string
+}{
+	BasicTrade:     "BasicTrade",
+	Project:        "Project",
+	Surveyor:       "Surveyor",
+	ClaimHistories: "ClaimHistories",
+	Claims:         "Claims",
+}
 
 // tradeR is where relationships are stored.
 type tradeR struct {
+	BasicTrade     *BasicTrade
+	Project        *Project
+	Surveyor       *User
+	ClaimHistories ClaimHistorySlice
+	Claims         ClaimSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -115,9 +131,9 @@ func (*tradeR) NewStruct() *tradeR {
 type tradeL struct{}
 
 var (
-	tradeAllColumns            = []string{"id", "basic_trade_id", "profile_id", "project_id", "floor_level", "work_desc", "item_breakdown", "tempcheck", "is_active", "is_deleted", "created", "updated"}
+	tradeAllColumns            = []string{"id", "basic_trade_id", "surveyor_id", "project_id", "floor_level", "work_desc", "item_breakdown", "tempcheck", "is_active", "is_deleted", "created", "updated"}
 	tradeColumnsWithAuto       = []string{}
-	tradeColumnsWithoutDefault = []string{"basic_trade_id", "profile_id", "project_id", "floor_level", "work_desc", "item_breakdown", "tempcheck", "created"}
+	tradeColumnsWithoutDefault = []string{"basic_trade_id", "surveyor_id", "project_id", "floor_level", "work_desc", "item_breakdown", "tempcheck", "created"}
 	tradeColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	tradePrimaryKeyColumns     = []string{"id"}
 )
@@ -211,6 +227,792 @@ func (q tradeQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
+}
+
+// BasicTrade pointed to by the foreign key.
+func (o *Trade) BasicTrade(mods ...qm.QueryMod) basicTradeQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.BasicTradeID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := BasicTrades(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[basic_trades]")
+
+	return query
+}
+
+// Project pointed to by the foreign key.
+func (o *Trade) Project(mods ...qm.QueryMod) projectQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.ProjectID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Projects(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[projects]")
+
+	return query
+}
+
+// Surveyor pointed to by the foreign key.
+func (o *Trade) Surveyor(mods ...qm.QueryMod) userQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.SurveyorID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[users]")
+
+	return query
+}
+
+// ClaimHistories retrieves all the claim_history's ClaimHistories with an executor.
+func (o *Trade) ClaimHistories(mods ...qm.QueryMod) claimHistoryQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[claim_histories].[trade_id]=?", o.ID),
+	)
+
+	query := ClaimHistories(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[claim_histories]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[claim_histories].*"})
+	}
+
+	return query
+}
+
+// Claims retrieves all the claim's Claims with an executor.
+func (o *Trade) Claims(mods ...qm.QueryMod) claimQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[claims].[trade_id]=?", o.ID),
+	)
+
+	query := Claims(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[claims]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[claims].*"})
+	}
+
+	return query
+}
+
+// LoadBasicTrade allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (tradeL) LoadBasicTrade(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
+	var slice []*Trade
+	var object *Trade
+
+	if singular {
+		object = maybeTrade.(*Trade)
+	} else {
+		slice = *maybeTrade.(*[]*Trade)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &tradeR{}
+		}
+		args = append(args, object.BasicTradeID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &tradeR{}
+			}
+
+			for _, a := range args {
+				if a == obj.BasicTradeID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.BasicTradeID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.basic_trades`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load BasicTrade")
+	}
+
+	var resultSlice []*BasicTrade
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice BasicTrade")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for basic_trades")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for basic_trades")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.BasicTrade = foreign
+		if foreign.R == nil {
+			foreign.R = &basicTradeR{}
+		}
+		foreign.R.Trades = append(foreign.R.Trades, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.BasicTradeID == foreign.ID {
+				local.R.BasicTrade = foreign
+				if foreign.R == nil {
+					foreign.R = &basicTradeR{}
+				}
+				foreign.R.Trades = append(foreign.R.Trades, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadProject allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (tradeL) LoadProject(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
+	var slice []*Trade
+	var object *Trade
+
+	if singular {
+		object = maybeTrade.(*Trade)
+	} else {
+		slice = *maybeTrade.(*[]*Trade)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &tradeR{}
+		}
+		args = append(args, object.ProjectID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &tradeR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ProjectID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ProjectID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.projects`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Project")
+	}
+
+	var resultSlice []*Project
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Project")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for projects")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for projects")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Project = foreign
+		if foreign.R == nil {
+			foreign.R = &projectR{}
+		}
+		foreign.R.Trades = append(foreign.R.Trades, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.ProjectID == foreign.ID {
+				local.R.Project = foreign
+				if foreign.R == nil {
+					foreign.R = &projectR{}
+				}
+				foreign.R.Trades = append(foreign.R.Trades, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadSurveyor allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (tradeL) LoadSurveyor(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
+	var slice []*Trade
+	var object *Trade
+
+	if singular {
+		object = maybeTrade.(*Trade)
+	} else {
+		slice = *maybeTrade.(*[]*Trade)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &tradeR{}
+		}
+		args = append(args, object.SurveyorID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &tradeR{}
+			}
+
+			for _, a := range args {
+				if a == obj.SurveyorID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.SurveyorID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.users`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load User")
+	}
+
+	var resultSlice []*User
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice User")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for users")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Surveyor = foreign
+		if foreign.R == nil {
+			foreign.R = &userR{}
+		}
+		foreign.R.SurveyorTrades = append(foreign.R.SurveyorTrades, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.SurveyorID == foreign.ID {
+				local.R.Surveyor = foreign
+				if foreign.R == nil {
+					foreign.R = &userR{}
+				}
+				foreign.R.SurveyorTrades = append(foreign.R.SurveyorTrades, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadClaimHistories allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (tradeL) LoadClaimHistories(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
+	var slice []*Trade
+	var object *Trade
+
+	if singular {
+		object = maybeTrade.(*Trade)
+	} else {
+		slice = *maybeTrade.(*[]*Trade)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &tradeR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &tradeR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.claim_histories`), qm.WhereIn(`trade_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load claim_histories")
+	}
+
+	var resultSlice []*ClaimHistory
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice claim_histories")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on claim_histories")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for claim_histories")
+	}
+
+	if singular {
+		object.R.ClaimHistories = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &claimHistoryR{}
+			}
+			foreign.R.Trade = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.TradeID {
+				local.R.ClaimHistories = append(local.R.ClaimHistories, foreign)
+				if foreign.R == nil {
+					foreign.R = &claimHistoryR{}
+				}
+				foreign.R.Trade = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadClaims allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (tradeL) LoadClaims(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
+	var slice []*Trade
+	var object *Trade
+
+	if singular {
+		object = maybeTrade.(*Trade)
+	} else {
+		slice = *maybeTrade.(*[]*Trade)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &tradeR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &tradeR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.claims`), qm.WhereIn(`trade_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load claims")
+	}
+
+	var resultSlice []*Claim
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice claims")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on claims")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for claims")
+	}
+
+	if singular {
+		object.R.Claims = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &claimR{}
+			}
+			foreign.R.Trade = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.TradeID {
+				local.R.Claims = append(local.R.Claims, foreign)
+				if foreign.R == nil {
+					foreign.R = &claimR{}
+				}
+				foreign.R.Trade = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// SetBasicTrade of the trade to the related item.
+// Sets o.R.BasicTrade to related.
+// Adds o to related.R.Trades.
+func (o *Trade) SetBasicTrade(exec boil.Executor, insert bool, related *BasicTrade) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[trades] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
+		strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.BasicTradeID = related.ID
+	if o.R == nil {
+		o.R = &tradeR{
+			BasicTrade: related,
+		}
+	} else {
+		o.R.BasicTrade = related
+	}
+
+	if related.R == nil {
+		related.R = &basicTradeR{
+			Trades: TradeSlice{o},
+		}
+	} else {
+		related.R.Trades = append(related.R.Trades, o)
+	}
+
+	return nil
+}
+
+// SetProject of the trade to the related item.
+// Sets o.R.Project to related.
+// Adds o to related.R.Trades.
+func (o *Trade) SetProject(exec boil.Executor, insert bool, related *Project) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[trades] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"project_id"}),
+		strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.ProjectID = related.ID
+	if o.R == nil {
+		o.R = &tradeR{
+			Project: related,
+		}
+	} else {
+		o.R.Project = related
+	}
+
+	if related.R == nil {
+		related.R = &projectR{
+			Trades: TradeSlice{o},
+		}
+	} else {
+		related.R.Trades = append(related.R.Trades, o)
+	}
+
+	return nil
+}
+
+// SetSurveyor of the trade to the related item.
+// Sets o.R.Surveyor to related.
+// Adds o to related.R.SurveyorTrades.
+func (o *Trade) SetSurveyor(exec boil.Executor, insert bool, related *User) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[trades] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"surveyor_id"}),
+		strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.SurveyorID = related.ID
+	if o.R == nil {
+		o.R = &tradeR{
+			Surveyor: related,
+		}
+	} else {
+		o.R.Surveyor = related
+	}
+
+	if related.R == nil {
+		related.R = &userR{
+			SurveyorTrades: TradeSlice{o},
+		}
+	} else {
+		related.R.SurveyorTrades = append(related.R.SurveyorTrades, o)
+	}
+
+	return nil
+}
+
+// AddClaimHistories adds the given related objects to the existing relationships
+// of the trade, optionally inserting them as new records.
+// Appends related to o.R.ClaimHistories.
+// Sets related.R.Trade appropriately.
+func (o *Trade) AddClaimHistories(exec boil.Executor, insert bool, related ...*ClaimHistory) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.TradeID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[claim_histories] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"trade_id"}),
+				strmangle.WhereClause("[", "]", 2, claimHistoryPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.TradeID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &tradeR{
+			ClaimHistories: related,
+		}
+	} else {
+		o.R.ClaimHistories = append(o.R.ClaimHistories, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &claimHistoryR{
+				Trade: o,
+			}
+		} else {
+			rel.R.Trade = o
+		}
+	}
+	return nil
+}
+
+// AddClaims adds the given related objects to the existing relationships
+// of the trade, optionally inserting them as new records.
+// Appends related to o.R.Claims.
+// Sets related.R.Trade appropriately.
+func (o *Trade) AddClaims(exec boil.Executor, insert bool, related ...*Claim) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.TradeID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[claims] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"trade_id"}),
+				strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.TradeID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &tradeR{
+			Claims: related,
+		}
+	} else {
+		o.R.Claims = append(o.R.Claims, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &claimR{
+				Trade: o,
+			}
+		} else {
+			rel.R.Trade = o
+		}
+	}
+	return nil
 }
 
 // Trades retrieves all the records using an executor.

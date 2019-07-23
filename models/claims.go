@@ -25,7 +25,7 @@ import (
 type Claim struct {
 	ID               int          `boil:"id" json:"id" toml:"id" yaml:"id"`
 	TradeID          int          `boil:"trade_id" json:"trade_id" toml:"trade_id" yaml:"trade_id"`
-	ProfileID        int          `boil:"profile_id" json:"profile_id" toml:"profile_id" yaml:"profile_id"`
+	UserID           int          `boil:"user_id" json:"user_id" toml:"user_id" yaml:"user_id"`
 	BasicTradeID     int          `boil:"basic_trade_id" json:"basic_trade_id" toml:"basic_trade_id" yaml:"basic_trade_id"`
 	TotalAmount      null.Float64 `boil:"total_amount" json:"total_amount,omitempty" toml:"total_amount" yaml:"total_amount,omitempty"`
 	ClaimedAmount    null.Float64 `boil:"claimed_amount" json:"claimed_amount,omitempty" toml:"claimed_amount" yaml:"claimed_amount,omitempty"`
@@ -49,7 +49,7 @@ type Claim struct {
 var ClaimColumns = struct {
 	ID               string
 	TradeID          string
-	ProfileID        string
+	UserID           string
 	BasicTradeID     string
 	TotalAmount      string
 	ClaimedAmount    string
@@ -68,7 +68,7 @@ var ClaimColumns = struct {
 }{
 	ID:               "id",
 	TradeID:          "trade_id",
-	ProfileID:        "profile_id",
+	UserID:           "user_id",
 	BasicTradeID:     "basic_trade_id",
 	TotalAmount:      "total_amount",
 	ClaimedAmount:    "claimed_amount",
@@ -137,7 +137,7 @@ func (w whereHelpernull_Bool) GTE(x null.Bool) qm.QueryMod {
 var ClaimWhere = struct {
 	ID               whereHelperint
 	TradeID          whereHelperint
-	ProfileID        whereHelperint
+	UserID           whereHelperint
 	BasicTradeID     whereHelperint
 	TotalAmount      whereHelpernull_Float64
 	ClaimedAmount    whereHelpernull_Float64
@@ -156,7 +156,7 @@ var ClaimWhere = struct {
 }{
 	ID:               whereHelperint{field: "[dbo].[claims].[id]"},
 	TradeID:          whereHelperint{field: "[dbo].[claims].[trade_id]"},
-	ProfileID:        whereHelperint{field: "[dbo].[claims].[profile_id]"},
+	UserID:           whereHelperint{field: "[dbo].[claims].[user_id]"},
 	BasicTradeID:     whereHelperint{field: "[dbo].[claims].[basic_trade_id]"},
 	TotalAmount:      whereHelpernull_Float64{field: "[dbo].[claims].[total_amount]"},
 	ClaimedAmount:    whereHelpernull_Float64{field: "[dbo].[claims].[claimed_amount]"},
@@ -176,10 +176,23 @@ var ClaimWhere = struct {
 
 // ClaimRels is where relationship names are stored.
 var ClaimRels = struct {
-}{}
+	BasicTrade     string
+	Trade          string
+	User           string
+	ClaimHistories string
+}{
+	BasicTrade:     "BasicTrade",
+	Trade:          "Trade",
+	User:           "User",
+	ClaimHistories: "ClaimHistories",
+}
 
 // claimR is where relationships are stored.
 type claimR struct {
+	BasicTrade     *BasicTrade
+	Trade          *Trade
+	User           *User
+	ClaimHistories ClaimHistorySlice
 }
 
 // NewStruct creates a new relationship struct
@@ -191,9 +204,9 @@ func (*claimR) NewStruct() *claimR {
 type claimL struct{}
 
 var (
-	claimAllColumns            = []string{"id", "trade_id", "profile_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "is_active", "is_deleted", "created", "updated"}
+	claimAllColumns            = []string{"id", "trade_id", "user_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "is_active", "is_deleted", "created", "updated"}
 	claimColumnsWithAuto       = []string{}
-	claimColumnsWithoutDefault = []string{"trade_id", "profile_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "created"}
+	claimColumnsWithoutDefault = []string{"trade_id", "user_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "created"}
 	claimColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	claimPrimaryKeyColumns     = []string{"id"}
 )
@@ -287,6 +300,630 @@ func (q claimQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
+}
+
+// BasicTrade pointed to by the foreign key.
+func (o *Claim) BasicTrade(mods ...qm.QueryMod) basicTradeQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.BasicTradeID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := BasicTrades(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[basic_trades]")
+
+	return query
+}
+
+// Trade pointed to by the foreign key.
+func (o *Claim) Trade(mods ...qm.QueryMod) tradeQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.TradeID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Trades(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[trades]")
+
+	return query
+}
+
+// User pointed to by the foreign key.
+func (o *Claim) User(mods ...qm.QueryMod) userQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.UserID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[users]")
+
+	return query
+}
+
+// ClaimHistories retrieves all the claim_history's ClaimHistories with an executor.
+func (o *Claim) ClaimHistories(mods ...qm.QueryMod) claimHistoryQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[claim_histories].[claim_id]=?", o.ID),
+	)
+
+	query := ClaimHistories(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[claim_histories]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[claim_histories].*"})
+	}
+
+	return query
+}
+
+// LoadBasicTrade allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (claimL) LoadBasicTrade(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
+	var slice []*Claim
+	var object *Claim
+
+	if singular {
+		object = maybeClaim.(*Claim)
+	} else {
+		slice = *maybeClaim.(*[]*Claim)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &claimR{}
+		}
+		args = append(args, object.BasicTradeID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &claimR{}
+			}
+
+			for _, a := range args {
+				if a == obj.BasicTradeID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.BasicTradeID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.basic_trades`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load BasicTrade")
+	}
+
+	var resultSlice []*BasicTrade
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice BasicTrade")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for basic_trades")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for basic_trades")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.BasicTrade = foreign
+		if foreign.R == nil {
+			foreign.R = &basicTradeR{}
+		}
+		foreign.R.Claims = append(foreign.R.Claims, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.BasicTradeID == foreign.ID {
+				local.R.BasicTrade = foreign
+				if foreign.R == nil {
+					foreign.R = &basicTradeR{}
+				}
+				foreign.R.Claims = append(foreign.R.Claims, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadTrade allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (claimL) LoadTrade(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
+	var slice []*Claim
+	var object *Claim
+
+	if singular {
+		object = maybeClaim.(*Claim)
+	} else {
+		slice = *maybeClaim.(*[]*Claim)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &claimR{}
+		}
+		args = append(args, object.TradeID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &claimR{}
+			}
+
+			for _, a := range args {
+				if a == obj.TradeID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.TradeID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Trade")
+	}
+
+	var resultSlice []*Trade
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Trade")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for trades")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trades")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Trade = foreign
+		if foreign.R == nil {
+			foreign.R = &tradeR{}
+		}
+		foreign.R.Claims = append(foreign.R.Claims, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.TradeID == foreign.ID {
+				local.R.Trade = foreign
+				if foreign.R == nil {
+					foreign.R = &tradeR{}
+				}
+				foreign.R.Claims = append(foreign.R.Claims, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadUser allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (claimL) LoadUser(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
+	var slice []*Claim
+	var object *Claim
+
+	if singular {
+		object = maybeClaim.(*Claim)
+	} else {
+		slice = *maybeClaim.(*[]*Claim)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &claimR{}
+		}
+		args = append(args, object.UserID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &claimR{}
+			}
+
+			for _, a := range args {
+				if a == obj.UserID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.UserID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.users`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load User")
+	}
+
+	var resultSlice []*User
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice User")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for users")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.User = foreign
+		if foreign.R == nil {
+			foreign.R = &userR{}
+		}
+		foreign.R.Claims = append(foreign.R.Claims, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.UserID == foreign.ID {
+				local.R.User = foreign
+				if foreign.R == nil {
+					foreign.R = &userR{}
+				}
+				foreign.R.Claims = append(foreign.R.Claims, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadClaimHistories allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (claimL) LoadClaimHistories(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
+	var slice []*Claim
+	var object *Claim
+
+	if singular {
+		object = maybeClaim.(*Claim)
+	} else {
+		slice = *maybeClaim.(*[]*Claim)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &claimR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &claimR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.claim_histories`), qm.WhereIn(`claim_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load claim_histories")
+	}
+
+	var resultSlice []*ClaimHistory
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice claim_histories")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on claim_histories")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for claim_histories")
+	}
+
+	if singular {
+		object.R.ClaimHistories = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &claimHistoryR{}
+			}
+			foreign.R.Claim = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.ClaimID {
+				local.R.ClaimHistories = append(local.R.ClaimHistories, foreign)
+				if foreign.R == nil {
+					foreign.R = &claimHistoryR{}
+				}
+				foreign.R.Claim = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// SetBasicTrade of the claim to the related item.
+// Sets o.R.BasicTrade to related.
+// Adds o to related.R.Claims.
+func (o *Claim) SetBasicTrade(exec boil.Executor, insert bool, related *BasicTrade) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[claims] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
+		strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.BasicTradeID = related.ID
+	if o.R == nil {
+		o.R = &claimR{
+			BasicTrade: related,
+		}
+	} else {
+		o.R.BasicTrade = related
+	}
+
+	if related.R == nil {
+		related.R = &basicTradeR{
+			Claims: ClaimSlice{o},
+		}
+	} else {
+		related.R.Claims = append(related.R.Claims, o)
+	}
+
+	return nil
+}
+
+// SetTrade of the claim to the related item.
+// Sets o.R.Trade to related.
+// Adds o to related.R.Claims.
+func (o *Claim) SetTrade(exec boil.Executor, insert bool, related *Trade) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[claims] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"trade_id"}),
+		strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.TradeID = related.ID
+	if o.R == nil {
+		o.R = &claimR{
+			Trade: related,
+		}
+	} else {
+		o.R.Trade = related
+	}
+
+	if related.R == nil {
+		related.R = &tradeR{
+			Claims: ClaimSlice{o},
+		}
+	} else {
+		related.R.Claims = append(related.R.Claims, o)
+	}
+
+	return nil
+}
+
+// SetUser of the claim to the related item.
+// Sets o.R.User to related.
+// Adds o to related.R.Claims.
+func (o *Claim) SetUser(exec boil.Executor, insert bool, related *User) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[claims] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"user_id"}),
+		strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.UserID = related.ID
+	if o.R == nil {
+		o.R = &claimR{
+			User: related,
+		}
+	} else {
+		o.R.User = related
+	}
+
+	if related.R == nil {
+		related.R = &userR{
+			Claims: ClaimSlice{o},
+		}
+	} else {
+		related.R.Claims = append(related.R.Claims, o)
+	}
+
+	return nil
+}
+
+// AddClaimHistories adds the given related objects to the existing relationships
+// of the claim, optionally inserting them as new records.
+// Appends related to o.R.ClaimHistories.
+// Sets related.R.Claim appropriately.
+func (o *Claim) AddClaimHistories(exec boil.Executor, insert bool, related ...*ClaimHistory) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.ClaimID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[claim_histories] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"claim_id"}),
+				strmangle.WhereClause("[", "]", 2, claimHistoryPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.ClaimID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &claimR{
+			ClaimHistories: related,
+		}
+	} else {
+		o.R.ClaimHistories = append(o.R.ClaimHistories, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &claimHistoryR{
+				Claim: o,
+			}
+		} else {
+			rel.R.Claim = o
+		}
+	}
+	return nil
 }
 
 // Claims retrieves all the records using an executor.

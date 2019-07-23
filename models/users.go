@@ -100,10 +100,29 @@ var UserWhere = struct {
 
 // UserRels is where relationship names are stored.
 var UserRels = struct {
-}{}
+	UserRole        string
+	Claims          string
+	Profiles        string
+	CreatorProjects string
+	ManagerProjects string
+	SurveyorTrades  string
+}{
+	UserRole:        "UserRole",
+	Claims:          "Claims",
+	Profiles:        "Profiles",
+	CreatorProjects: "CreatorProjects",
+	ManagerProjects: "ManagerProjects",
+	SurveyorTrades:  "SurveyorTrades",
+}
 
 // userR is where relationships are stored.
 type userR struct {
+	UserRole        *Role
+	Claims          ClaimSlice
+	Profiles        ProfileSlice
+	CreatorProjects ProjectSlice
+	ManagerProjects ProjectSlice
+	SurveyorTrades  TradeSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -211,6 +230,970 @@ func (q userQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
+}
+
+// UserRole pointed to by the foreign key.
+func (o *User) UserRole(mods ...qm.QueryMod) roleQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.UserRoleID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Roles(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[roles]")
+
+	return query
+}
+
+// Claims retrieves all the claim's Claims with an executor.
+func (o *User) Claims(mods ...qm.QueryMod) claimQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[claims].[user_id]=?", o.ID),
+	)
+
+	query := Claims(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[claims]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[claims].*"})
+	}
+
+	return query
+}
+
+// Profiles retrieves all the profile's Profiles with an executor.
+func (o *User) Profiles(mods ...qm.QueryMod) profileQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[profiles].[user_id]=?", o.ID),
+	)
+
+	query := Profiles(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[profiles]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[profiles].*"})
+	}
+
+	return query
+}
+
+// CreatorProjects retrieves all the project's Projects with an executor via creator_id column.
+func (o *User) CreatorProjects(mods ...qm.QueryMod) projectQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[projects].[creator_id]=?", o.ID),
+	)
+
+	query := Projects(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[projects]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[projects].*"})
+	}
+
+	return query
+}
+
+// ManagerProjects retrieves all the project's Projects with an executor via manager_id column.
+func (o *User) ManagerProjects(mods ...qm.QueryMod) projectQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[projects].[manager_id]=?", o.ID),
+	)
+
+	query := Projects(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[projects]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[projects].*"})
+	}
+
+	return query
+}
+
+// SurveyorTrades retrieves all the trade's Trades with an executor via surveyor_id column.
+func (o *User) SurveyorTrades(mods ...qm.QueryMod) tradeQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[trades].[surveyor_id]=?", o.ID),
+	)
+
+	query := Trades(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[trades]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[trades].*"})
+	}
+
+	return query
+}
+
+// LoadUserRole allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (userL) LoadUserRole(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
+	var slice []*User
+	var object *User
+
+	if singular {
+		object = maybeUser.(*User)
+	} else {
+		slice = *maybeUser.(*[]*User)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &userR{}
+		}
+		args = append(args, object.UserRoleID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &userR{}
+			}
+
+			for _, a := range args {
+				if a == obj.UserRoleID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.UserRoleID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.roles`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Role")
+	}
+
+	var resultSlice []*Role
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Role")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for roles")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for roles")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.UserRole = foreign
+		if foreign.R == nil {
+			foreign.R = &roleR{}
+		}
+		foreign.R.UserRoleUsers = append(foreign.R.UserRoleUsers, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.UserRoleID == foreign.ID {
+				local.R.UserRole = foreign
+				if foreign.R == nil {
+					foreign.R = &roleR{}
+				}
+				foreign.R.UserRoleUsers = append(foreign.R.UserRoleUsers, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadClaims allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (userL) LoadClaims(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
+	var slice []*User
+	var object *User
+
+	if singular {
+		object = maybeUser.(*User)
+	} else {
+		slice = *maybeUser.(*[]*User)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &userR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &userR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.claims`), qm.WhereIn(`user_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load claims")
+	}
+
+	var resultSlice []*Claim
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice claims")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on claims")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for claims")
+	}
+
+	if singular {
+		object.R.Claims = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &claimR{}
+			}
+			foreign.R.User = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.UserID {
+				local.R.Claims = append(local.R.Claims, foreign)
+				if foreign.R == nil {
+					foreign.R = &claimR{}
+				}
+				foreign.R.User = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadProfiles allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (userL) LoadProfiles(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
+	var slice []*User
+	var object *User
+
+	if singular {
+		object = maybeUser.(*User)
+	} else {
+		slice = *maybeUser.(*[]*User)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &userR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &userR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.profiles`), qm.WhereIn(`user_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load profiles")
+	}
+
+	var resultSlice []*Profile
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice profiles")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on profiles")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for profiles")
+	}
+
+	if singular {
+		object.R.Profiles = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &profileR{}
+			}
+			foreign.R.User = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.UserID {
+				local.R.Profiles = append(local.R.Profiles, foreign)
+				if foreign.R == nil {
+					foreign.R = &profileR{}
+				}
+				foreign.R.User = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadCreatorProjects allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (userL) LoadCreatorProjects(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
+	var slice []*User
+	var object *User
+
+	if singular {
+		object = maybeUser.(*User)
+	} else {
+		slice = *maybeUser.(*[]*User)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &userR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &userR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.projects`), qm.WhereIn(`creator_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load projects")
+	}
+
+	var resultSlice []*Project
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice projects")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on projects")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for projects")
+	}
+
+	if singular {
+		object.R.CreatorProjects = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &projectR{}
+			}
+			foreign.R.Creator = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.CreatorID {
+				local.R.CreatorProjects = append(local.R.CreatorProjects, foreign)
+				if foreign.R == nil {
+					foreign.R = &projectR{}
+				}
+				foreign.R.Creator = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadManagerProjects allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (userL) LoadManagerProjects(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
+	var slice []*User
+	var object *User
+
+	if singular {
+		object = maybeUser.(*User)
+	} else {
+		slice = *maybeUser.(*[]*User)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &userR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &userR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.projects`), qm.WhereIn(`manager_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load projects")
+	}
+
+	var resultSlice []*Project
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice projects")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on projects")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for projects")
+	}
+
+	if singular {
+		object.R.ManagerProjects = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &projectR{}
+			}
+			foreign.R.Manager = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.ManagerID {
+				local.R.ManagerProjects = append(local.R.ManagerProjects, foreign)
+				if foreign.R == nil {
+					foreign.R = &projectR{}
+				}
+				foreign.R.Manager = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadSurveyorTrades allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (userL) LoadSurveyorTrades(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
+	var slice []*User
+	var object *User
+
+	if singular {
+		object = maybeUser.(*User)
+	} else {
+		slice = *maybeUser.(*[]*User)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &userR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &userR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`surveyor_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load trades")
+	}
+
+	var resultSlice []*Trade
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice trades")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on trades")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trades")
+	}
+
+	if singular {
+		object.R.SurveyorTrades = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &tradeR{}
+			}
+			foreign.R.Surveyor = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.SurveyorID {
+				local.R.SurveyorTrades = append(local.R.SurveyorTrades, foreign)
+				if foreign.R == nil {
+					foreign.R = &tradeR{}
+				}
+				foreign.R.Surveyor = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// SetUserRole of the user to the related item.
+// Sets o.R.UserRole to related.
+// Adds o to related.R.UserRoleUsers.
+func (o *User) SetUserRole(exec boil.Executor, insert bool, related *Role) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[users] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"user_role_id"}),
+		strmangle.WhereClause("[", "]", 2, userPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.UserRoleID = related.ID
+	if o.R == nil {
+		o.R = &userR{
+			UserRole: related,
+		}
+	} else {
+		o.R.UserRole = related
+	}
+
+	if related.R == nil {
+		related.R = &roleR{
+			UserRoleUsers: UserSlice{o},
+		}
+	} else {
+		related.R.UserRoleUsers = append(related.R.UserRoleUsers, o)
+	}
+
+	return nil
+}
+
+// AddClaims adds the given related objects to the existing relationships
+// of the user, optionally inserting them as new records.
+// Appends related to o.R.Claims.
+// Sets related.R.User appropriately.
+func (o *User) AddClaims(exec boil.Executor, insert bool, related ...*Claim) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.UserID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[claims] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"user_id"}),
+				strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.UserID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &userR{
+			Claims: related,
+		}
+	} else {
+		o.R.Claims = append(o.R.Claims, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &claimR{
+				User: o,
+			}
+		} else {
+			rel.R.User = o
+		}
+	}
+	return nil
+}
+
+// AddProfiles adds the given related objects to the existing relationships
+// of the user, optionally inserting them as new records.
+// Appends related to o.R.Profiles.
+// Sets related.R.User appropriately.
+func (o *User) AddProfiles(exec boil.Executor, insert bool, related ...*Profile) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.UserID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[profiles] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"user_id"}),
+				strmangle.WhereClause("[", "]", 2, profilePrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.UserID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &userR{
+			Profiles: related,
+		}
+	} else {
+		o.R.Profiles = append(o.R.Profiles, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &profileR{
+				User: o,
+			}
+		} else {
+			rel.R.User = o
+		}
+	}
+	return nil
+}
+
+// AddCreatorProjects adds the given related objects to the existing relationships
+// of the user, optionally inserting them as new records.
+// Appends related to o.R.CreatorProjects.
+// Sets related.R.Creator appropriately.
+func (o *User) AddCreatorProjects(exec boil.Executor, insert bool, related ...*Project) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.CreatorID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[projects] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"creator_id"}),
+				strmangle.WhereClause("[", "]", 2, projectPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.CreatorID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &userR{
+			CreatorProjects: related,
+		}
+	} else {
+		o.R.CreatorProjects = append(o.R.CreatorProjects, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &projectR{
+				Creator: o,
+			}
+		} else {
+			rel.R.Creator = o
+		}
+	}
+	return nil
+}
+
+// AddManagerProjects adds the given related objects to the existing relationships
+// of the user, optionally inserting them as new records.
+// Appends related to o.R.ManagerProjects.
+// Sets related.R.Manager appropriately.
+func (o *User) AddManagerProjects(exec boil.Executor, insert bool, related ...*Project) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.ManagerID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[projects] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"manager_id"}),
+				strmangle.WhereClause("[", "]", 2, projectPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.ManagerID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &userR{
+			ManagerProjects: related,
+		}
+	} else {
+		o.R.ManagerProjects = append(o.R.ManagerProjects, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &projectR{
+				Manager: o,
+			}
+		} else {
+			rel.R.Manager = o
+		}
+	}
+	return nil
+}
+
+// AddSurveyorTrades adds the given related objects to the existing relationships
+// of the user, optionally inserting them as new records.
+// Appends related to o.R.SurveyorTrades.
+// Sets related.R.Surveyor appropriately.
+func (o *User) AddSurveyorTrades(exec boil.Executor, insert bool, related ...*Trade) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.SurveyorID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[trades] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"surveyor_id"}),
+				strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.SurveyorID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &userR{
+			SurveyorTrades: related,
+		}
+	} else {
+		o.R.SurveyorTrades = append(o.R.SurveyorTrades, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &tradeR{
+				Surveyor: o,
+			}
+		} else {
+			rel.R.Surveyor = o
+		}
+	}
+	return nil
 }
 
 // Users retrieves all the records using an executor.

@@ -24,8 +24,8 @@ import (
 // Project is an object representing the database table.
 type Project struct {
 	ID                   int          `boil:"id" json:"id" toml:"id" yaml:"id"`
-	ManagerProfileID     int          `boil:"manager_profile_id" json:"manager_profile_id" toml:"manager_profile_id" yaml:"manager_profile_id"`
-	CreatorProfileID     int          `boil:"creator_profile_id" json:"creator_profile_id" toml:"creator_profile_id" yaml:"creator_profile_id"`
+	ManagerID            int          `boil:"manager_id" json:"manager_id" toml:"manager_id" yaml:"manager_id"`
+	CreatorID            int          `boil:"creator_id" json:"creator_id" toml:"creator_id" yaml:"creator_id"`
 	Name                 null.String  `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
 	TotalItemBreakdown   null.Float64 `boil:"total_item_breakdown" json:"total_item_breakdown,omitempty" toml:"total_item_breakdown" yaml:"total_item_breakdown,omitempty"`
 	ContractorTotalClaim null.Float64 `boil:"contractor_total_claim" json:"contractor_total_claim,omitempty" toml:"contractor_total_claim" yaml:"contractor_total_claim,omitempty"`
@@ -45,8 +45,8 @@ type Project struct {
 
 var ProjectColumns = struct {
 	ID                   string
-	ManagerProfileID     string
-	CreatorProfileID     string
+	ManagerID            string
+	CreatorID            string
 	Name                 string
 	TotalItemBreakdown   string
 	ContractorTotalClaim string
@@ -61,8 +61,8 @@ var ProjectColumns = struct {
 	Updated              string
 }{
 	ID:                   "id",
-	ManagerProfileID:     "manager_profile_id",
-	CreatorProfileID:     "creator_profile_id",
+	ManagerID:            "manager_id",
+	CreatorID:            "creator_id",
 	Name:                 "name",
 	TotalItemBreakdown:   "total_item_breakdown",
 	ContractorTotalClaim: "contractor_total_claim",
@@ -81,8 +81,8 @@ var ProjectColumns = struct {
 
 var ProjectWhere = struct {
 	ID                   whereHelperint
-	ManagerProfileID     whereHelperint
-	CreatorProfileID     whereHelperint
+	ManagerID            whereHelperint
+	CreatorID            whereHelperint
 	Name                 whereHelpernull_String
 	TotalItemBreakdown   whereHelpernull_Float64
 	ContractorTotalClaim whereHelpernull_Float64
@@ -97,8 +97,8 @@ var ProjectWhere = struct {
 	Updated              whereHelpernull_Time
 }{
 	ID:                   whereHelperint{field: "[dbo].[projects].[id]"},
-	ManagerProfileID:     whereHelperint{field: "[dbo].[projects].[manager_profile_id]"},
-	CreatorProfileID:     whereHelperint{field: "[dbo].[projects].[creator_profile_id]"},
+	ManagerID:            whereHelperint{field: "[dbo].[projects].[manager_id]"},
+	CreatorID:            whereHelperint{field: "[dbo].[projects].[creator_id]"},
 	Name:                 whereHelpernull_String{field: "[dbo].[projects].[name]"},
 	TotalItemBreakdown:   whereHelpernull_Float64{field: "[dbo].[projects].[total_item_breakdown]"},
 	ContractorTotalClaim: whereHelpernull_Float64{field: "[dbo].[projects].[contractor_total_claim]"},
@@ -115,10 +115,20 @@ var ProjectWhere = struct {
 
 // ProjectRels is where relationship names are stored.
 var ProjectRels = struct {
-}{}
+	Creator string
+	Manager string
+	Trades  string
+}{
+	Creator: "Creator",
+	Manager: "Manager",
+	Trades:  "Trades",
+}
 
 // projectR is where relationships are stored.
 type projectR struct {
+	Creator *User
+	Manager *User
+	Trades  TradeSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -130,9 +140,9 @@ func (*projectR) NewStruct() *projectR {
 type projectL struct{}
 
 var (
-	projectAllColumns            = []string{"id", "manager_profile_id", "creator_profile_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_active", "is_deleted", "created", "updated"}
+	projectAllColumns            = []string{"id", "manager_id", "creator_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_active", "is_deleted", "created", "updated"}
 	projectColumnsWithAuto       = []string{}
-	projectColumnsWithoutDefault = []string{"manager_profile_id", "creator_profile_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "created"}
+	projectColumnsWithoutDefault = []string{"manager_id", "creator_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "created"}
 	projectColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	projectPrimaryKeyColumns     = []string{"id"}
 )
@@ -226,6 +236,476 @@ func (q projectQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
+}
+
+// Creator pointed to by the foreign key.
+func (o *Project) Creator(mods ...qm.QueryMod) userQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.CreatorID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[users]")
+
+	return query
+}
+
+// Manager pointed to by the foreign key.
+func (o *Project) Manager(mods ...qm.QueryMod) userQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.ManagerID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Users(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[users]")
+
+	return query
+}
+
+// Trades retrieves all the trade's Trades with an executor.
+func (o *Project) Trades(mods ...qm.QueryMod) tradeQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("[dbo].[trades].[project_id]=?", o.ID),
+	)
+
+	query := Trades(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[trades]")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"[dbo].[trades].*"})
+	}
+
+	return query
+}
+
+// LoadCreator allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (projectL) LoadCreator(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
+	var slice []*Project
+	var object *Project
+
+	if singular {
+		object = maybeProject.(*Project)
+	} else {
+		slice = *maybeProject.(*[]*Project)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &projectR{}
+		}
+		args = append(args, object.CreatorID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &projectR{}
+			}
+
+			for _, a := range args {
+				if a == obj.CreatorID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.CreatorID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.users`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load User")
+	}
+
+	var resultSlice []*User
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice User")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for users")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Creator = foreign
+		if foreign.R == nil {
+			foreign.R = &userR{}
+		}
+		foreign.R.CreatorProjects = append(foreign.R.CreatorProjects, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.CreatorID == foreign.ID {
+				local.R.Creator = foreign
+				if foreign.R == nil {
+					foreign.R = &userR{}
+				}
+				foreign.R.CreatorProjects = append(foreign.R.CreatorProjects, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadManager allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (projectL) LoadManager(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
+	var slice []*Project
+	var object *Project
+
+	if singular {
+		object = maybeProject.(*Project)
+	} else {
+		slice = *maybeProject.(*[]*Project)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &projectR{}
+		}
+		args = append(args, object.ManagerID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &projectR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ManagerID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ManagerID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.users`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load User")
+	}
+
+	var resultSlice []*User
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice User")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for users")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for users")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Manager = foreign
+		if foreign.R == nil {
+			foreign.R = &userR{}
+		}
+		foreign.R.ManagerProjects = append(foreign.R.ManagerProjects, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.ManagerID == foreign.ID {
+				local.R.Manager = foreign
+				if foreign.R == nil {
+					foreign.R = &userR{}
+				}
+				foreign.R.ManagerProjects = append(foreign.R.ManagerProjects, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadTrades allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (projectL) LoadTrades(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
+	var slice []*Project
+	var object *Project
+
+	if singular {
+		object = maybeProject.(*Project)
+	} else {
+		slice = *maybeProject.(*[]*Project)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &projectR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &projectR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`project_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load trades")
+	}
+
+	var resultSlice []*Trade
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice trades")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on trades")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trades")
+	}
+
+	if singular {
+		object.R.Trades = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &tradeR{}
+			}
+			foreign.R.Project = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.ProjectID {
+				local.R.Trades = append(local.R.Trades, foreign)
+				if foreign.R == nil {
+					foreign.R = &tradeR{}
+				}
+				foreign.R.Project = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// SetCreator of the project to the related item.
+// Sets o.R.Creator to related.
+// Adds o to related.R.CreatorProjects.
+func (o *Project) SetCreator(exec boil.Executor, insert bool, related *User) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[projects] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"creator_id"}),
+		strmangle.WhereClause("[", "]", 2, projectPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.CreatorID = related.ID
+	if o.R == nil {
+		o.R = &projectR{
+			Creator: related,
+		}
+	} else {
+		o.R.Creator = related
+	}
+
+	if related.R == nil {
+		related.R = &userR{
+			CreatorProjects: ProjectSlice{o},
+		}
+	} else {
+		related.R.CreatorProjects = append(related.R.CreatorProjects, o)
+	}
+
+	return nil
+}
+
+// SetManager of the project to the related item.
+// Sets o.R.Manager to related.
+// Adds o to related.R.ManagerProjects.
+func (o *Project) SetManager(exec boil.Executor, insert bool, related *User) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[projects] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"manager_id"}),
+		strmangle.WhereClause("[", "]", 2, projectPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.ManagerID = related.ID
+	if o.R == nil {
+		o.R = &projectR{
+			Manager: related,
+		}
+	} else {
+		o.R.Manager = related
+	}
+
+	if related.R == nil {
+		related.R = &userR{
+			ManagerProjects: ProjectSlice{o},
+		}
+	} else {
+		related.R.ManagerProjects = append(related.R.ManagerProjects, o)
+	}
+
+	return nil
+}
+
+// AddTrades adds the given related objects to the existing relationships
+// of the project, optionally inserting them as new records.
+// Appends related to o.R.Trades.
+// Sets related.R.Project appropriately.
+func (o *Project) AddTrades(exec boil.Executor, insert bool, related ...*Trade) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.ProjectID = o.ID
+			if err = rel.Insert(exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE [dbo].[trades] SET %s WHERE %s",
+				strmangle.SetParamNames("[", "]", 1, []string{"project_id"}),
+				strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.Exec(updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.ProjectID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &projectR{
+			Trades: related,
+		}
+	} else {
+		o.R.Trades = append(o.R.Trades, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &tradeR{
+				Project: o,
+			}
+		} else {
+			rel.R.Project = o
+		}
+	}
+	return nil
 }
 
 // Projects retrieves all the records using an executor.

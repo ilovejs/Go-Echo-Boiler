@@ -341,6 +341,373 @@ func testProjectsInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testProjectToManyTrades(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a Project
+	var b, c Trade
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, projectDBTypes, true, projectColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Project struct: %s", err)
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.ProjectID = a.ID
+	c.ProjectID = a.ID
+
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.Trades().All(tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.ProjectID == b.ProjectID {
+			bFound = true
+		}
+		if v.ProjectID == c.ProjectID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := ProjectSlice{&a}
+	if err = a.L.LoadTrades(tx, false, (*[]*Project)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.Trades); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.Trades = nil
+	if err = a.L.LoadTrades(tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.Trades); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
+func testProjectToManyAddOpTrades(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a Project
+	var b, c, d, e Trade
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, projectDBTypes, false, strmangle.SetComplement(projectPrimaryKeyColumns, projectColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*Trade{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, tradeDBTypes, false, strmangle.SetComplement(tradePrimaryKeyColumns, tradeColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*Trade{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddTrades(tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.ProjectID {
+			t.Error("foreign key was wrong value", a.ID, first.ProjectID)
+		}
+		if a.ID != second.ProjectID {
+			t.Error("foreign key was wrong value", a.ID, second.ProjectID)
+		}
+
+		if first.R.Project != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Project != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.Trades[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.Trades[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.Trades().Count(tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+func testProjectToOneUserUsingCreator(t *testing.T) {
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var local Project
+	var foreign User
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, projectDBTypes, false, projectColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Project struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, userDBTypes, false, userColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize User struct: %s", err)
+	}
+
+	if err := foreign.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.CreatorID = foreign.ID
+	if err := local.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Creator().One(tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	slice := ProjectSlice{&local}
+	if err = local.L.LoadCreator(tx, false, (*[]*Project)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Creator == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Creator = nil
+	if err = local.L.LoadCreator(tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Creator == nil {
+		t.Error("struct should have been eager loaded")
+	}
+}
+
+func testProjectToOneUserUsingManager(t *testing.T) {
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var local Project
+	var foreign User
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, projectDBTypes, false, projectColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Project struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, userDBTypes, false, userColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize User struct: %s", err)
+	}
+
+	if err := foreign.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.ManagerID = foreign.ID
+	if err := local.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Manager().One(tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	slice := ProjectSlice{&local}
+	if err = local.L.LoadManager(tx, false, (*[]*Project)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Manager == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Manager = nil
+	if err = local.L.LoadManager(tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Manager == nil {
+		t.Error("struct should have been eager loaded")
+	}
+}
+
+func testProjectToOneSetOpUserUsingCreator(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a Project
+	var b, c User
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, projectDBTypes, false, strmangle.SetComplement(projectPrimaryKeyColumns, projectColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, userDBTypes, false, strmangle.SetComplement(userPrimaryKeyColumns, userColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, userDBTypes, false, strmangle.SetComplement(userPrimaryKeyColumns, userColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*User{&b, &c} {
+		err = a.SetCreator(tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Creator != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.CreatorProjects[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.CreatorID != x.ID {
+			t.Error("foreign key was wrong value", a.CreatorID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.CreatorID))
+		reflect.Indirect(reflect.ValueOf(&a.CreatorID)).Set(zero)
+
+		if err = a.Reload(tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if a.CreatorID != x.ID {
+			t.Error("foreign key was wrong value", a.CreatorID, x.ID)
+		}
+	}
+}
+func testProjectToOneSetOpUserUsingManager(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a Project
+	var b, c User
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, projectDBTypes, false, strmangle.SetComplement(projectPrimaryKeyColumns, projectColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, userDBTypes, false, strmangle.SetComplement(userPrimaryKeyColumns, userColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, userDBTypes, false, strmangle.SetComplement(userPrimaryKeyColumns, userColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*User{&b, &c} {
+		err = a.SetManager(tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Manager != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.ManagerProjects[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.ManagerID != x.ID {
+			t.Error("foreign key was wrong value", a.ManagerID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.ManagerID))
+		reflect.Indirect(reflect.ValueOf(&a.ManagerID)).Set(zero)
+
+		if err = a.Reload(tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if a.ManagerID != x.ID {
+			t.Error("foreign key was wrong value", a.ManagerID, x.ID)
+		}
+	}
+}
+
 func testProjectsReload(t *testing.T) {
 	t.Parallel()
 
@@ -412,7 +779,7 @@ func testProjectsSelect(t *testing.T) {
 }
 
 var (
-	projectDBTypes = map[string]string{`ID`: `int`, `ManagerProfileID`: `int`, `CreatorProfileID`: `int`, `Name`: `varchar`, `TotalItemBreakdown`: `float`, `ContractorTotalClaim`: `float`, `SerialNo`: `varchar`, `Details`: `varchar`, `TotalContractValue`: `float`, `QuantitySurveyor`: `varchar`, `Notes`: `varchar`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
+	projectDBTypes = map[string]string{`ID`: `int`, `ManagerID`: `int`, `CreatorID`: `int`, `Name`: `varchar`, `TotalItemBreakdown`: `float`, `ContractorTotalClaim`: `float`, `SerialNo`: `varchar`, `Details`: `varchar`, `TotalContractValue`: `float`, `QuantitySurveyor`: `varchar`, `Notes`: `varchar`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
 	_              = bytes.MinRead
 )
 
