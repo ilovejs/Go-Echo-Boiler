@@ -6,6 +6,7 @@ import (
 	. "onsite/utils"
 )
 
+/* Update user */
 type userUpdateRequest struct {
 	User struct {
 		UserRoleId int    `json:"user_role_id" validate:"required"`
@@ -64,7 +65,7 @@ func (r *userUpdateRequest) Bind(c echo.Context, u *m.User) error {
 	return nil
 }
 
-/* Register */
+/* New user */
 type UserRegisterRequest struct {
 	User struct {
 		UserRoleId int    `json:"user_role_id" validate:"required"`

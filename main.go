@@ -18,9 +18,10 @@ func main() {
 	//store
 	us := store.NewUserStore(d)
 	ps := store.NewProjectStore(d)
+	cs := store.NewClaimStore(d)
 
 	// handler
-	h := handler.NewHandler(ps, us) //ps,us,as
+	h := handler.NewHandler(ps, us, cs)
 	h.Register(v1)
 
 	r.Logger.Fatal(r.Start("localhost:8585"))

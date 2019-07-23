@@ -38,3 +38,5 @@ plain conn string in programme
 could it be reverse engineered ?
 
 nicer sql not found err
+
+Project Serial No | Name should be unique

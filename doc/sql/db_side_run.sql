@@ -169,15 +169,15 @@ go
 alter table users add constraint FK__users__user_role_id foreign key (user_role_id) references roles (id);
 
 alter table profiles add constraint FK__profiles__user_id foreign key(user_id) references users (id);
-alter table projects add constraint FK__projects__creator_profile_id foreign key(creator_profile_id) references profiles (id);
-alter table projects add constraint FK__projects__manager_profile_id foreign key(manager_profile_id) references profiles (id);
+alter table projects add constraint FK__projects__creator_profile_id foreign key(creator_id) references profiles (id);
+alter table projects add constraint FK__projects__manager_profile_id foreign key(manager_id) references profiles (id);
 
 alter table trades add constraint FK__trades__basic_trade_id foreign key (basic_trade_id)   references basic_trades (id);
-alter table trades add constraint FK__trades__profile_id     foreign key (profile_id) references profiles (id);
+alter table trades add constraint FK__trades__profile_id     foreign key (surveyor_id) references profiles (id);
 alter table trades add constraint FK__trades__project_id     foreign key (project_id) references projects (id)
 
 alter table claims add constraint FK__claims__trade_id foreign key (trade_id) references trades (id)
-alter table claims add constraint FK__claims__profile_id foreign key (profile_id) references profiles (id)
+alter table claims add constraint FK__claims__profile_id foreign key (user_id) references profiles (id)
 alter table claims add constraint FK__claims__basic_trade_id foreign key (basic_trade_id) references basic_trades (id)
 
 alter table claim_histories add constraint FK__claim_histories_trade_id foreign key (trade_id) references trades (id);

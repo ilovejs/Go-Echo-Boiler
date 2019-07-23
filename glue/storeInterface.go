@@ -14,11 +14,10 @@ type UserStoreInterface interface {
 }
 
 type ProjectStoreInterface interface {
-	//CRUD
-	//CreateProject(*model.Project) (*model.Project, error)
-	//ReadProject(int) (*model.Project, error)
-	//UpdateProject(uint) (*model.Project, error) //EditProject
-	//DeleteProject(uint, string) (*model.Project, error)
+	Create(*models.Project) error
+	//Read(int) (*models.Project, error)
+	//UpdateProject(int) (*models.Project, error)
+	//DeleteProject(int, string) (*models.Project, error)
 
 	//GetTradeSummary(uint)
 	//GetTradeItems(uint, uint)            //assignTradeList(tid,pid)
@@ -28,7 +27,10 @@ type ProjectStoreInterface interface {
 	////todo:TradeItemsPartialSend
 	//DeleteTradeItem(uint, string) //(id, reason)
 	//UpdateTradeItems()            //EditTradeItem 2 methods
-	////Claim:
+}
+
+type ClaimStoreInterface interface {
+	//Claim:
 	//ProjectClaim(uint)              //Merge ctr with other ?
 	//UpdateClaim(claim *model.Claim) //POST ProjectClaim
 	//UpdateClaimByID(uint, uint)     //TradeItemsClaimEdit(pid, tid)

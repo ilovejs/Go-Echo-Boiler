@@ -10,12 +10,17 @@ import (
 type Handler struct {
 	projectStore ProjectStoreInterface
 	userStore    UserStoreInterface
+	claimStore   ClaimStoreInterface
 }
 
-func NewHandler(ps ProjectStoreInterface, us UserStoreInterface) *Handler {
+func NewHandler(
+	ps ProjectStoreInterface,
+	us UserStoreInterface,
+	cs ClaimStoreInterface) *Handler {
 	return &Handler{
 		projectStore: ps,
 		userStore:    us,
+		claimStore:   cs,
 	}
 }
 
@@ -33,6 +38,9 @@ func (h *Handler) Register(v1 *echo.Group) {
 	profiles := v1.Group("/profiles", jwtMiddleware)
 	profiles.GET("/:username", h.GetProfile)
 
-	//projects := v1.Group("/projects")
-	//projects.GET("/:id", h.ReadProject)
+	projects := v1.Group("/projects")
+	projects.POST("", h.CreateProject)
+	//projects.GET("/:id", h.Read)
+	//projects.PUT("/:id", h.UpdateProject)
+	//projects.DELETE("/:id", h.DeleteProject)
 }
