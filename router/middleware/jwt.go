@@ -51,9 +51,12 @@ func JWTWithConfig(config JWTConfig) echo.MiddlewareFunc {
 			if err != nil {
 				return c.JSON(http.StatusForbidden, utils.NewError(ErrJWTInvalid))
 			}
+
+			fmt.Println("Jwt middleware extract: ", token)
 			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-				userID := uint(claims["id"].(float64))
+				userID := int(claims["id"].(float64))
 				c.Set("user", userID)
+				fmt.Println("JWT: Set user to context")
 				return next(c)
 			}
 			return c.JSON(http.StatusForbidden, utils.NewError(ErrJWTInvalid))

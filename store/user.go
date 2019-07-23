@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/volatiletech/sqlboiler/boil"
+	. "github.com/volatiletech/sqlboiler/queries/qm"
 	m "onsite/models"
 )
 
@@ -26,14 +27,20 @@ func (us *UserStore) Create(u *m.User) (err error) {
 	return nil
 }
 
-func (us *UserStore) GetByID(id uint) (*m.User, error) {
-
-	panic("not done")
+func (us *UserStore) GetByID(id int) (*m.User, error) {
+	u, err := m.Users(Where("id = ?", id)).One(us.db)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
 }
 
 func (us *UserStore) GetByEmail(e string) (*m.User, error) {
-
-	panic("not done")
+	u, err := m.Users(Where("email = ?", e)).One(us.db)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
 }
 
 func (us *UserStore) GetByUserName(u string) (*m.User, error) {

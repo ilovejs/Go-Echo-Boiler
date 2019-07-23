@@ -31,4 +31,10 @@ copy onsite folder to GOPATH
 
 [] upgrade to v4 or v3.3.10-dev !!
 
+### Issues
 
+plain conn string in programme
+
+could it be reverse engineered ?
+
+nicer sql not found err

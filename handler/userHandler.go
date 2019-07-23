@@ -85,10 +85,10 @@ func (h *Handler) GetProfile(c echo.Context) error {
 	return c.JSON(http.StatusOK, NewProfileResponse(*u))
 }
 
-// utils of handler
+/* utils of handler */
 
-func userIDFromToken(c echo.Context) uint {
-	id, ok := c.Get("user").(uint)
+func userIDFromToken(c echo.Context) int {
+	id, ok := c.Get("user").(int)
 	if !ok {
 		return 0
 	}

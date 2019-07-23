@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
+//custom new
 func New() *echo.Echo {
 	e := echo.New()
 	//log level
@@ -15,11 +16,10 @@ func New() *echo.Echo {
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
-		AllowHeaders: []string{
-			echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
 	}))
-	//validator
+	//validator v9
 	e.Validator = NewValidator()
 	return e
 }

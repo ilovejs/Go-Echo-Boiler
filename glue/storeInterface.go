@@ -5,9 +5,8 @@ import (
 )
 
 type UserStoreInterface interface {
-	//Create(*models.User) (*models.User, error)
 	Create(*models.User) error
-	GetByID(uint) (*models.User, error)
+	GetByID(int) (*models.User, error)
 	GetByEmail(string) (*models.User, error)
 	GetByUserName(string) (*models.User, error)
 	Update(*models.User) error
