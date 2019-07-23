@@ -2,7 +2,6 @@ package users
 
 import (
 	"github.com/labstack/echo"
-	"github.com/volatiletech/null"
 	m "onsite/models"
 	. "onsite/utils"
 )
@@ -28,8 +27,7 @@ func (r *userUpdateRequest) Extract(u *m.User) {
 	//LogIf(err)
 	r.User.UserName = u.Username
 
-	err := u.Password.Scan(&r.User.Password)
-	LogIf(err)
+	r.User.Password = u.Password
 
 	u.Email = r.User.Email
 }
@@ -50,16 +48,13 @@ func (r *userUpdateRequest) Bind(c echo.Context, u *m.User) error {
 
 	u.Email = r.User.Email
 
-	// change password
-	if password := new(string); u.Password.Valid && u.Password.Scan(&password) != nil {
-		// not match previous password
-		if r.User.Password != *password {
-			h, err := HashPassword(r.User.Password)
-			if err != nil {
-				return err
-			}
-			u.Password.SetValid(h)
+	// change password due to not match previous password
+	if r.User.Password != u.Password {
+		h, err := HashPassword(r.User.Password)
+		if err != nil {
+			return err
 		}
+		u.Password = h
 	}
 	return nil
 }
@@ -90,7 +85,7 @@ func (r *UserRegisterRequest) Bind(c echo.Context, u *m.User) error {
 	if err != nil {
 		return err
 	}
-	u.Password = null.StringFrom(hashed)
+	u.Password = hashed
 	return nil
 }
 

@@ -142,21 +142,7 @@ func TestInsert(t *testing.T) {
 
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToOne(t *testing.T) {
-	t.Run("ClaimHistoryToClaimUsingClaim", testClaimHistoryToOneClaimUsingClaim)
-	t.Run("ClaimHistoryToProfileUsingProfile", testClaimHistoryToOneProfileUsingProfile)
-	t.Run("ClaimHistoryToTradeUsingTrade", testClaimHistoryToOneTradeUsingTrade)
-	t.Run("ClaimToBasicTradeUsingBasicTrade", testClaimToOneBasicTradeUsingBasicTrade)
-	t.Run("ClaimToProfileUsingProfile", testClaimToOneProfileUsingProfile)
-	t.Run("ClaimToTradeUsingTrade", testClaimToOneTradeUsingTrade)
-	t.Run("ProfileToUserUsingUser", testProfileToOneUserUsingUser)
-	t.Run("ProjectToProfileUsingCreatorProfile", testProjectToOneProfileUsingCreatorProfile)
-	t.Run("ProjectToProfileUsingManagerProfile", testProjectToOneProfileUsingManagerProfile)
-	t.Run("TradeToBasicTradeUsingBasicTrade", testTradeToOneBasicTradeUsingBasicTrade)
-	t.Run("TradeToProfileUsingProfile", testTradeToOneProfileUsingProfile)
-	t.Run("TradeToProjectUsingProject", testTradeToOneProjectUsingProject)
-	t.Run("UserToRoleUsingUserRole", testUserToOneRoleUsingUserRole)
-}
+func TestToOne(t *testing.T) {}
 
 // TestOneToOne tests cannot be run in parallel
 // or deadlocks can occur.
@@ -164,39 +150,11 @@ func TestOneToOne(t *testing.T) {}
 
 // TestToMany tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToMany(t *testing.T) {
-	t.Run("BasicTradeToClaims", testBasicTradeToManyClaims)
-	t.Run("BasicTradeToTrades", testBasicTradeToManyTrades)
-	t.Run("ClaimToClaimHistories", testClaimToManyClaimHistories)
-	t.Run("ProfileToClaimHistories", testProfileToManyClaimHistories)
-	t.Run("ProfileToClaims", testProfileToManyClaims)
-	t.Run("ProfileToCreatorProfileProjects", testProfileToManyCreatorProfileProjects)
-	t.Run("ProfileToManagerProfileProjects", testProfileToManyManagerProfileProjects)
-	t.Run("ProfileToTrades", testProfileToManyTrades)
-	t.Run("ProjectToTrades", testProjectToManyTrades)
-	t.Run("RoleToUserRoleUsers", testRoleToManyUserRoleUsers)
-	t.Run("TradeToClaimHistories", testTradeToManyClaimHistories)
-	t.Run("TradeToClaims", testTradeToManyClaims)
-	t.Run("UserToProfiles", testUserToManyProfiles)
-}
+func TestToMany(t *testing.T) {}
 
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToOneSet(t *testing.T) {
-	t.Run("ClaimHistoryToClaimUsingClaimHistories", testClaimHistoryToOneSetOpClaimUsingClaim)
-	t.Run("ClaimHistoryToProfileUsingClaimHistories", testClaimHistoryToOneSetOpProfileUsingProfile)
-	t.Run("ClaimHistoryToTradeUsingClaimHistories", testClaimHistoryToOneSetOpTradeUsingTrade)
-	t.Run("ClaimToBasicTradeUsingClaims", testClaimToOneSetOpBasicTradeUsingBasicTrade)
-	t.Run("ClaimToProfileUsingClaims", testClaimToOneSetOpProfileUsingProfile)
-	t.Run("ClaimToTradeUsingClaims", testClaimToOneSetOpTradeUsingTrade)
-	t.Run("ProfileToUserUsingProfiles", testProfileToOneSetOpUserUsingUser)
-	t.Run("ProjectToProfileUsingCreatorProfileProjects", testProjectToOneSetOpProfileUsingCreatorProfile)
-	t.Run("ProjectToProfileUsingManagerProfileProjects", testProjectToOneSetOpProfileUsingManagerProfile)
-	t.Run("TradeToBasicTradeUsingTrades", testTradeToOneSetOpBasicTradeUsingBasicTrade)
-	t.Run("TradeToProfileUsingTrades", testTradeToOneSetOpProfileUsingProfile)
-	t.Run("TradeToProjectUsingTrades", testTradeToOneSetOpProjectUsingProject)
-	t.Run("UserToRoleUsingUserRoleUsers", testUserToOneSetOpRoleUsingUserRole)
-}
+func TestToOneSet(t *testing.T) {}
 
 // TestToOneRemove tests cannot be run in parallel
 // or deadlocks can occur.
@@ -212,21 +170,7 @@ func TestOneToOneRemove(t *testing.T) {}
 
 // TestToManyAdd tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToManyAdd(t *testing.T) {
-	t.Run("BasicTradeToClaims", testBasicTradeToManyAddOpClaims)
-	t.Run("BasicTradeToTrades", testBasicTradeToManyAddOpTrades)
-	t.Run("ClaimToClaimHistories", testClaimToManyAddOpClaimHistories)
-	t.Run("ProfileToClaimHistories", testProfileToManyAddOpClaimHistories)
-	t.Run("ProfileToClaims", testProfileToManyAddOpClaims)
-	t.Run("ProfileToCreatorProfileProjects", testProfileToManyAddOpCreatorProfileProjects)
-	t.Run("ProfileToManagerProfileProjects", testProfileToManyAddOpManagerProfileProjects)
-	t.Run("ProfileToTrades", testProfileToManyAddOpTrades)
-	t.Run("ProjectToTrades", testProjectToManyAddOpTrades)
-	t.Run("RoleToUserRoleUsers", testRoleToManyAddOpUserRoleUsers)
-	t.Run("TradeToClaimHistories", testTradeToManyAddOpClaimHistories)
-	t.Run("TradeToClaims", testTradeToManyAddOpClaims)
-	t.Run("UserToProfiles", testUserToManyAddOpProfiles)
-}
+func TestToManyAdd(t *testing.T) {}
 
 // TestToManySet tests cannot be run in parallel
 // or deadlocks can occur.

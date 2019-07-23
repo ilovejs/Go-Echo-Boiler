@@ -3,6 +3,7 @@
 -- so generated tests must be supplemented by tables_schema.sql with CREATE TABLE ... queries
 -- Don't run in test environment
 
+
 USE [master]
 DROP DATABASE test2;
 create database test2;
@@ -13,8 +14,9 @@ use test2;
 create table roles
 (
     id             int identity(1,1) primary key,
-    user_role_type varchar(50),
-    created        datetime,
+    user_role_type varchar(50) not null,
+
+    created        datetime not null,
     updated        datetime default(getdate()),
 )
 go
@@ -23,17 +25,17 @@ create table users
 (
     id               int identity(1,1) primary key,
 
-    user_role_id       int not null,
+    user_role_id     int not null,
 
-    username         varchar(200) not null,   -- used to be unique
-    password         varchar(256),
+    username         varchar(200) not null, -- used to UNIQUE index and constraint... bad for testing
+    password         varchar(256) not null,
     email            varchar(256) not null,
     password_token   varchar(200),
     token_expires    datetime,
     deletion_reason  varchar(200),
 
-    is_active        bit,
-    is_deleted       bit,
+    is_active        bit not null default ((1)),
+    is_deleted       bit not null default ((0)),
     created          datetime,
     updated          datetime default(getdate()),
 )
@@ -50,14 +52,13 @@ create table profiles
     first_name            varchar(200),
     last_name             varchar(200),
 
-    is_active             bit,
-    is_deleted            bit,
+    is_active             bit not null default ((1)),
+    is_deleted            bit not null default ((0)),
     created               datetime,
     updated               datetime default(getdate()),
 )
 go
 
-go
 
 create table projects
 (
@@ -76,20 +77,24 @@ create table projects
     quantity_surveyor      varchar(200), --?
     notes                  varchar(200),
 
-    is_deleted             bit,
+    is_active			   bit not null default ((1)),
+    is_deleted			   bit not null default ((0)),
     created                datetime,
-    updated                datetime default(getdate())
+    updated                datetime default(getdate()),
 )
 go
 
 
 create table basic_trades
 (
-  id			int identity(1,1) primary key,
-  name		varchar(200) not null,
-  created		datetime null,
-  updated	    datetime default(getdate()),
-  is_deleted  bit      default(null),
+    id			int identity(1,1) primary key,
+    name		varchar(200) not null,
+
+
+    is_active        bit not null default ((1)),
+    is_deleted       bit not null default ((0)),
+    created			 datetime,
+    updated			 datetime default(getdate()),
 )
 
 create table trades
@@ -105,9 +110,10 @@ create table trades
     item_breakdown  float,
     tempcheck      bit,
 
-    created        datetime,
-    updated        datetime default(getdate()),
-    is_deleted     bit      default(null)
+    is_active        bit not null default ((1)),
+    is_deleted       bit not null default ((0)),
+    created			 datetime,
+    updated			 datetime default(getdate()),
 )
 go
 
@@ -131,9 +137,10 @@ create table claims
     old_claimed_amount float,
     claim_percentage   float,
 
-    is_deleted         bit null,
-    created            datetime,
-    updated            datetime default(getdate()),
+    is_active        bit not null default ((1)),
+    is_deleted       bit not null default ((0)),
+    created			 datetime,
+    updated			 datetime default(getdate()),
 )
 go
 
@@ -145,8 +152,11 @@ create table claim_histories
     profile_id      int not null,
 
     previous_claimed  float,
-    created           datetime,
-    updated           datetime default(getdate()),
+
+    is_active        bit not null default ((1)),
+    is_deleted       bit not null default ((0)),
+    created			 datetime,
+    updated			 datetime default(getdate()),
 )
 go
 
@@ -183,4 +193,32 @@ create table contractor_projects
     updated    datetime
 )
 go
+
+
+SELECT TOP (1000) [id]
+      ,[user_role_id]
+      ,[username]
+      ,[password]
+      ,[email]
+      ,[password_token]
+      ,[token_expires]
+      ,[deletion_reason]
+      ,[is_active]
+      ,[is_deleted]
+      ,[created]
+      ,[updated]
+  FROM [test2].[dbo].[users];
+
+  delete from test2.dbo.users;
+
+ alter table users alter column is_deleted bit not null
+ alter table users alter column is_deleted bit not null
+go
+
+  INSERT INTO [dbo].[users] ([user_role_id],[username],[password],[email],[password_token],[token_expires],
+  [deletion_reason],[created])
+  OUTPUT INSERTED.[id],INSERTED.[updated]
+  VALUES (1,'sammy','pas','em',NULL,NULL,
+  null,getdate());
+
 */

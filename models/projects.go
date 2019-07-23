@@ -34,7 +34,8 @@ type Project struct {
 	TotalContractValue   null.Float64 `boil:"total_contract_value" json:"total_contract_value,omitempty" toml:"total_contract_value" yaml:"total_contract_value,omitempty"`
 	QuantitySurveyor     null.String  `boil:"quantity_surveyor" json:"quantity_surveyor,omitempty" toml:"quantity_surveyor" yaml:"quantity_surveyor,omitempty"`
 	Notes                null.String  `boil:"notes" json:"notes,omitempty" toml:"notes" yaml:"notes,omitempty"`
-	IsDeleted            null.Bool    `boil:"is_deleted" json:"is_deleted,omitempty" toml:"is_deleted" yaml:"is_deleted,omitempty"`
+	IsActive             bool         `boil:"is_active" json:"is_active" toml:"is_active" yaml:"is_active"`
+	IsDeleted            bool         `boil:"is_deleted" json:"is_deleted" toml:"is_deleted" yaml:"is_deleted"`
 	Created              null.Time    `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
 	Updated              null.Time    `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
 
@@ -54,6 +55,7 @@ var ProjectColumns = struct {
 	TotalContractValue   string
 	QuantitySurveyor     string
 	Notes                string
+	IsActive             string
 	IsDeleted            string
 	Created              string
 	Updated              string
@@ -69,6 +71,7 @@ var ProjectColumns = struct {
 	TotalContractValue:   "total_contract_value",
 	QuantitySurveyor:     "quantity_surveyor",
 	Notes:                "notes",
+	IsActive:             "is_active",
 	IsDeleted:            "is_deleted",
 	Created:              "created",
 	Updated:              "updated",
@@ -88,7 +91,8 @@ var ProjectWhere = struct {
 	TotalContractValue   whereHelpernull_Float64
 	QuantitySurveyor     whereHelpernull_String
 	Notes                whereHelpernull_String
-	IsDeleted            whereHelpernull_Bool
+	IsActive             whereHelperbool
+	IsDeleted            whereHelperbool
 	Created              whereHelpernull_Time
 	Updated              whereHelpernull_Time
 }{
@@ -103,27 +107,18 @@ var ProjectWhere = struct {
 	TotalContractValue:   whereHelpernull_Float64{field: "[dbo].[projects].[total_contract_value]"},
 	QuantitySurveyor:     whereHelpernull_String{field: "[dbo].[projects].[quantity_surveyor]"},
 	Notes:                whereHelpernull_String{field: "[dbo].[projects].[notes]"},
-	IsDeleted:            whereHelpernull_Bool{field: "[dbo].[projects].[is_deleted]"},
+	IsActive:             whereHelperbool{field: "[dbo].[projects].[is_active]"},
+	IsDeleted:            whereHelperbool{field: "[dbo].[projects].[is_deleted]"},
 	Created:              whereHelpernull_Time{field: "[dbo].[projects].[created]"},
 	Updated:              whereHelpernull_Time{field: "[dbo].[projects].[updated]"},
 }
 
 // ProjectRels is where relationship names are stored.
 var ProjectRels = struct {
-	CreatorProfile string
-	ManagerProfile string
-	Trades         string
-}{
-	CreatorProfile: "CreatorProfile",
-	ManagerProfile: "ManagerProfile",
-	Trades:         "Trades",
-}
+}{}
 
 // projectR is where relationships are stored.
 type projectR struct {
-	CreatorProfile *Profile
-	ManagerProfile *Profile
-	Trades         TradeSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -135,10 +130,10 @@ func (*projectR) NewStruct() *projectR {
 type projectL struct{}
 
 var (
-	projectAllColumns            = []string{"id", "manager_profile_id", "creator_profile_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_deleted", "created", "updated"}
+	projectAllColumns            = []string{"id", "manager_profile_id", "creator_profile_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_active", "is_deleted", "created", "updated"}
 	projectColumnsWithAuto       = []string{}
-	projectColumnsWithoutDefault = []string{"manager_profile_id", "creator_profile_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_deleted", "created"}
-	projectColumnsWithDefault    = []string{"id", "updated"}
+	projectColumnsWithoutDefault = []string{"manager_profile_id", "creator_profile_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "created"}
+	projectColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	projectPrimaryKeyColumns     = []string{"id"}
 )
 
@@ -231,476 +226,6 @@ func (q projectQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
-}
-
-// CreatorProfile pointed to by the foreign key.
-func (o *Project) CreatorProfile(mods ...qm.QueryMod) profileQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.CreatorProfileID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := Profiles(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[profiles]")
-
-	return query
-}
-
-// ManagerProfile pointed to by the foreign key.
-func (o *Project) ManagerProfile(mods ...qm.QueryMod) profileQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.ManagerProfileID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := Profiles(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[profiles]")
-
-	return query
-}
-
-// Trades retrieves all the trade's Trades with an executor.
-func (o *Project) Trades(mods ...qm.QueryMod) tradeQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("[dbo].[trades].[project_id]=?", o.ID),
-	)
-
-	query := Trades(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[trades]")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[trades].*"})
-	}
-
-	return query
-}
-
-// LoadCreatorProfile allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (projectL) LoadCreatorProfile(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
-	var slice []*Project
-	var object *Project
-
-	if singular {
-		object = maybeProject.(*Project)
-	} else {
-		slice = *maybeProject.(*[]*Project)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &projectR{}
-		}
-		args = append(args, object.CreatorProfileID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &projectR{}
-			}
-
-			for _, a := range args {
-				if a == obj.CreatorProfileID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.CreatorProfileID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.profiles`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load Profile")
-	}
-
-	var resultSlice []*Profile
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice Profile")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for profiles")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for profiles")
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.CreatorProfile = foreign
-		if foreign.R == nil {
-			foreign.R = &profileR{}
-		}
-		foreign.R.CreatorProfileProjects = append(foreign.R.CreatorProfileProjects, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.CreatorProfileID == foreign.ID {
-				local.R.CreatorProfile = foreign
-				if foreign.R == nil {
-					foreign.R = &profileR{}
-				}
-				foreign.R.CreatorProfileProjects = append(foreign.R.CreatorProfileProjects, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// LoadManagerProfile allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (projectL) LoadManagerProfile(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
-	var slice []*Project
-	var object *Project
-
-	if singular {
-		object = maybeProject.(*Project)
-	} else {
-		slice = *maybeProject.(*[]*Project)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &projectR{}
-		}
-		args = append(args, object.ManagerProfileID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &projectR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ManagerProfileID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ManagerProfileID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.profiles`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load Profile")
-	}
-
-	var resultSlice []*Profile
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice Profile")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for profiles")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for profiles")
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.ManagerProfile = foreign
-		if foreign.R == nil {
-			foreign.R = &profileR{}
-		}
-		foreign.R.ManagerProfileProjects = append(foreign.R.ManagerProfileProjects, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.ManagerProfileID == foreign.ID {
-				local.R.ManagerProfile = foreign
-				if foreign.R == nil {
-					foreign.R = &profileR{}
-				}
-				foreign.R.ManagerProfileProjects = append(foreign.R.ManagerProfileProjects, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// LoadTrades allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (projectL) LoadTrades(e boil.Executor, singular bool, maybeProject interface{}, mods queries.Applicator) error {
-	var slice []*Project
-	var object *Project
-
-	if singular {
-		object = maybeProject.(*Project)
-	} else {
-		slice = *maybeProject.(*[]*Project)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &projectR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &projectR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`project_id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load trades")
-	}
-
-	var resultSlice []*Trade
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice trades")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on trades")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trades")
-	}
-
-	if singular {
-		object.R.Trades = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &tradeR{}
-			}
-			foreign.R.Project = object
-		}
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.ProjectID {
-				local.R.Trades = append(local.R.Trades, foreign)
-				if foreign.R == nil {
-					foreign.R = &tradeR{}
-				}
-				foreign.R.Project = local
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// SetCreatorProfile of the project to the related item.
-// Sets o.R.CreatorProfile to related.
-// Adds o to related.R.CreatorProfileProjects.
-func (o *Project) SetCreatorProfile(exec boil.Executor, insert bool, related *Profile) error {
-	var err error
-	if insert {
-		if err = related.Insert(exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE [dbo].[projects] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"creator_profile_id"}),
-		strmangle.WhereClause("[", "]", 2, projectPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.Exec(updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.CreatorProfileID = related.ID
-	if o.R == nil {
-		o.R = &projectR{
-			CreatorProfile: related,
-		}
-	} else {
-		o.R.CreatorProfile = related
-	}
-
-	if related.R == nil {
-		related.R = &profileR{
-			CreatorProfileProjects: ProjectSlice{o},
-		}
-	} else {
-		related.R.CreatorProfileProjects = append(related.R.CreatorProfileProjects, o)
-	}
-
-	return nil
-}
-
-// SetManagerProfile of the project to the related item.
-// Sets o.R.ManagerProfile to related.
-// Adds o to related.R.ManagerProfileProjects.
-func (o *Project) SetManagerProfile(exec boil.Executor, insert bool, related *Profile) error {
-	var err error
-	if insert {
-		if err = related.Insert(exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE [dbo].[projects] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"manager_profile_id"}),
-		strmangle.WhereClause("[", "]", 2, projectPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.Exec(updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.ManagerProfileID = related.ID
-	if o.R == nil {
-		o.R = &projectR{
-			ManagerProfile: related,
-		}
-	} else {
-		o.R.ManagerProfile = related
-	}
-
-	if related.R == nil {
-		related.R = &profileR{
-			ManagerProfileProjects: ProjectSlice{o},
-		}
-	} else {
-		related.R.ManagerProfileProjects = append(related.R.ManagerProfileProjects, o)
-	}
-
-	return nil
-}
-
-// AddTrades adds the given related objects to the existing relationships
-// of the project, optionally inserting them as new records.
-// Appends related to o.R.Trades.
-// Sets related.R.Project appropriately.
-func (o *Project) AddTrades(exec boil.Executor, insert bool, related ...*Trade) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.ProjectID = o.ID
-			if err = rel.Insert(exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[trades] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"project_id"}),
-				strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.DebugMode {
-				fmt.Fprintln(boil.DebugWriter, updateQuery)
-				fmt.Fprintln(boil.DebugWriter, values)
-			}
-
-			if _, err = exec.Exec(updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.ProjectID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &projectR{
-			Trades: related,
-		}
-	} else {
-		o.R.Trades = append(o.R.Trades, related...)
-	}
-
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &tradeR{
-				Project: o,
-			}
-		} else {
-			rel.R.Project = o
-		}
-	}
-	return nil
 }
 
 // Projects retrieves all the records using an executor.

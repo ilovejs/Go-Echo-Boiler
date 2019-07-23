@@ -25,9 +25,10 @@ import (
 type BasicTrade struct {
 	ID        int       `boil:"id" json:"id" toml:"id" yaml:"id"`
 	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
+	IsActive  bool      `boil:"is_active" json:"is_active" toml:"is_active" yaml:"is_active"`
+	IsDeleted bool      `boil:"is_deleted" json:"is_deleted" toml:"is_deleted" yaml:"is_deleted"`
 	Created   null.Time `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
 	Updated   null.Time `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
-	IsDeleted null.Bool `boil:"is_deleted" json:"is_deleted,omitempty" toml:"is_deleted" yaml:"is_deleted,omitempty"`
 
 	R *basicTradeR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L basicTradeL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -36,15 +37,17 @@ type BasicTrade struct {
 var BasicTradeColumns = struct {
 	ID        string
 	Name      string
+	IsActive  string
+	IsDeleted string
 	Created   string
 	Updated   string
-	IsDeleted string
 }{
 	ID:        "id",
 	Name:      "name",
+	IsActive:  "is_active",
+	IsDeleted: "is_deleted",
 	Created:   "created",
 	Updated:   "updated",
-	IsDeleted: "is_deleted",
 }
 
 // Generated where
@@ -66,6 +69,15 @@ func (w whereHelperstring) LT(x string) qm.QueryMod  { return qmhelper.Where(w.f
 func (w whereHelperstring) LTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
 func (w whereHelperstring) GT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
 func (w whereHelperstring) GTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
+
+type whereHelperbool struct{ field string }
+
+func (w whereHelperbool) EQ(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
+func (w whereHelperbool) NEQ(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
+func (w whereHelperbool) LT(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
+func (w whereHelperbool) LTE(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
+func (w whereHelperbool) GT(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
+func (w whereHelperbool) GTE(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
 
 type whereHelpernull_Time struct{ field string }
 
@@ -90,56 +102,28 @@ func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
 
-type whereHelpernull_Bool struct{ field string }
-
-func (w whereHelpernull_Bool) EQ(x null.Bool) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
-}
-func (w whereHelpernull_Bool) NEQ(x null.Bool) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
-}
-func (w whereHelpernull_Bool) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelpernull_Bool) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
-func (w whereHelpernull_Bool) LT(x null.Bool) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LT, x)
-}
-func (w whereHelpernull_Bool) LTE(x null.Bool) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LTE, x)
-}
-func (w whereHelpernull_Bool) GT(x null.Bool) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GT, x)
-}
-func (w whereHelpernull_Bool) GTE(x null.Bool) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GTE, x)
-}
-
 var BasicTradeWhere = struct {
 	ID        whereHelperint
 	Name      whereHelperstring
+	IsActive  whereHelperbool
+	IsDeleted whereHelperbool
 	Created   whereHelpernull_Time
 	Updated   whereHelpernull_Time
-	IsDeleted whereHelpernull_Bool
 }{
 	ID:        whereHelperint{field: "[dbo].[basic_trades].[id]"},
 	Name:      whereHelperstring{field: "[dbo].[basic_trades].[name]"},
+	IsActive:  whereHelperbool{field: "[dbo].[basic_trades].[is_active]"},
+	IsDeleted: whereHelperbool{field: "[dbo].[basic_trades].[is_deleted]"},
 	Created:   whereHelpernull_Time{field: "[dbo].[basic_trades].[created]"},
 	Updated:   whereHelpernull_Time{field: "[dbo].[basic_trades].[updated]"},
-	IsDeleted: whereHelpernull_Bool{field: "[dbo].[basic_trades].[is_deleted]"},
 }
 
 // BasicTradeRels is where relationship names are stored.
 var BasicTradeRels = struct {
-	Claims string
-	Trades string
-}{
-	Claims: "Claims",
-	Trades: "Trades",
-}
+}{}
 
 // basicTradeR is where relationships are stored.
 type basicTradeR struct {
-	Claims ClaimSlice
-	Trades TradeSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -151,10 +135,10 @@ func (*basicTradeR) NewStruct() *basicTradeR {
 type basicTradeL struct{}
 
 var (
-	basicTradeAllColumns            = []string{"id", "name", "created", "updated", "is_deleted"}
+	basicTradeAllColumns            = []string{"id", "name", "is_active", "is_deleted", "created", "updated"}
 	basicTradeColumnsWithAuto       = []string{}
 	basicTradeColumnsWithoutDefault = []string{"name", "created"}
-	basicTradeColumnsWithDefault    = []string{"id", "updated", "is_deleted"}
+	basicTradeColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	basicTradePrimaryKeyColumns     = []string{"id"}
 )
 
@@ -247,330 +231,6 @@ func (q basicTradeQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
-}
-
-// Claims retrieves all the claim's Claims with an executor.
-func (o *BasicTrade) Claims(mods ...qm.QueryMod) claimQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("[dbo].[claims].[basic_trade_id]=?", o.ID),
-	)
-
-	query := Claims(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[claims]")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[claims].*"})
-	}
-
-	return query
-}
-
-// Trades retrieves all the trade's Trades with an executor.
-func (o *BasicTrade) Trades(mods ...qm.QueryMod) tradeQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("[dbo].[trades].[basic_trade_id]=?", o.ID),
-	)
-
-	query := Trades(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[trades]")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[trades].*"})
-	}
-
-	return query
-}
-
-// LoadClaims allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (basicTradeL) LoadClaims(e boil.Executor, singular bool, maybeBasicTrade interface{}, mods queries.Applicator) error {
-	var slice []*BasicTrade
-	var object *BasicTrade
-
-	if singular {
-		object = maybeBasicTrade.(*BasicTrade)
-	} else {
-		slice = *maybeBasicTrade.(*[]*BasicTrade)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &basicTradeR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &basicTradeR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.claims`), qm.WhereIn(`basic_trade_id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load claims")
-	}
-
-	var resultSlice []*Claim
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice claims")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on claims")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for claims")
-	}
-
-	if singular {
-		object.R.Claims = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &claimR{}
-			}
-			foreign.R.BasicTrade = object
-		}
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.BasicTradeID {
-				local.R.Claims = append(local.R.Claims, foreign)
-				if foreign.R == nil {
-					foreign.R = &claimR{}
-				}
-				foreign.R.BasicTrade = local
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// LoadTrades allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (basicTradeL) LoadTrades(e boil.Executor, singular bool, maybeBasicTrade interface{}, mods queries.Applicator) error {
-	var slice []*BasicTrade
-	var object *BasicTrade
-
-	if singular {
-		object = maybeBasicTrade.(*BasicTrade)
-	} else {
-		slice = *maybeBasicTrade.(*[]*BasicTrade)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &basicTradeR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &basicTradeR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`basic_trade_id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load trades")
-	}
-
-	var resultSlice []*Trade
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice trades")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on trades")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trades")
-	}
-
-	if singular {
-		object.R.Trades = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &tradeR{}
-			}
-			foreign.R.BasicTrade = object
-		}
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.BasicTradeID {
-				local.R.Trades = append(local.R.Trades, foreign)
-				if foreign.R == nil {
-					foreign.R = &tradeR{}
-				}
-				foreign.R.BasicTrade = local
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// AddClaims adds the given related objects to the existing relationships
-// of the basic_trade, optionally inserting them as new records.
-// Appends related to o.R.Claims.
-// Sets related.R.BasicTrade appropriately.
-func (o *BasicTrade) AddClaims(exec boil.Executor, insert bool, related ...*Claim) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.BasicTradeID = o.ID
-			if err = rel.Insert(exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[claims] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
-				strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.DebugMode {
-				fmt.Fprintln(boil.DebugWriter, updateQuery)
-				fmt.Fprintln(boil.DebugWriter, values)
-			}
-
-			if _, err = exec.Exec(updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.BasicTradeID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &basicTradeR{
-			Claims: related,
-		}
-	} else {
-		o.R.Claims = append(o.R.Claims, related...)
-	}
-
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &claimR{
-				BasicTrade: o,
-			}
-		} else {
-			rel.R.BasicTrade = o
-		}
-	}
-	return nil
-}
-
-// AddTrades adds the given related objects to the existing relationships
-// of the basic_trade, optionally inserting them as new records.
-// Appends related to o.R.Trades.
-// Sets related.R.BasicTrade appropriately.
-func (o *BasicTrade) AddTrades(exec boil.Executor, insert bool, related ...*Trade) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.BasicTradeID = o.ID
-			if err = rel.Insert(exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[trades] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
-				strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.DebugMode {
-				fmt.Fprintln(boil.DebugWriter, updateQuery)
-				fmt.Fprintln(boil.DebugWriter, values)
-			}
-
-			if _, err = exec.Exec(updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.BasicTradeID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &basicTradeR{
-			Trades: related,
-		}
-	} else {
-		o.R.Trades = append(o.R.Trades, related...)
-	}
-
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &tradeR{
-				BasicTrade: o,
-			}
-		} else {
-			rel.R.BasicTrade = o
-		}
-	}
-	return nil
 }
 
 // BasicTrades retrieves all the records using an executor.

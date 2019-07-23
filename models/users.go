@@ -26,13 +26,13 @@ type User struct {
 	ID             int         `boil:"id" json:"id" toml:"id" yaml:"id"`
 	UserRoleID     int         `boil:"user_role_id" json:"user_role_id" toml:"user_role_id" yaml:"user_role_id"`
 	Username       string      `boil:"username" json:"username" toml:"username" yaml:"username"`
-	Password       null.String `boil:"password" json:"password,omitempty" toml:"password" yaml:"password,omitempty"`
+	Password       string      `boil:"password" json:"password" toml:"password" yaml:"password"`
 	Email          string      `boil:"email" json:"email" toml:"email" yaml:"email"`
 	PasswordToken  null.String `boil:"password_token" json:"password_token,omitempty" toml:"password_token" yaml:"password_token,omitempty"`
 	TokenExpires   null.Time   `boil:"token_expires" json:"token_expires,omitempty" toml:"token_expires" yaml:"token_expires,omitempty"`
 	DeletionReason null.String `boil:"deletion_reason" json:"deletion_reason,omitempty" toml:"deletion_reason" yaml:"deletion_reason,omitempty"`
-	IsActive       null.Bool   `boil:"is_active" json:"is_active,omitempty" toml:"is_active" yaml:"is_active,omitempty"`
-	IsDeleted      null.Bool   `boil:"is_deleted" json:"is_deleted,omitempty" toml:"is_deleted" yaml:"is_deleted,omitempty"`
+	IsActive       bool        `boil:"is_active" json:"is_active" toml:"is_active" yaml:"is_active"`
+	IsDeleted      bool        `boil:"is_deleted" json:"is_deleted" toml:"is_deleted" yaml:"is_deleted"`
 	Created        null.Time   `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
 	Updated        null.Time   `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
 
@@ -74,43 +74,36 @@ var UserWhere = struct {
 	ID             whereHelperint
 	UserRoleID     whereHelperint
 	Username       whereHelperstring
-	Password       whereHelpernull_String
+	Password       whereHelperstring
 	Email          whereHelperstring
 	PasswordToken  whereHelpernull_String
 	TokenExpires   whereHelpernull_Time
 	DeletionReason whereHelpernull_String
-	IsActive       whereHelpernull_Bool
-	IsDeleted      whereHelpernull_Bool
+	IsActive       whereHelperbool
+	IsDeleted      whereHelperbool
 	Created        whereHelpernull_Time
 	Updated        whereHelpernull_Time
 }{
 	ID:             whereHelperint{field: "[dbo].[users].[id]"},
 	UserRoleID:     whereHelperint{field: "[dbo].[users].[user_role_id]"},
 	Username:       whereHelperstring{field: "[dbo].[users].[username]"},
-	Password:       whereHelpernull_String{field: "[dbo].[users].[password]"},
+	Password:       whereHelperstring{field: "[dbo].[users].[password]"},
 	Email:          whereHelperstring{field: "[dbo].[users].[email]"},
 	PasswordToken:  whereHelpernull_String{field: "[dbo].[users].[password_token]"},
 	TokenExpires:   whereHelpernull_Time{field: "[dbo].[users].[token_expires]"},
 	DeletionReason: whereHelpernull_String{field: "[dbo].[users].[deletion_reason]"},
-	IsActive:       whereHelpernull_Bool{field: "[dbo].[users].[is_active]"},
-	IsDeleted:      whereHelpernull_Bool{field: "[dbo].[users].[is_deleted]"},
+	IsActive:       whereHelperbool{field: "[dbo].[users].[is_active]"},
+	IsDeleted:      whereHelperbool{field: "[dbo].[users].[is_deleted]"},
 	Created:        whereHelpernull_Time{field: "[dbo].[users].[created]"},
 	Updated:        whereHelpernull_Time{field: "[dbo].[users].[updated]"},
 }
 
 // UserRels is where relationship names are stored.
 var UserRels = struct {
-	UserRole string
-	Profiles string
-}{
-	UserRole: "UserRole",
-	Profiles: "Profiles",
-}
+}{}
 
 // userR is where relationships are stored.
 type userR struct {
-	UserRole *Role
-	Profiles ProfileSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -124,8 +117,8 @@ type userL struct{}
 var (
 	userAllColumns            = []string{"id", "user_role_id", "username", "password", "email", "password_token", "token_expires", "deletion_reason", "is_active", "is_deleted", "created", "updated"}
 	userColumnsWithAuto       = []string{}
-	userColumnsWithoutDefault = []string{"user_role_id", "username", "password", "email", "password_token", "token_expires", "deletion_reason", "is_active", "is_deleted", "created"}
-	userColumnsWithDefault    = []string{"id", "updated"}
+	userColumnsWithoutDefault = []string{"user_role_id", "username", "password", "email", "password_token", "token_expires", "deletion_reason", "created"}
+	userColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	userPrimaryKeyColumns     = []string{"id"}
 )
 
@@ -218,322 +211,6 @@ func (q userQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
-}
-
-// UserRole pointed to by the foreign key.
-func (o *User) UserRole(mods ...qm.QueryMod) roleQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.UserRoleID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := Roles(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[roles]")
-
-	return query
-}
-
-// Profiles retrieves all the profile's Profiles with an executor.
-func (o *User) Profiles(mods ...qm.QueryMod) profileQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("[dbo].[profiles].[user_id]=?", o.ID),
-	)
-
-	query := Profiles(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[profiles]")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[profiles].*"})
-	}
-
-	return query
-}
-
-// LoadUserRole allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (userL) LoadUserRole(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
-	var slice []*User
-	var object *User
-
-	if singular {
-		object = maybeUser.(*User)
-	} else {
-		slice = *maybeUser.(*[]*User)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &userR{}
-		}
-		args = append(args, object.UserRoleID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &userR{}
-			}
-
-			for _, a := range args {
-				if a == obj.UserRoleID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.UserRoleID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.roles`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load Role")
-	}
-
-	var resultSlice []*Role
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice Role")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for roles")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for roles")
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.UserRole = foreign
-		if foreign.R == nil {
-			foreign.R = &roleR{}
-		}
-		foreign.R.UserRoleUsers = append(foreign.R.UserRoleUsers, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.UserRoleID == foreign.ID {
-				local.R.UserRole = foreign
-				if foreign.R == nil {
-					foreign.R = &roleR{}
-				}
-				foreign.R.UserRoleUsers = append(foreign.R.UserRoleUsers, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// LoadProfiles allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (userL) LoadProfiles(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
-	var slice []*User
-	var object *User
-
-	if singular {
-		object = maybeUser.(*User)
-	} else {
-		slice = *maybeUser.(*[]*User)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &userR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &userR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.profiles`), qm.WhereIn(`user_id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load profiles")
-	}
-
-	var resultSlice []*Profile
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice profiles")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on profiles")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for profiles")
-	}
-
-	if singular {
-		object.R.Profiles = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &profileR{}
-			}
-			foreign.R.User = object
-		}
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.UserID {
-				local.R.Profiles = append(local.R.Profiles, foreign)
-				if foreign.R == nil {
-					foreign.R = &profileR{}
-				}
-				foreign.R.User = local
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// SetUserRole of the user to the related item.
-// Sets o.R.UserRole to related.
-// Adds o to related.R.UserRoleUsers.
-func (o *User) SetUserRole(exec boil.Executor, insert bool, related *Role) error {
-	var err error
-	if insert {
-		if err = related.Insert(exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE [dbo].[users] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"user_role_id"}),
-		strmangle.WhereClause("[", "]", 2, userPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.Exec(updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.UserRoleID = related.ID
-	if o.R == nil {
-		o.R = &userR{
-			UserRole: related,
-		}
-	} else {
-		o.R.UserRole = related
-	}
-
-	if related.R == nil {
-		related.R = &roleR{
-			UserRoleUsers: UserSlice{o},
-		}
-	} else {
-		related.R.UserRoleUsers = append(related.R.UserRoleUsers, o)
-	}
-
-	return nil
-}
-
-// AddProfiles adds the given related objects to the existing relationships
-// of the user, optionally inserting them as new records.
-// Appends related to o.R.Profiles.
-// Sets related.R.User appropriately.
-func (o *User) AddProfiles(exec boil.Executor, insert bool, related ...*Profile) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.UserID = o.ID
-			if err = rel.Insert(exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[profiles] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"user_id"}),
-				strmangle.WhereClause("[", "]", 2, profilePrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.DebugMode {
-				fmt.Fprintln(boil.DebugWriter, updateQuery)
-				fmt.Fprintln(boil.DebugWriter, values)
-			}
-
-			if _, err = exec.Exec(updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.UserID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &userR{
-			Profiles: related,
-		}
-	} else {
-		o.R.Profiles = append(o.R.Profiles, related...)
-	}
-
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &profileR{
-				User: o,
-			}
-		} else {
-			rel.R.User = o
-		}
-	}
-	return nil
 }
 
 // Users retrieves all the records using an executor.

@@ -38,11 +38,7 @@ func HashPassword(plain string) (string, error) {
 }
 
 func CheckPassword(u *models.User, plain string) bool {
-	var pStr string
-	err := u.Password.Scan(&pStr)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	err = bcrypt.CompareHashAndPassword([]byte(pStr), []byte(plain))
+	pStr := u.Password
+	err := bcrypt.CompareHashAndPassword([]byte(pStr), []byte(plain))
 	return err == nil
 }

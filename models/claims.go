@@ -37,7 +37,8 @@ type Claim struct {
 	ActionClaim      null.Bool    `boil:"action_claim" json:"action_claim,omitempty" toml:"action_claim" yaml:"action_claim,omitempty"`
 	OldClaimedAmount null.Float64 `boil:"old_claimed_amount" json:"old_claimed_amount,omitempty" toml:"old_claimed_amount" yaml:"old_claimed_amount,omitempty"`
 	ClaimPercentage  null.Float64 `boil:"claim_percentage" json:"claim_percentage,omitempty" toml:"claim_percentage" yaml:"claim_percentage,omitempty"`
-	IsDeleted        null.Bool    `boil:"is_deleted" json:"is_deleted,omitempty" toml:"is_deleted" yaml:"is_deleted,omitempty"`
+	IsActive         bool         `boil:"is_active" json:"is_active" toml:"is_active" yaml:"is_active"`
+	IsDeleted        bool         `boil:"is_deleted" json:"is_deleted" toml:"is_deleted" yaml:"is_deleted"`
 	Created          null.Time    `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
 	Updated          null.Time    `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
 
@@ -60,6 +61,7 @@ var ClaimColumns = struct {
 	ActionClaim      string
 	OldClaimedAmount string
 	ClaimPercentage  string
+	IsActive         string
 	IsDeleted        string
 	Created          string
 	Updated          string
@@ -78,6 +80,7 @@ var ClaimColumns = struct {
 	ActionClaim:      "action_claim",
 	OldClaimedAmount: "old_claimed_amount",
 	ClaimPercentage:  "claim_percentage",
+	IsActive:         "is_active",
 	IsDeleted:        "is_deleted",
 	Created:          "created",
 	Updated:          "updated",
@@ -108,6 +111,29 @@ func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
 
+type whereHelpernull_Bool struct{ field string }
+
+func (w whereHelpernull_Bool) EQ(x null.Bool) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_Bool) NEQ(x null.Bool) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_Bool) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_Bool) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+func (w whereHelpernull_Bool) LT(x null.Bool) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_Bool) LTE(x null.Bool) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_Bool) GT(x null.Bool) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_Bool) GTE(x null.Bool) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+
 var ClaimWhere = struct {
 	ID               whereHelperint
 	TradeID          whereHelperint
@@ -123,7 +149,8 @@ var ClaimWhere = struct {
 	ActionClaim      whereHelpernull_Bool
 	OldClaimedAmount whereHelpernull_Float64
 	ClaimPercentage  whereHelpernull_Float64
-	IsDeleted        whereHelpernull_Bool
+	IsActive         whereHelperbool
+	IsDeleted        whereHelperbool
 	Created          whereHelpernull_Time
 	Updated          whereHelpernull_Time
 }{
@@ -141,30 +168,18 @@ var ClaimWhere = struct {
 	ActionClaim:      whereHelpernull_Bool{field: "[dbo].[claims].[action_claim]"},
 	OldClaimedAmount: whereHelpernull_Float64{field: "[dbo].[claims].[old_claimed_amount]"},
 	ClaimPercentage:  whereHelpernull_Float64{field: "[dbo].[claims].[claim_percentage]"},
-	IsDeleted:        whereHelpernull_Bool{field: "[dbo].[claims].[is_deleted]"},
+	IsActive:         whereHelperbool{field: "[dbo].[claims].[is_active]"},
+	IsDeleted:        whereHelperbool{field: "[dbo].[claims].[is_deleted]"},
 	Created:          whereHelpernull_Time{field: "[dbo].[claims].[created]"},
 	Updated:          whereHelpernull_Time{field: "[dbo].[claims].[updated]"},
 }
 
 // ClaimRels is where relationship names are stored.
 var ClaimRels = struct {
-	BasicTrade     string
-	Profile        string
-	Trade          string
-	ClaimHistories string
-}{
-	BasicTrade:     "BasicTrade",
-	Profile:        "Profile",
-	Trade:          "Trade",
-	ClaimHistories: "ClaimHistories",
-}
+}{}
 
 // claimR is where relationships are stored.
 type claimR struct {
-	BasicTrade     *BasicTrade
-	Profile        *Profile
-	Trade          *Trade
-	ClaimHistories ClaimHistorySlice
 }
 
 // NewStruct creates a new relationship struct
@@ -176,10 +191,10 @@ func (*claimR) NewStruct() *claimR {
 type claimL struct{}
 
 var (
-	claimAllColumns            = []string{"id", "trade_id", "profile_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "is_deleted", "created", "updated"}
+	claimAllColumns            = []string{"id", "trade_id", "profile_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "is_active", "is_deleted", "created", "updated"}
 	claimColumnsWithAuto       = []string{}
-	claimColumnsWithoutDefault = []string{"trade_id", "profile_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "is_deleted", "created"}
-	claimColumnsWithDefault    = []string{"id", "updated"}
+	claimColumnsWithoutDefault = []string{"trade_id", "profile_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "created"}
+	claimColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	claimPrimaryKeyColumns     = []string{"id"}
 )
 
@@ -272,630 +287,6 @@ func (q claimQuery) Exists(exec boil.Executor) (bool, error) {
 	}
 
 	return count > 0, nil
-}
-
-// BasicTrade pointed to by the foreign key.
-func (o *Claim) BasicTrade(mods ...qm.QueryMod) basicTradeQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.BasicTradeID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := BasicTrades(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[basic_trades]")
-
-	return query
-}
-
-// Profile pointed to by the foreign key.
-func (o *Claim) Profile(mods ...qm.QueryMod) profileQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.ProfileID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := Profiles(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[profiles]")
-
-	return query
-}
-
-// Trade pointed to by the foreign key.
-func (o *Claim) Trade(mods ...qm.QueryMod) tradeQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.TradeID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := Trades(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[trades]")
-
-	return query
-}
-
-// ClaimHistories retrieves all the claim_history's ClaimHistories with an executor.
-func (o *Claim) ClaimHistories(mods ...qm.QueryMod) claimHistoryQuery {
-	var queryMods []qm.QueryMod
-	if len(mods) != 0 {
-		queryMods = append(queryMods, mods...)
-	}
-
-	queryMods = append(queryMods,
-		qm.Where("[dbo].[claim_histories].[claim_id]=?", o.ID),
-	)
-
-	query := ClaimHistories(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[claim_histories]")
-
-	if len(queries.GetSelect(query.Query)) == 0 {
-		queries.SetSelect(query.Query, []string{"[dbo].[claim_histories].*"})
-	}
-
-	return query
-}
-
-// LoadBasicTrade allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (claimL) LoadBasicTrade(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
-	var slice []*Claim
-	var object *Claim
-
-	if singular {
-		object = maybeClaim.(*Claim)
-	} else {
-		slice = *maybeClaim.(*[]*Claim)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &claimR{}
-		}
-		args = append(args, object.BasicTradeID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &claimR{}
-			}
-
-			for _, a := range args {
-				if a == obj.BasicTradeID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.BasicTradeID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.basic_trades`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load BasicTrade")
-	}
-
-	var resultSlice []*BasicTrade
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice BasicTrade")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for basic_trades")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for basic_trades")
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.BasicTrade = foreign
-		if foreign.R == nil {
-			foreign.R = &basicTradeR{}
-		}
-		foreign.R.Claims = append(foreign.R.Claims, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.BasicTradeID == foreign.ID {
-				local.R.BasicTrade = foreign
-				if foreign.R == nil {
-					foreign.R = &basicTradeR{}
-				}
-				foreign.R.Claims = append(foreign.R.Claims, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// LoadProfile allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (claimL) LoadProfile(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
-	var slice []*Claim
-	var object *Claim
-
-	if singular {
-		object = maybeClaim.(*Claim)
-	} else {
-		slice = *maybeClaim.(*[]*Claim)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &claimR{}
-		}
-		args = append(args, object.ProfileID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &claimR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ProfileID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ProfileID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.profiles`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load Profile")
-	}
-
-	var resultSlice []*Profile
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice Profile")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for profiles")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for profiles")
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.Profile = foreign
-		if foreign.R == nil {
-			foreign.R = &profileR{}
-		}
-		foreign.R.Claims = append(foreign.R.Claims, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.ProfileID == foreign.ID {
-				local.R.Profile = foreign
-				if foreign.R == nil {
-					foreign.R = &profileR{}
-				}
-				foreign.R.Claims = append(foreign.R.Claims, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// LoadTrade allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (claimL) LoadTrade(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
-	var slice []*Claim
-	var object *Claim
-
-	if singular {
-		object = maybeClaim.(*Claim)
-	} else {
-		slice = *maybeClaim.(*[]*Claim)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &claimR{}
-		}
-		args = append(args, object.TradeID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &claimR{}
-			}
-
-			for _, a := range args {
-				if a == obj.TradeID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.TradeID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load Trade")
-	}
-
-	var resultSlice []*Trade
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice Trade")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for trades")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trades")
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.Trade = foreign
-		if foreign.R == nil {
-			foreign.R = &tradeR{}
-		}
-		foreign.R.Claims = append(foreign.R.Claims, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.TradeID == foreign.ID {
-				local.R.Trade = foreign
-				if foreign.R == nil {
-					foreign.R = &tradeR{}
-				}
-				foreign.R.Claims = append(foreign.R.Claims, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// LoadClaimHistories allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (claimL) LoadClaimHistories(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
-	var slice []*Claim
-	var object *Claim
-
-	if singular {
-		object = maybeClaim.(*Claim)
-	} else {
-		slice = *maybeClaim.(*[]*Claim)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &claimR{}
-		}
-		args = append(args, object.ID)
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &claimR{}
-			}
-
-			for _, a := range args {
-				if a == obj.ID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.ID)
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.claim_histories`), qm.WhereIn(`claim_id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load claim_histories")
-	}
-
-	var resultSlice []*ClaimHistory
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice claim_histories")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on claim_histories")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for claim_histories")
-	}
-
-	if singular {
-		object.R.ClaimHistories = resultSlice
-		for _, foreign := range resultSlice {
-			if foreign.R == nil {
-				foreign.R = &claimHistoryR{}
-			}
-			foreign.R.Claim = object
-		}
-		return nil
-	}
-
-	for _, foreign := range resultSlice {
-		for _, local := range slice {
-			if local.ID == foreign.ClaimID {
-				local.R.ClaimHistories = append(local.R.ClaimHistories, foreign)
-				if foreign.R == nil {
-					foreign.R = &claimHistoryR{}
-				}
-				foreign.R.Claim = local
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// SetBasicTrade of the claim to the related item.
-// Sets o.R.BasicTrade to related.
-// Adds o to related.R.Claims.
-func (o *Claim) SetBasicTrade(exec boil.Executor, insert bool, related *BasicTrade) error {
-	var err error
-	if insert {
-		if err = related.Insert(exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE [dbo].[claims] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
-		strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.Exec(updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.BasicTradeID = related.ID
-	if o.R == nil {
-		o.R = &claimR{
-			BasicTrade: related,
-		}
-	} else {
-		o.R.BasicTrade = related
-	}
-
-	if related.R == nil {
-		related.R = &basicTradeR{
-			Claims: ClaimSlice{o},
-		}
-	} else {
-		related.R.Claims = append(related.R.Claims, o)
-	}
-
-	return nil
-}
-
-// SetProfile of the claim to the related item.
-// Sets o.R.Profile to related.
-// Adds o to related.R.Claims.
-func (o *Claim) SetProfile(exec boil.Executor, insert bool, related *Profile) error {
-	var err error
-	if insert {
-		if err = related.Insert(exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE [dbo].[claims] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"profile_id"}),
-		strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.Exec(updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.ProfileID = related.ID
-	if o.R == nil {
-		o.R = &claimR{
-			Profile: related,
-		}
-	} else {
-		o.R.Profile = related
-	}
-
-	if related.R == nil {
-		related.R = &profileR{
-			Claims: ClaimSlice{o},
-		}
-	} else {
-		related.R.Claims = append(related.R.Claims, o)
-	}
-
-	return nil
-}
-
-// SetTrade of the claim to the related item.
-// Sets o.R.Trade to related.
-// Adds o to related.R.Claims.
-func (o *Claim) SetTrade(exec boil.Executor, insert bool, related *Trade) error {
-	var err error
-	if insert {
-		if err = related.Insert(exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE [dbo].[claims] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"trade_id"}),
-		strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.Exec(updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.TradeID = related.ID
-	if o.R == nil {
-		o.R = &claimR{
-			Trade: related,
-		}
-	} else {
-		o.R.Trade = related
-	}
-
-	if related.R == nil {
-		related.R = &tradeR{
-			Claims: ClaimSlice{o},
-		}
-	} else {
-		related.R.Claims = append(related.R.Claims, o)
-	}
-
-	return nil
-}
-
-// AddClaimHistories adds the given related objects to the existing relationships
-// of the claim, optionally inserting them as new records.
-// Appends related to o.R.ClaimHistories.
-// Sets related.R.Claim appropriately.
-func (o *Claim) AddClaimHistories(exec boil.Executor, insert bool, related ...*ClaimHistory) error {
-	var err error
-	for _, rel := range related {
-		if insert {
-			rel.ClaimID = o.ID
-			if err = rel.Insert(exec, boil.Infer()); err != nil {
-				return errors.Wrap(err, "failed to insert into foreign table")
-			}
-		} else {
-			updateQuery := fmt.Sprintf(
-				"UPDATE [dbo].[claim_histories] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"claim_id"}),
-				strmangle.WhereClause("[", "]", 2, claimHistoryPrimaryKeyColumns),
-			)
-			values := []interface{}{o.ID, rel.ID}
-
-			if boil.DebugMode {
-				fmt.Fprintln(boil.DebugWriter, updateQuery)
-				fmt.Fprintln(boil.DebugWriter, values)
-			}
-
-			if _, err = exec.Exec(updateQuery, values...); err != nil {
-				return errors.Wrap(err, "failed to update foreign table")
-			}
-
-			rel.ClaimID = o.ID
-		}
-	}
-
-	if o.R == nil {
-		o.R = &claimR{
-			ClaimHistories: related,
-		}
-	} else {
-		o.R.ClaimHistories = append(o.R.ClaimHistories, related...)
-	}
-
-	for _, rel := range related {
-		if rel.R == nil {
-			rel.R = &claimHistoryR{
-				Claim: o,
-			}
-		} else {
-			rel.R.Claim = o
-		}
-	}
-	return nil
 }
 
 // Claims retrieves all the records using an executor.
