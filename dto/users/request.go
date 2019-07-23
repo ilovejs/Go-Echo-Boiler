@@ -22,7 +22,7 @@ func NewUserUpdateRequest() *userUpdateRequest {
 }
 
 // take data from model
-func (r *userUpdateRequest) Extract(u *m.User) {
+func (r *userUpdateRequest) LoadFrom(u *m.User) {
 	r.User.UserRoleId = u.UserRoleID
 	r.User.UserName = u.Username
 	r.User.Password = u.Password

@@ -52,26 +52,27 @@ func (h *Handler) CurrentUser(c echo.Context) error {
 }
 
 func (h *Handler) UpdateUser(c echo.Context) error {
-	u, err := h.userStore.GetByID(getUserId(c))
+	targetUser, err := h.userStore.GetByID(getUserId(c))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
-	if u == nil {
+	if targetUser == nil {
 		return c.JSON(http.StatusNotFound, NotFound())
 	}
 
 	req := NewUserUpdateRequest()
-	req.Extract(u)
-	// take context to validate against request format,
-	// attach validated data to u (existing record object)
-	if err := req.Bind(c, u); err != nil {
+	req.LoadFrom(targetUser)
+
+	// 1. take context to validate against request format,
+	// 2. attach validated data to u (existing record object)
+	if err := req.Bind(c, targetUser); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
 	//update
-	if err := h.userStore.Update(u); err != nil {
+	if err := h.userStore.Update(targetUser); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	return c.JSON(http.StatusOK, NewUserResponse(u))
+	return c.JSON(http.StatusOK, NewUserResponse(targetUser))
 }
 
 func (h *Handler) GetProfile(c echo.Context) error {
