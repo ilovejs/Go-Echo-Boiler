@@ -24,6 +24,7 @@ func (h *Handler) SignUp(c echo.Context) error {
 
 func (h *Handler) Login(c echo.Context) error {
 	req := &UserLoginRequest{}
+
 	if err := req.Bind(c); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
@@ -84,7 +85,7 @@ func (h *Handler) GetProfile(c echo.Context) error {
 	if u == nil {
 		return c.JSON(http.StatusNotFound, NotFound())
 	}
-	return c.JSON(http.StatusOK, NewProfileResponse(*u))
+	return c.JSON(http.StatusOK, NewProfileResponse(u))
 }
 
 /* utils of handler */

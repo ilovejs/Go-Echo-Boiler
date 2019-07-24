@@ -38,7 +38,7 @@ type ProfileResponse struct {
 	} `json:"profile"`
 }
 
-func NewProfileResponse(u User) *ProfileResponse {
+func NewProfileResponse(u *User) *ProfileResponse {
 	r := new(ProfileResponse)
 	//err := u.Username.Scan(&r.Profile.Username)
 	r.Profile.Username = u.Username

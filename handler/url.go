@@ -39,8 +39,8 @@ func (h *Handler) Register(v1 *echo.Group) {
 	profiles.GET("/:username", h.GetProfile)
 
 	projects := v1.Group("/projects")
-	projects.POST("", h.CreateProject)
-	//projects.GET("/:id", h.Read)
+	projects.POST("", h.Create)
+	projects.GET("/:id", h.Read)
 	//projects.PUT("/:id", h.UpdateProject)
 	//projects.DELETE("/:id", h.DeleteProject)
 }

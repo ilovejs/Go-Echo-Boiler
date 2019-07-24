@@ -6,6 +6,7 @@ import (
 	. "onsite/dto/projects"
 	m "onsite/models"
 	. "onsite/utils"
+	"strconv"
 )
 
 func (h *Handler) ReadProject(c echo.Context) error {
@@ -21,7 +22,7 @@ func (h *Handler) ReadProject(c echo.Context) error {
 	//return c.JSON(http.StatusOK, NewReadProjectResponse(p))
 }
 
-func (h *Handler) CreateProject(c echo.Context) error {
+func (h *Handler) Create(c echo.Context) error {
 	var p m.Project
 	req := &CreateProjectRequest{}
 	if err := req.Bind(c, &p); err != nil {
@@ -33,4 +34,16 @@ func (h *Handler) CreateProject(c echo.Context) error {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
 	return c.JSON(http.StatusCreated, NewProjectResponse(&p))
+}
+
+func (h *Handler) Read(c echo.Context) error {
+	pid, err := strconv.Atoi(c.Param("projects"))
+	p, err := h.projectStore.Read(pid)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, NewError(err))
+	}
+	if p == nil {
+		return c.JSON(http.StatusNotFound, NotFound())
+	}
+	return c.JSON(http.StatusOK, NewProjectResponse(p))
 }

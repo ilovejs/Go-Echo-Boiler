@@ -15,7 +15,7 @@ type UserStoreInterface interface {
 
 type ProjectStoreInterface interface {
 	Create(*models.Project) error
-	//Read(int) (*models.Project, error)
+	Read(int) (*models.Project, error)
 	//UpdateProject(int) (*models.Project, error)
 	//DeleteProject(int, string) (*models.Project, error)
 

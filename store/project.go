@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/volatiletech/sqlboiler/boil"
+	. "github.com/volatiletech/sqlboiler/queries/qm"
 	"onsite/models"
 )
 
@@ -27,8 +28,11 @@ func (ps *ProjectStore) Create(p *models.Project) error {
 }
 
 func (ps *ProjectStore) Read(id int) (*models.Project, error) {
-	//var m models.Project
-	panic("no")
+	p, err := models.Projects(Where("id = ?", id)).One(ps.db)
+	if err != nil {
+		return nil, err
+	}
+	return p, nil
 }
 
 //GetAll: Active Contractors

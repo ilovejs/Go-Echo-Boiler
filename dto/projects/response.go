@@ -2,7 +2,6 @@ package projects
 
 import (
 	. "onsite/models"
-	"onsite/utils"
 )
 
 type ProjectResponse struct {
@@ -23,11 +22,17 @@ type ProjectResponse struct {
 }
 
 func NewProjectResponse(p *Project) *ProjectResponse {
-	res := new(ProjectResponse)
-	res.Project.ID = p.ID
-	pn := new(string)
-	err := p.Name.Scan(&pn)
-	utils.LogIf(err)
-	res.Project.Name = *pn
-	return res
+	resp := new(ProjectResponse)
+
+	var pn *string
+	pn = p.Name.Ptr()
+
+	resp.Project.ID = p.ID
+	resp.Project.Name = *pn
+	//log.EnableColor()
+	//log.Errorf("%T %v", pn, pn)
+	//log.Errorf("%T %v", *pn, *pn)
+	resp.Project.ManagerProfileID = p.ManagerID
+	resp.Project.CreatorProfileID = p.CreatorID
+	return resp
 }
