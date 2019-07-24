@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"fmt"
 	"github.com/labstack/echo"
 	"net/http"
@@ -9,19 +10,6 @@ import (
 	. "onsite/utils"
 	"strconv"
 )
-
-func (h *Handler) ReadProject(c echo.Context) error {
-	panic("no read project")
-	//id, err := strconv.Atoi(c.QueryParam("id"))
-	//p, err := h.projectStore.Read(id)
-	//if err != nil {
-	//	return c.JSON(http.StatusInternalServerError, utils.NewError(err))
-	//}
-	//if p == nil {
-	//	return c.JSON(http.StatusNotFound, utils.NotFound())
-	//}
-	//return c.JSON(http.StatusOK, NewReadProjectResponse(p))
-}
 
 func (h *Handler) Create(c echo.Context) error {
 	var p m.Project
@@ -49,4 +37,47 @@ func (h *Handler) Read(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, NotFound())
 	}
 	return c.JSON(http.StatusOK, NewProjectResponse(p))
+}
+
+func (h *Handler) Update(c echo.Context) error {
+	req := &UpdateProjectRequest{}
+
+	pid, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, errors.New("id wrong format or not given"))
+	}
+	p, err := h.projectStore.Read(pid)
+	if p == nil {
+		return c.JSON(http.StatusNotFound, NotFound())
+	}
+	//update model payload
+	if err := req.Bind(c, p); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
+	}
+	//commit updating
+	err = h.projectStore.Update(p)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, NewError(err))
+	}
+	fmt.Println("ProjectH: Updated")
+	return c.JSON(http.StatusOK, NewUpdateProjectResponse(p))
+}
+
+func (h *Handler) Delete(c echo.Context) error {
+	//not QueryParam
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
+	}
+	//find
+	p, err := h.projectStore.Read(id)
+	if p == nil {
+		return c.JSON(http.StatusNotFound, NotFound())
+	}
+	//del
+	err = h.projectStore.Delete(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, NewError(err))
+	}
+	return c.JSON(http.StatusOK, NewDeleteProjectResponse(p))
 }

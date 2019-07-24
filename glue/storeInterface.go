@@ -10,14 +10,14 @@ type UserStoreInterface interface {
 	GetByEmail(string) (*models.User, error)
 	GetByUserName(string) (*models.User, error)
 	Update(*models.User) error
-	Delete(user *models.User) error
+	Delete(int) error
 }
 
 type ProjectStoreInterface interface {
 	Create(*models.Project) error
 	Read(int) (*models.Project, error)
-	//UpdateProject(int) (*models.Project, error)
-	//DeleteProject(int, string) (*models.Project, error)
+	Update(*models.Project) error
+	Delete(int) error
 
 	//GetTradeSummary(uint)
 	//GetTradeItems(uint, uint)            //assignTradeList(tid,pid)

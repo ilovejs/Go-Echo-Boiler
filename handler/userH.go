@@ -53,6 +53,7 @@ func (h *Handler) CurrentUser(c echo.Context) error {
 }
 
 func (h *Handler) UpdateUser(c echo.Context) error {
+	//find user from JWT context
 	targetUser, err := h.userStore.GetByID(getUserId(c))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))

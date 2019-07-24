@@ -63,6 +63,6 @@ func (us *UserStore) Update(u *m.User) error {
 	return nil
 }
 
-func (us *UserStore) Delete(u *m.User) error {
+func (us *UserStore) Delete(uid int) error {
 	panic("not done")
 }
