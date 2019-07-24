@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/labstack/echo"
 	"net/http"
 	. "onsite/dto/projects"
@@ -37,7 +38,9 @@ func (h *Handler) Create(c echo.Context) error {
 }
 
 func (h *Handler) Read(c echo.Context) error {
-	pid, err := strconv.Atoi(c.Param("projects"))
+	//get this from url.go where router is defined
+	pid, err := strconv.Atoi(c.Param("id"))
+	fmt.Println("Pid is: ", pid)
 	p, err := h.projectStore.Read(pid)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
