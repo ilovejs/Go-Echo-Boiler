@@ -23,15 +23,8 @@ type ProjectResponse struct {
 
 func NewProjectResponse(p *Project) *ProjectResponse {
 	resp := new(ProjectResponse)
-
-	var pn *string
-	pn = p.Name.Ptr()
-
 	resp.Project.ID = p.ID
-	resp.Project.Name = *pn
-	//log.EnableColor()
-	//log.Errorf("%T %v", pn, pn)
-	//log.Errorf("%T %v", *pn, *pn)
+	resp.Project.Name = *p.Name.Ptr()
 	resp.Project.ManagerProfileID = p.ManagerID
 	resp.Project.CreatorProfileID = p.CreatorID
 	return resp

@@ -42,9 +42,15 @@ func (h *Handler) Register(v1 *echo.Group) {
 	//todo: profile
 
 	projects := v1.Group("/projects")
-	projects.POST("", h.Create)
-	projects.GET("/:id", h.Read)
-	projects.PUT("/:id", h.Update)
-	projects.DELETE("/:id", h.Delete)
+	projects.POST("", h.CreateProject)
+	projects.GET("/:id", h.ReadProject)
+	projects.PUT("/:id", h.UpdateProject)
+	projects.DELETE("/:id", h.DeleteProject)
+
+	basicTrades := v1.Group("/bts")
+	basicTrades.POST("", h.CreateBasicTrade)
+	basicTrades.GET("/:id", h.ReadBasicTrade)
+	basicTrades.PUT("/:id", h.UpdateBasicTrade)
+	basicTrades.DELETE("/:id", h.DeleteBasicTrade)
 
 }

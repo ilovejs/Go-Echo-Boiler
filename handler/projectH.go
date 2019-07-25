@@ -11,13 +11,12 @@ import (
 	"strconv"
 )
 
-func (h *Handler) Create(c echo.Context) error {
+func (h *Handler) CreateProject(c echo.Context) error {
 	var p m.Project
 	req := &CreateProjectRequest{}
 	if err := req.Bind(c, &p); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-
 	err := h.projectStore.Create(&p)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
@@ -25,7 +24,7 @@ func (h *Handler) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, NewProjectResponse(&p))
 }
 
-func (h *Handler) Read(c echo.Context) error {
+func (h *Handler) ReadProject(c echo.Context) error {
 	//get this from url.go where router is defined
 	pid, err := strconv.Atoi(c.Param("id"))
 	fmt.Println("Pid is: ", pid)
@@ -39,7 +38,7 @@ func (h *Handler) Read(c echo.Context) error {
 	return c.JSON(http.StatusOK, NewProjectResponse(p))
 }
 
-func (h *Handler) Update(c echo.Context) error {
+func (h *Handler) UpdateProject(c echo.Context) error {
 	req := &UpdateProjectRequest{}
 
 	pid, err := strconv.Atoi(c.Param("id"))
@@ -63,7 +62,7 @@ func (h *Handler) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, NewUpdateProjectResponse(p))
 }
 
-func (h *Handler) Delete(c echo.Context) error {
+func (h *Handler) DeleteProject(c echo.Context) error {
 	//not QueryParam
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
