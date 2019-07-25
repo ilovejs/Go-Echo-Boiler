@@ -40,19 +40,17 @@ func (bts BasicTradeStore) Get(ids ...int) ([]*models.BasicTrade, error) {
 		if single == nil {
 			return nil, errors.New("basic trade not found")
 		}
-		if err != nil {
-			return nil, err
-		}
 	} else {
+		//todo: test not covered
 		bt, err = models.BasicTrades(WhereIn("id in ?", ids)).All(bts.db)
 		if bt == nil {
 			return nil, errors.New("basic trade not found")
 		}
-		if err != nil {
-			return nil, err
-		}
 	}
 
+	if err != nil {
+		return nil, err
+	}
 	//compile multiple
 	var multiple = make([]*models.BasicTrade, 0)
 	multiple = append(multiple, single)
@@ -75,6 +73,21 @@ func (bts BasicTradeStore) Update(trade *models.BasicTrade) error {
 	panic("implement me")
 }
 
-func (bts BasicTradeStore) Delete(int) error {
-	panic("implement me")
+func (bts BasicTradeStore) Delete(id int) error {
+	arr, err := bts.Get(id)
+	if len(arr) != 1 {
+		return errors.New("item not found, wrong id for basic trade")
+	}
+	if err != nil {
+		//no record
+		return err
+	}
+	basicTradeToDelete := arr[0]
+	basicTradeToDelete.IsDeleted = true
+	rowAffected, err := basicTradeToDelete.Update(bts.db, boil.Whitelist("is_deleted"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Delete BasicTrade row affect: ", rowAffected)
+	return nil
 }

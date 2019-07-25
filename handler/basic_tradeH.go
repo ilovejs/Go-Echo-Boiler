@@ -60,11 +60,18 @@ func (h *Handler) ListBasicTrades(c echo.Context) error {
 }
 
 func (h *Handler) UpdateBasicTrade(c echo.Context) error {
-
 	panic("no")
 }
 
 func (h *Handler) DeleteBasicTrade(c echo.Context) error {
-
-	panic("no")
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
+	}
+	//del without find
+	err = h.basicTradeStore.Delete(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, NewError(err))
+	}
+	return c.JSON(http.StatusOK, NewDeleteBasicTradeResponse(id))
 }

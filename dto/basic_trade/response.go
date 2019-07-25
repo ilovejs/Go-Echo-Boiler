@@ -46,3 +46,16 @@ func NewBasicTradeListResponse(
 	r.ItemCount = count
 	return r
 }
+
+/* delete */
+type DeleteBasicTradeResponse struct {
+	BasicTrade struct {
+		ID int `json:"id"`
+	} `json:"basic_trade"`
+}
+
+func NewDeleteBasicTradeResponse(id int) *DeleteBasicTradeResponse {
+	resp := new(DeleteBasicTradeResponse)
+	resp.BasicTrade.ID = id
+	return resp
+}
