@@ -4,6 +4,8 @@ import (
 	"onsite/models"
 )
 
+/* Store interfaces are injected to handler in url.go */
+
 type UserStoreInterface interface {
 	Create(*models.User) error
 	GetByID(int) (*models.User, error)
@@ -19,14 +21,25 @@ type ProjectStoreInterface interface {
 	Update(*models.Project) error
 	Delete(int) error
 
-	//GetTradeSummary(uint)
-	//GetTradeItems(uint, uint)            //assignTradeList(tid,pid)
-	//GetTradeDetailByTradeId(uint, uint)  //GET addTradeItem
-	//AddTradeItem(trade *model.TradeItem) //POST addTradeItem
-	//GetTradeItemsByProjectId(uint)       //getSavedTradeItems(pid, tid)
-	////todo:TradeItemsPartialSend
-	//DeleteTradeItem(uint, string) //(id, reason)
-	//UpdateTradeItems()            //EditTradeItem 2 methods
+	//GetTradeSummary(int)
+	//GetTradeDetailByTradeId(int, int)  //GET addTradeItem
+	//GetTradeItemsByProjectId(int)       //getSavedTradeItems(pid, tid)
+
+	//todo:TradeItemsPartialSend
+	//AddTradeItem(*models.Trade) //POST addTradeItem
+	//GetTradeItems(int, int)         //assignTradeList(tid,pid)
+	//DeleteTradeItem(int, string)    //(id, reason)
+	//UpdateTradeItems()              //EditTradeItem 2 methods
+}
+
+type BasicTradeStoreInterface interface {
+	Create(trade *models.BasicTrade) error
+	Get(ids ...int) ([]*models.BasicTrade, error) //Get one or all
+	Update(trade *models.BasicTrade) error
+	Delete(int) error
+}
+
+type TradeStoreInterface interface {
 }
 
 type ClaimStoreInterface interface {

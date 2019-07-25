@@ -15,13 +15,14 @@ func main() {
 	//init db and logger
 	d := db.New()
 
-	//store
-	us := store.NewUserStore(d)
+	//store DI
 	ps := store.NewProjectStore(d)
+	us := store.NewUserStore(d)
+	bts := store.NewBasicTradeStore(d)
 	cs := store.NewClaimStore(d)
 
-	// handler
-	h := handler.NewHandler(ps, us, cs)
+	// NewHandler type and DI constructor is defined in handler/url.go
+	h := handler.NewHandler(ps, us, bts, cs)
 	h.Register(v1)
 
 	r.Logger.Fatal(r.Start("localhost:8585"))
