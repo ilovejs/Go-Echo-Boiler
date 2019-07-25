@@ -2,6 +2,8 @@
   <dictionary name="mzhuang">
     <words>
       <w>basictrade</w>
+      <w>btid</w>
+      <w>favorited</w>
       <w>firstname</w>
       <w>keyvals</w>
       <w>lastname</w>

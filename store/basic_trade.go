@@ -36,23 +36,39 @@ func (bts BasicTradeStore) Get(ids ...int) ([]*models.BasicTrade, error) {
 	var err error
 
 	if len(ids) == 1 {
-		single, err = models.BasicTrades(Where("id = ? and is_deleted = ?", ids, false)).
-			One(bts.db)
+		single, err = models.BasicTrades(Where("id = ? and is_deleted = ?", ids[0], false)).One(bts.db)
+		if single == nil {
+			return nil, errors.New("basic trade not found")
+		}
+		if err != nil {
+			return nil, err
+		}
 	} else {
-		bt, err = models.BasicTrades(Where("id = ? and is_deleted = ?", ids, false)).
-			All(bts.db)
+		bt, err = models.BasicTrades(WhereIn("id in ?", ids)).All(bts.db)
+		if bt == nil {
+			return nil, errors.New("basic trade not found")
+		}
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	if bt == nil {
-		return nil, errors.New("basic trade not found")
-	}
-	if err != nil {
-		return nil, err
-	}
 	//compile multiple
 	var multiple = make([]*models.BasicTrade, 0)
 	multiple = append(multiple, single)
 	return multiple, nil
+}
+
+func (bts BasicTradeStore) List(offset int, limit int) ([]*models.BasicTrade, int, error) {
+	AllBts, err := models.BasicTrades(Where("is_deleted = ?", false),
+		Limit(limit),
+		Offset(offset),
+	).All(bts.db)
+
+	if err != nil {
+		return nil, 0, err
+	}
+	return AllBts, len(AllBts), nil
 }
 
 func (bts BasicTradeStore) Update(trade *models.BasicTrade) error {

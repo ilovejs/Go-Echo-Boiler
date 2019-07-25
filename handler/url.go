@@ -49,6 +49,7 @@ func (h *Handler) Register(v1 *echo.Group) {
 
 	basicTrades := v1.Group("/bts")
 	basicTrades.POST("", h.CreateBasicTrade)
+	basicTrades.GET("", h.ListBasicTrades)
 	basicTrades.GET("/:id", h.ReadBasicTrade)
 	basicTrades.PUT("/:id", h.UpdateBasicTrade)
 	basicTrades.DELETE("/:id", h.DeleteBasicTrade)

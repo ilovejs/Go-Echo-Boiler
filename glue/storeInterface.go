@@ -37,6 +37,7 @@ type BasicTradeStoreInterface interface {
 	Get(ids ...int) ([]*models.BasicTrade, error) //Get one or all
 	Update(trade *models.BasicTrade) error
 	Delete(int) error
+	List(offset int, limit int) ([]*models.BasicTrade, int, error)
 }
 
 type TradeStoreInterface interface {
