@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/volatiletech/sqlboiler/boil"
 	. "github.com/volatiletech/sqlboiler/queries/qm"
 	"onsite/models"
@@ -69,8 +70,15 @@ func (bts BasicTradeStore) List(offset int, limit int) ([]*models.BasicTrade, in
 	return AllBts, len(AllBts), nil
 }
 
-func (bts BasicTradeStore) Update(trade *models.BasicTrade) error {
-	panic("implement me")
+func (bts BasicTradeStore) Update(t *models.BasicTrade) error {
+	t.Updated.SetValid(time.Now())
+	updated, err := t.Update(bts.db, boil.Infer())
+	if err != nil {
+		return err
+	}
+	fmt.Println("BasicTrade Updated")
+	spew.Dump(updated)
+	return nil
 }
 
 func (bts BasicTradeStore) Delete(id int) error {

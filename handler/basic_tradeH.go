@@ -60,7 +60,28 @@ func (h *Handler) ListBasicTrades(c echo.Context) error {
 }
 
 func (h *Handler) UpdateBasicTrade(c echo.Context) error {
-	panic("no")
+	req := &UpdateBasicTradeRequest{}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, errors.New("parsing id error"))
+	}
+	arr, err := h.basicTradeStore.Get(id)
+	if len(arr) == 0 {
+		return c.JSON(http.StatusNotFound, NotFound())
+	}
+	itemToUpdate := arr[0]
+	//update model payload
+	if err := req.Bind(c, itemToUpdate); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
+	}
+	//commit updating
+	err = h.basicTradeStore.Update(itemToUpdate)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, NewError(err))
+	}
+	fmt.Println("basicTradeH: Updated")
+	return c.JSON(http.StatusOK, NewUpdateBasicTradeResponse(itemToUpdate))
 }
 
 func (h *Handler) DeleteBasicTrade(c echo.Context) error {

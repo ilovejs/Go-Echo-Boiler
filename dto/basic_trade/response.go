@@ -26,6 +26,18 @@ type BasicTradeListResponse struct {
 	ItemCount   int                   `json:"item_count"`
 }
 
+/* update */
+type UpdateBasicTradeResponse struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func NewUpdateBasicTradeResponse(item *models.BasicTrade) *UpdateBasicTradeRequest {
+	resp := new(UpdateBasicTradeRequest)
+	resp.Name = item.Name
+	return resp
+}
+
 //list response
 func NewBasicTradeListResponse(
 	basicTradesSource []*models.BasicTrade,
