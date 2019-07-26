@@ -21,7 +21,7 @@ type ProjectStoreInterface interface {
 	Update(*models.Project) error
 	Delete(int) error
 	List(offset int, limit int) ([]*models.Project, int, error)
-	Contractors(pid int) ([]models.User, error)
+	Contractors(pid int) ([]*models.User, error)
 }
 
 type TradeCategoryStoreInterface interface {
@@ -51,11 +51,11 @@ type ClaimStoreInterface interface {
 	//TradeItemsClaimSummary(int)    //getClaimSummaryByMonth
 	//ProjectClaim(int)              //Merge ctr with other ?
 	//TradeClaimHistory(tradeClaimId int)  //step 4, 'view'
-	////GetClaimByProjectId(uint)       //TradeItemsClaim
+	////GetClaimByProjectId(int)       //TradeItemsClaim
 	//UpdateClaim(claim *models.Claim) //POST ProjectClaim
 	//UpdateClaimByID(int, int)     //TradeItemsClaimEdit(pid, tid)
-	//TradeItemsClaimList(uint, uint) //GetTradeItems(uint, uint)
-	//SubmitClaim(uint, string, string)      //pid, month, claim number
-	//GetContractorClaimReport(uint)
-	//GetClaimReport(uint)
+	//TradeItemsClaimList(int, int) //GetTradeItems(int, int)
+	//SubmitClaim(uint, string, string)  //pid, month, claim number
+	//GetContractorClaimReport(int)
+	//GetClaimReport(int)
 }

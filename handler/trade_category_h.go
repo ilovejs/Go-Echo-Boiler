@@ -6,7 +6,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/labstack/echo"
 	"net/http"
-	. "onsite/dto/trade_category"
+	. "onsite/dto/trade_categories"
 	m "onsite/models"
 	. "onsite/utils"
 	"strconv"

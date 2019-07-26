@@ -1,4 +1,4 @@
-package trade_category
+package trade_categories
 
 import (
 	"github.com/labstack/echo"

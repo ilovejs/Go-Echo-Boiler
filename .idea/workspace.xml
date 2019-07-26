@@ -1,38 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f08673bc-0587-4aa3-b5e7-334f3d2804c7" name="Default Changelist" comment="update basic trade is tested">
-      <change afterPath="$PROJECT_DIR$/dto/trade_category/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8614063e-99c7-4886-b41a-c335be91fca5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8614063e-99c7-4886-b41a-c335be91fca5.xml" afterDir="false" />
+    <list default="true" id="f08673bc-0587-4aa3-b5e7-334f3d2804c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/sql/DDL_dump_from_goland.sql" beforeDir="false" afterPath="$PROJECT_DIR$/doc/sql/DDL_dump_from_goland.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/sql/db_side_run.sql" beforeDir="false" afterPath="$PROJECT_DIR$/doc/sql/db_side_run.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dto/basic_trade/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/trade_category/request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dto/basic_trade/response.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dto/projects/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/projects/request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dto/projects/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/projects/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen.sh" beforeDir="false" afterPath="$PROJECT_DIR$/gen.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/glue/storeInterface.go" beforeDir="false" afterPath="$PROJECT_DIR$/store/storeCmd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/basic_tradeH.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/trade_categoryH.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/url.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/basic_trades.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/basic_trades_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/boil_suites_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/boil_suites_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/boil_table_names.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/boil_table_names.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/claim_histories.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/claim_histories.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/claims.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/claims.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/claims_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/claims_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/mssql_suites_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/mssql_suites_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projects.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projects.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projects_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projects_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/roles.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/roles.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/tables_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/models/tables_schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trades.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/trades.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trades_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/trades_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/basic_trade.go" beforeDir="false" afterPath="$PROJECT_DIR$/store/trade_category.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/trade_category/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/trade_categories/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/trade_category/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/trade_categories/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/trade_category_h.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/trade_category_h.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/store/project.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tables_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tables_schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/store_cmd.go" beforeDir="false" afterPath="$PROJECT_DIR$/store/store_cmd.go" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/httpRequests/" />
     <ignored path=".idea/" />
@@ -83,26 +58,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/store/project.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/store/storeCmd.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="23" column="47" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -115,10 +71,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>6660</find>
-      <find>UserUserStore</find>
-      <find>popul</find>
-      <find>utils.</find>
       <find>open</find>
       <find>mysql</find>
       <find>m.User</find>
@@ -145,6 +97,10 @@
       <find>BasicTrades</find>
       <find>TotalItemBreakdown</find>
       <find>basic_trade</find>
+      <find>basic</find>
+      <find>basic trade</find>
+      <find>total_item_breakdown</find>
+      <find>breakdown</find>
     </findStrings>
     <replaceStrings>
       <replace>User</replace>
@@ -161,6 +117,8 @@
       <replace>TradeCategories</replace>
       <replace>Value</replace>
       <replace>trade_category</replace>
+      <replace>trade catogory</replace>
+      <replace>total_trade_value</replace>
     </replaceStrings>
   </component>
   <component name="GOROOT" path="C:\Go" />
@@ -177,7 +135,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/store/projectStore.go" />
         <option value="$PROJECT_DIR$/doc/alter_fk.sql" />
         <option value="$PROJECT_DIR$/doc/sql/sp.sql" />
         <option value="$PROJECT_DIR$/utils/errors.go" />
@@ -228,6 +185,7 @@
         <option value="$PROJECT_DIR$/store/storeInterface.go" />
         <option value="$PROJECT_DIR$/store/storeCmd.go" />
         <option value="$PROJECT_DIR$/store/project.go" />
+        <option value="$PROJECT_DIR$/store/store_cmd.go" />
       </list>
     </option>
   </component>
@@ -235,10 +193,10 @@
     <option name="directoryName" value="VokxxSxE" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1767" />
-    <option name="y" value="-17" />
-    <option name="width" value="816" />
-    <option name="height" value="300" />
+    <option name="x" value="-6" />
+    <option name="y" value="-6" />
+    <option name="width" value="813" />
+    <option name="height" value="613" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -269,7 +227,13 @@
               <item name="onsite" type="b2602c69:ProjectViewProjectNode" />
               <item name="onsite" type="462c0819:PsiDirectoryNode" />
               <item name="dto" type="462c0819:PsiDirectoryNode" />
-              <item name="trade_category" type="462c0819:PsiDirectoryNode" />
+              <item name="projects" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="onsite" type="b2602c69:ProjectViewProjectNode" />
+              <item name="onsite" type="462c0819:PsiDirectoryNode" />
+              <item name="dto" type="462c0819:PsiDirectoryNode" />
+              <item name="trade_categories" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="onsite" type="b2602c69:ProjectViewProjectNode" />
@@ -291,6 +255,11 @@
               <item name="onsite" type="b2602c69:ProjectViewProjectNode" />
               <item name="onsite" type="462c0819:PsiDirectoryNode" />
               <item name="store" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="onsite" type="b2602c69:ProjectViewProjectNode" />
+              <item name="onsite" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -324,16 +293,16 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\mzhuang\go\src\onsite" />
-      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\doc" />
-      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mzhuang\go\src\onsite\store" />
       <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\doc\sql" />
       <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\dto" />
       <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\handler" />
       <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\model" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mzhuang\go\src\onsite" />
+      <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2\doc" />
       <recent name="C:\Users\mzhuang\GIT\GoProj\go-onsite2" />
     </key>
   </component>
@@ -820,10 +789,9 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15778251" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11567164" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3279396" />
@@ -839,7 +807,7 @@
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32972974" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.28226554" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32901832" />
-      <window_info active="true" anchor="bottom" x="2018" y="32" width="1476" height="963" id="Run" order="14" visible="true" weight="0.24811219" />
+      <window_info anchor="bottom" x="2018" y="32" width="1476" height="963" id="Run" order="14" weight="0.24811219" />
       <window_info anchor="bottom" x="323" y="356" width="901" height="212" id="Debug" maximized="true" order="15" weight="0.2831766" />
       <window_info anchor="bottom" id="Call Graph" order="16" weight="0.3294979" />
       <window_info anchor="bottom" id="SQL Generator" order="17" weight="0.32961932" />
@@ -900,8 +868,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="model" />
-    <MESSAGE value="move to GOPATH for the sake of sqlboiler&#10;update echo to v4 in local" />
     <MESSAGE value="rebuilt sql database" />
     <MESSAGE value="not working,&#10;update sql" />
     <MESSAGE value="working:&#10;figured out the right way to init db&#10;and test without constraint. Current support for mssql is not as good as mysql.&#10;I suspect if we turned on fk in test: tables_schema.sql.&#10;223 Tests would fail." />
@@ -925,7 +891,9 @@
     <MESSAGE value="list and get method all tested" />
     <MESSAGE value="delete basic trade is done" />
     <MESSAGE value="update basic trade is tested" />
-    <option name="LAST_COMMIT_MESSAGE" value="update basic trade is tested" />
+    <MESSAGE value="clean up interface&#10;add List for project&#10;add Contractors to interface&#10;rename table and related fk and constraint" />
+    <MESSAGE value="json typing miss matching bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="json typing miss matching bugs" />
   </component>
   <component name="VgoProject">
     <proxy>direct</proxy>
@@ -1237,7 +1205,7 @@ r.User.UserRoleId</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/handler/userH.go">
+    <entry file="file://$PROJECT_DIR$/handler/user_h.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="511">
           <caret line="90" selection-start-line="90" selection-end-line="90" />
@@ -1279,7 +1247,7 @@ r.User.UserRoleId</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/handler/projectH.go">
+    <entry file="file://$PROJECT_DIR$/handler/project_h.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1122">
           <caret line="60" column="30" selection-start-line="60" selection-start-column="30" selection-end-line="60" selection-end-column="30" />
@@ -1326,21 +1294,21 @@ r.User.UserRoleId</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dto/trade_category/request.go">
+    <entry file="file://$PROJECT_DIR$/dto/trade_categories/request.go">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="22" selection-start-column="22" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dto/trade_category/response.go">
+    <entry file="file://$PROJECT_DIR$/dto/trade_categories/response.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="46" column="53" selection-start-line="46" selection-start-column="53" selection-end-line="46" selection-end-column="53" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/handler/trade_categoryH.go">
+    <entry file="file://$PROJECT_DIR$/handler/trade_category_h.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="8" column="30" lean-forward="true" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
@@ -1376,15 +1344,15 @@ r.User.UserRoleId</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/store/project.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
+        <state relative-caret-position="1479">
+          <caret line="83" column="45" selection-start-line="83" selection-start-column="45" selection-end-line="83" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/store/storeCmd.go">
+    <entry file="file://$PROJECT_DIR$/store/store_cmd.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="23" column="47" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
+        <state relative-caret-position="880">
+          <caret line="42" column="24" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
         </state>
       </provider>
     </entry>

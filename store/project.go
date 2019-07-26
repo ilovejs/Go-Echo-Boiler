@@ -80,13 +80,6 @@ func (ps *ProjectStore) List(offset int, limit int) ([]*models.Project, int, err
 }
 
 //GetAll: Active Contractors
-func (ps *ProjectStore) Contractors(pid int) ([]models.User, error) {
-	panic("no")
-	//var users []models.User
-
-	//err := ps.db.Debug().models(&models.User{}).Find(&users).Error
-	//if err != nil {
-	//	return nil, err
-	//}
-	//return users, err
+func (ps *ProjectStore) Contractors(pid int) ([]*models.User, error) {
+	panic("Contractors are not necessary now.")
 }
