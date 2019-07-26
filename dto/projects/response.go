@@ -14,7 +14,7 @@ type ProjectResponse struct {
 		SerialNo string `json:"serial_no,omitempty"`
 		Details  string `json:"details,omitempty"`
 		//
-		Value                float64 `json:"total_item_breakdown,omitempty"`
+		Value                float64 `json:"total_trade_value,omitempty"`
 		ContractorTotalClaim float64 `json:"contractor_total_claim,omitempty"`
 		TotalContractValue   float64 `json:"total_contract_value,omitempty"`
 		QuantitySurveyor     string  `json:"quantity_surveyor,omitempty"`
