@@ -21,8 +21,8 @@ import (
 	"github.com/volatiletech/sqlboiler/strmangle"
 )
 
-// BasicTrade is an object representing the database table.
-type BasicTrade struct {
+// TradeCategory is an object representing the database table.
+type TradeCategory struct {
 	ID        int       `boil:"id" json:"id" toml:"id" yaml:"id"`
 	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
 	IsActive  bool      `boil:"is_active" json:"is_active" toml:"is_active" yaml:"is_active"`
@@ -30,11 +30,11 @@ type BasicTrade struct {
 	Created   null.Time `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
 	Updated   null.Time `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
 
-	R *basicTradeR `boil:"-" json:"-" toml:"-" yaml:"-"`
-	L basicTradeL  `boil:"-" json:"-" toml:"-" yaml:"-"`
+	R *tradeCategoryR `boil:"-" json:"-" toml:"-" yaml:"-"`
+	L tradeCategoryL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
-var BasicTradeColumns = struct {
+var TradeCategoryColumns = struct {
 	ID        string
 	Name      string
 	IsActive  string
@@ -52,57 +52,7 @@ var BasicTradeColumns = struct {
 
 // Generated where
 
-type whereHelperint struct{ field string }
-
-func (w whereHelperint) EQ(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperint) NEQ(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperint) LT(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperint) LTE(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperint) GT(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperint) GTE(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-
-type whereHelperstring struct{ field string }
-
-func (w whereHelperstring) EQ(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperstring) NEQ(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperstring) LT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperstring) LTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperstring) GT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperstring) GTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-
-type whereHelperbool struct{ field string }
-
-func (w whereHelperbool) EQ(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperbool) NEQ(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperbool) LT(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperbool) LTE(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperbool) GT(x bool) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperbool) GTE(x bool) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-
-type whereHelpernull_Time struct{ field string }
-
-func (w whereHelpernull_Time) EQ(x null.Time) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
-}
-func (w whereHelpernull_Time) NEQ(x null.Time) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
-}
-func (w whereHelpernull_Time) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelpernull_Time) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
-func (w whereHelpernull_Time) LT(x null.Time) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LT, x)
-}
-func (w whereHelpernull_Time) LTE(x null.Time) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LTE, x)
-}
-func (w whereHelpernull_Time) GT(x null.Time) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GT, x)
-}
-func (w whereHelpernull_Time) GTE(x null.Time) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GTE, x)
-}
-
-var BasicTradeWhere = struct {
+var TradeCategoryWhere = struct {
 	ID        whereHelperint
 	Name      whereHelperstring
 	IsActive  whereHelperbool
@@ -110,16 +60,16 @@ var BasicTradeWhere = struct {
 	Created   whereHelpernull_Time
 	Updated   whereHelpernull_Time
 }{
-	ID:        whereHelperint{field: "[dbo].[basic_trades].[id]"},
-	Name:      whereHelperstring{field: "[dbo].[basic_trades].[name]"},
-	IsActive:  whereHelperbool{field: "[dbo].[basic_trades].[is_active]"},
-	IsDeleted: whereHelperbool{field: "[dbo].[basic_trades].[is_deleted]"},
-	Created:   whereHelpernull_Time{field: "[dbo].[basic_trades].[created]"},
-	Updated:   whereHelpernull_Time{field: "[dbo].[basic_trades].[updated]"},
+	ID:        whereHelperint{field: "[dbo].[trade_categories].[id]"},
+	Name:      whereHelperstring{field: "[dbo].[trade_categories].[name]"},
+	IsActive:  whereHelperbool{field: "[dbo].[trade_categories].[is_active]"},
+	IsDeleted: whereHelperbool{field: "[dbo].[trade_categories].[is_deleted]"},
+	Created:   whereHelpernull_Time{field: "[dbo].[trade_categories].[created]"},
+	Updated:   whereHelpernull_Time{field: "[dbo].[trade_categories].[updated]"},
 }
 
-// BasicTradeRels is where relationship names are stored.
-var BasicTradeRels = struct {
+// TradeCategoryRels is where relationship names are stored.
+var TradeCategoryRels = struct {
 	Claims string
 	Trades string
 }{
@@ -127,49 +77,49 @@ var BasicTradeRels = struct {
 	Trades: "Trades",
 }
 
-// basicTradeR is where relationships are stored.
-type basicTradeR struct {
+// tradeCategoryR is where relationships are stored.
+type tradeCategoryR struct {
 	Claims ClaimSlice
 	Trades TradeSlice
 }
 
 // NewStruct creates a new relationship struct
-func (*basicTradeR) NewStruct() *basicTradeR {
-	return &basicTradeR{}
+func (*tradeCategoryR) NewStruct() *tradeCategoryR {
+	return &tradeCategoryR{}
 }
 
-// basicTradeL is where Load methods for each relationship are stored.
-type basicTradeL struct{}
+// tradeCategoryL is where Load methods for each relationship are stored.
+type tradeCategoryL struct{}
 
 var (
-	basicTradeAllColumns            = []string{"id", "name", "is_active", "is_deleted", "created", "updated"}
-	basicTradeColumnsWithAuto       = []string{}
-	basicTradeColumnsWithoutDefault = []string{"name", "created"}
-	basicTradeColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
-	basicTradePrimaryKeyColumns     = []string{"id"}
+	tradeCategoryAllColumns            = []string{"id", "name", "is_active", "is_deleted", "created", "updated"}
+	tradeCategoryColumnsWithAuto       = []string{}
+	tradeCategoryColumnsWithoutDefault = []string{"name", "created"}
+	tradeCategoryColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
+	tradeCategoryPrimaryKeyColumns     = []string{"id"}
 )
 
 type (
-	// BasicTradeSlice is an alias for a slice of pointers to BasicTrade.
-	// This should generally be used opposed to []BasicTrade.
-	BasicTradeSlice []*BasicTrade
+	// TradeCategorySlice is an alias for a slice of pointers to TradeCategory.
+	// This should generally be used opposed to []TradeCategory.
+	TradeCategorySlice []*TradeCategory
 
-	basicTradeQuery struct {
+	tradeCategoryQuery struct {
 		*queries.Query
 	}
 )
 
 // Cache for insert, update and upsert
 var (
-	basicTradeType                 = reflect.TypeOf(&BasicTrade{})
-	basicTradeMapping              = queries.MakeStructMapping(basicTradeType)
-	basicTradePrimaryKeyMapping, _ = queries.BindMapping(basicTradeType, basicTradeMapping, basicTradePrimaryKeyColumns)
-	basicTradeInsertCacheMut       sync.RWMutex
-	basicTradeInsertCache          = make(map[string]insertCache)
-	basicTradeUpdateCacheMut       sync.RWMutex
-	basicTradeUpdateCache          = make(map[string]updateCache)
-	basicTradeUpsertCacheMut       sync.RWMutex
-	basicTradeUpsertCache          = make(map[string]insertCache)
+	tradeCategoryType                 = reflect.TypeOf(&TradeCategory{})
+	tradeCategoryMapping              = queries.MakeStructMapping(tradeCategoryType)
+	tradeCategoryPrimaryKeyMapping, _ = queries.BindMapping(tradeCategoryType, tradeCategoryMapping, tradeCategoryPrimaryKeyColumns)
+	tradeCategoryInsertCacheMut       sync.RWMutex
+	tradeCategoryInsertCache          = make(map[string]insertCache)
+	tradeCategoryUpdateCacheMut       sync.RWMutex
+	tradeCategoryUpdateCache          = make(map[string]updateCache)
+	tradeCategoryUpsertCacheMut       sync.RWMutex
+	tradeCategoryUpsertCache          = make(map[string]insertCache)
 )
 
 var (
@@ -180,9 +130,9 @@ var (
 	_ = qmhelper.Where
 )
 
-// One returns a single basicTrade record from the query.
-func (q basicTradeQuery) One(exec boil.Executor) (*BasicTrade, error) {
-	o := &BasicTrade{}
+// One returns a single tradeCategory record from the query.
+func (q tradeCategoryQuery) One(exec boil.Executor) (*TradeCategory, error) {
+	o := &TradeCategory{}
 
 	queries.SetLimit(q.Query, 1)
 
@@ -191,26 +141,26 @@ func (q basicTradeQuery) One(exec boil.Executor) (*BasicTrade, error) {
 		if errors.Cause(err) == sql.ErrNoRows {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "models: failed to execute a one query for basic_trades")
+		return nil, errors.Wrap(err, "models: failed to execute a one query for trade_categories")
 	}
 
 	return o, nil
 }
 
-// All returns all BasicTrade records from the query.
-func (q basicTradeQuery) All(exec boil.Executor) (BasicTradeSlice, error) {
-	var o []*BasicTrade
+// All returns all TradeCategory records from the query.
+func (q tradeCategoryQuery) All(exec boil.Executor) (TradeCategorySlice, error) {
+	var o []*TradeCategory
 
 	err := q.Bind(nil, exec, &o)
 	if err != nil {
-		return nil, errors.Wrap(err, "models: failed to assign all query results to BasicTrade slice")
+		return nil, errors.Wrap(err, "models: failed to assign all query results to TradeCategory slice")
 	}
 
 	return o, nil
 }
 
-// Count returns the count of all BasicTrade records in the query.
-func (q basicTradeQuery) Count(exec boil.Executor) (int64, error) {
+// Count returns the count of all TradeCategory records in the query.
+func (q tradeCategoryQuery) Count(exec boil.Executor) (int64, error) {
 	var count int64
 
 	queries.SetSelect(q.Query, nil)
@@ -218,14 +168,14 @@ func (q basicTradeQuery) Count(exec boil.Executor) (int64, error) {
 
 	err := q.Query.QueryRow(exec).Scan(&count)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to count basic_trades rows")
+		return 0, errors.Wrap(err, "models: failed to count trade_categories rows")
 	}
 
 	return count, nil
 }
 
 // Exists checks if the row exists in the table.
-func (q basicTradeQuery) Exists(exec boil.Executor) (bool, error) {
+func (q tradeCategoryQuery) Exists(exec boil.Executor) (bool, error) {
 	var count int64
 
 	queries.SetSelect(q.Query, nil)
@@ -234,21 +184,21 @@ func (q basicTradeQuery) Exists(exec boil.Executor) (bool, error) {
 
 	err := q.Query.QueryRow(exec).Scan(&count)
 	if err != nil {
-		return false, errors.Wrap(err, "models: failed to check if basic_trades exists")
+		return false, errors.Wrap(err, "models: failed to check if trade_categories exists")
 	}
 
 	return count > 0, nil
 }
 
 // Claims retrieves all the claim's Claims with an executor.
-func (o *BasicTrade) Claims(mods ...qm.QueryMod) claimQuery {
+func (o *TradeCategory) Claims(mods ...qm.QueryMod) claimQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
 		queryMods = append(queryMods, mods...)
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("[dbo].[claims].[basic_trade_id]=?", o.ID),
+		qm.Where("[dbo].[claims].[trade_category_id]=?", o.ID),
 	)
 
 	query := Claims(queryMods...)
@@ -262,14 +212,14 @@ func (o *BasicTrade) Claims(mods ...qm.QueryMod) claimQuery {
 }
 
 // Trades retrieves all the trade's Trades with an executor.
-func (o *BasicTrade) Trades(mods ...qm.QueryMod) tradeQuery {
+func (o *TradeCategory) Trades(mods ...qm.QueryMod) tradeQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
 		queryMods = append(queryMods, mods...)
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("[dbo].[trades].[basic_trade_id]=?", o.ID),
+		qm.Where("[dbo].[trades].[trade_category_id]=?", o.ID),
 	)
 
 	query := Trades(queryMods...)
@@ -284,27 +234,27 @@ func (o *BasicTrade) Trades(mods ...qm.QueryMod) tradeQuery {
 
 // LoadClaims allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (basicTradeL) LoadClaims(e boil.Executor, singular bool, maybeBasicTrade interface{}, mods queries.Applicator) error {
-	var slice []*BasicTrade
-	var object *BasicTrade
+func (tradeCategoryL) LoadClaims(e boil.Executor, singular bool, maybeTradeCategory interface{}, mods queries.Applicator) error {
+	var slice []*TradeCategory
+	var object *TradeCategory
 
 	if singular {
-		object = maybeBasicTrade.(*BasicTrade)
+		object = maybeTradeCategory.(*TradeCategory)
 	} else {
-		slice = *maybeBasicTrade.(*[]*BasicTrade)
+		slice = *maybeTradeCategory.(*[]*TradeCategory)
 	}
 
 	args := make([]interface{}, 0, 1)
 	if singular {
 		if object.R == nil {
-			object.R = &basicTradeR{}
+			object.R = &tradeCategoryR{}
 		}
 		args = append(args, object.ID)
 	} else {
 	Outer:
 		for _, obj := range slice {
 			if obj.R == nil {
-				obj.R = &basicTradeR{}
+				obj.R = &tradeCategoryR{}
 			}
 
 			for _, a := range args {
@@ -321,7 +271,7 @@ func (basicTradeL) LoadClaims(e boil.Executor, singular bool, maybeBasicTrade in
 		return nil
 	}
 
-	query := NewQuery(qm.From(`dbo.claims`), qm.WhereIn(`basic_trade_id in ?`, args...))
+	query := NewQuery(qm.From(`dbo.claims`), qm.WhereIn(`trade_category_id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -349,19 +299,19 @@ func (basicTradeL) LoadClaims(e boil.Executor, singular bool, maybeBasicTrade in
 			if foreign.R == nil {
 				foreign.R = &claimR{}
 			}
-			foreign.R.BasicTrade = object
+			foreign.R.TradeCategory = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if local.ID == foreign.BasicTradeID {
+			if local.ID == foreign.TradeCategoryID {
 				local.R.Claims = append(local.R.Claims, foreign)
 				if foreign.R == nil {
 					foreign.R = &claimR{}
 				}
-				foreign.R.BasicTrade = local
+				foreign.R.TradeCategory = local
 				break
 			}
 		}
@@ -372,27 +322,27 @@ func (basicTradeL) LoadClaims(e boil.Executor, singular bool, maybeBasicTrade in
 
 // LoadTrades allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (basicTradeL) LoadTrades(e boil.Executor, singular bool, maybeBasicTrade interface{}, mods queries.Applicator) error {
-	var slice []*BasicTrade
-	var object *BasicTrade
+func (tradeCategoryL) LoadTrades(e boil.Executor, singular bool, maybeTradeCategory interface{}, mods queries.Applicator) error {
+	var slice []*TradeCategory
+	var object *TradeCategory
 
 	if singular {
-		object = maybeBasicTrade.(*BasicTrade)
+		object = maybeTradeCategory.(*TradeCategory)
 	} else {
-		slice = *maybeBasicTrade.(*[]*BasicTrade)
+		slice = *maybeTradeCategory.(*[]*TradeCategory)
 	}
 
 	args := make([]interface{}, 0, 1)
 	if singular {
 		if object.R == nil {
-			object.R = &basicTradeR{}
+			object.R = &tradeCategoryR{}
 		}
 		args = append(args, object.ID)
 	} else {
 	Outer:
 		for _, obj := range slice {
 			if obj.R == nil {
-				obj.R = &basicTradeR{}
+				obj.R = &tradeCategoryR{}
 			}
 
 			for _, a := range args {
@@ -409,7 +359,7 @@ func (basicTradeL) LoadTrades(e boil.Executor, singular bool, maybeBasicTrade in
 		return nil
 	}
 
-	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`basic_trade_id in ?`, args...))
+	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`trade_category_id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -437,19 +387,19 @@ func (basicTradeL) LoadTrades(e boil.Executor, singular bool, maybeBasicTrade in
 			if foreign.R == nil {
 				foreign.R = &tradeR{}
 			}
-			foreign.R.BasicTrade = object
+			foreign.R.TradeCategory = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if local.ID == foreign.BasicTradeID {
+			if local.ID == foreign.TradeCategoryID {
 				local.R.Trades = append(local.R.Trades, foreign)
 				if foreign.R == nil {
 					foreign.R = &tradeR{}
 				}
-				foreign.R.BasicTrade = local
+				foreign.R.TradeCategory = local
 				break
 			}
 		}
@@ -459,21 +409,21 @@ func (basicTradeL) LoadTrades(e boil.Executor, singular bool, maybeBasicTrade in
 }
 
 // AddClaims adds the given related objects to the existing relationships
-// of the basic_trade, optionally inserting them as new records.
+// of the trade_category, optionally inserting them as new records.
 // Appends related to o.R.Claims.
-// Sets related.R.BasicTrade appropriately.
-func (o *BasicTrade) AddClaims(exec boil.Executor, insert bool, related ...*Claim) error {
+// Sets related.R.TradeCategory appropriately.
+func (o *TradeCategory) AddClaims(exec boil.Executor, insert bool, related ...*Claim) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			rel.BasicTradeID = o.ID
+			rel.TradeCategoryID = o.ID
 			if err = rel.Insert(exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE [dbo].[claims] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
+				strmangle.SetParamNames("[", "]", 1, []string{"trade_category_id"}),
 				strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
 			)
 			values := []interface{}{o.ID, rel.ID}
@@ -487,12 +437,12 @@ func (o *BasicTrade) AddClaims(exec boil.Executor, insert bool, related ...*Clai
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			rel.BasicTradeID = o.ID
+			rel.TradeCategoryID = o.ID
 		}
 	}
 
 	if o.R == nil {
-		o.R = &basicTradeR{
+		o.R = &tradeCategoryR{
 			Claims: related,
 		}
 	} else {
@@ -502,31 +452,31 @@ func (o *BasicTrade) AddClaims(exec boil.Executor, insert bool, related ...*Clai
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &claimR{
-				BasicTrade: o,
+				TradeCategory: o,
 			}
 		} else {
-			rel.R.BasicTrade = o
+			rel.R.TradeCategory = o
 		}
 	}
 	return nil
 }
 
 // AddTrades adds the given related objects to the existing relationships
-// of the basic_trade, optionally inserting them as new records.
+// of the trade_category, optionally inserting them as new records.
 // Appends related to o.R.Trades.
-// Sets related.R.BasicTrade appropriately.
-func (o *BasicTrade) AddTrades(exec boil.Executor, insert bool, related ...*Trade) error {
+// Sets related.R.TradeCategory appropriately.
+func (o *TradeCategory) AddTrades(exec boil.Executor, insert bool, related ...*Trade) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			rel.BasicTradeID = o.ID
+			rel.TradeCategoryID = o.ID
 			if err = rel.Insert(exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE [dbo].[trades] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
+				strmangle.SetParamNames("[", "]", 1, []string{"trade_category_id"}),
 				strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
 			)
 			values := []interface{}{o.ID, rel.ID}
@@ -540,12 +490,12 @@ func (o *BasicTrade) AddTrades(exec boil.Executor, insert bool, related ...*Trad
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			rel.BasicTradeID = o.ID
+			rel.TradeCategoryID = o.ID
 		}
 	}
 
 	if o.R == nil {
-		o.R = &basicTradeR{
+		o.R = &tradeCategoryR{
 			Trades: related,
 		}
 	} else {
@@ -555,83 +505,83 @@ func (o *BasicTrade) AddTrades(exec boil.Executor, insert bool, related ...*Trad
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &tradeR{
-				BasicTrade: o,
+				TradeCategory: o,
 			}
 		} else {
-			rel.R.BasicTrade = o
+			rel.R.TradeCategory = o
 		}
 	}
 	return nil
 }
 
-// BasicTrades retrieves all the records using an executor.
-func BasicTrades(mods ...qm.QueryMod) basicTradeQuery {
-	mods = append(mods, qm.From("[dbo].[basic_trades]"))
-	return basicTradeQuery{NewQuery(mods...)}
+// TradeCategories retrieves all the records using an executor.
+func TradeCategories(mods ...qm.QueryMod) tradeCategoryQuery {
+	mods = append(mods, qm.From("[dbo].[trade_categories]"))
+	return tradeCategoryQuery{NewQuery(mods...)}
 }
 
-// FindBasicTrade retrieves a single record by ID with an executor.
+// FindTradeCategory retrieves a single record by ID with an executor.
 // If selectCols is empty Find will return all columns.
-func FindBasicTrade(exec boil.Executor, iD int, selectCols ...string) (*BasicTrade, error) {
-	basicTradeObj := &BasicTrade{}
+func FindTradeCategory(exec boil.Executor, iD int, selectCols ...string) (*TradeCategory, error) {
+	tradeCategoryObj := &TradeCategory{}
 
 	sel := "*"
 	if len(selectCols) > 0 {
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from [dbo].[basic_trades] where [id]=$1", sel,
+		"select %s from [dbo].[trade_categories] where [id]=$1", sel,
 	)
 
 	q := queries.Raw(query, iD)
 
-	err := q.Bind(nil, exec, basicTradeObj)
+	err := q.Bind(nil, exec, tradeCategoryObj)
 	if err != nil {
 		if errors.Cause(err) == sql.ErrNoRows {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "models: unable to select from basic_trades")
+		return nil, errors.Wrap(err, "models: unable to select from trade_categories")
 	}
 
-	return basicTradeObj, nil
+	return tradeCategoryObj, nil
 }
 
 // Insert a single record using an executor.
 // See boil.Columns.InsertColumnSet documentation to understand column list inference for inserts.
-func (o *BasicTrade) Insert(exec boil.Executor, columns boil.Columns) error {
+func (o *TradeCategory) Insert(exec boil.Executor, columns boil.Columns) error {
 	if o == nil {
-		return errors.New("models: no basic_trades provided for insertion")
+		return errors.New("models: no trade_categories provided for insertion")
 	}
 
 	var err error
 
-	nzDefaults := queries.NonZeroDefaultSet(basicTradeColumnsWithDefault, o)
+	nzDefaults := queries.NonZeroDefaultSet(tradeCategoryColumnsWithDefault, o)
 
 	key := makeCacheKey(columns, nzDefaults)
-	basicTradeInsertCacheMut.RLock()
-	cache, cached := basicTradeInsertCache[key]
-	basicTradeInsertCacheMut.RUnlock()
+	tradeCategoryInsertCacheMut.RLock()
+	cache, cached := tradeCategoryInsertCache[key]
+	tradeCategoryInsertCacheMut.RUnlock()
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			basicTradeAllColumns,
-			basicTradeColumnsWithDefault,
-			basicTradeColumnsWithoutDefault,
+			tradeCategoryAllColumns,
+			tradeCategoryColumnsWithDefault,
+			tradeCategoryColumnsWithoutDefault,
 			nzDefaults,
 		)
 
-		cache.valueMapping, err = queries.BindMapping(basicTradeType, basicTradeMapping, wl)
+		cache.valueMapping, err = queries.BindMapping(tradeCategoryType, tradeCategoryMapping, wl)
 		if err != nil {
 			return err
 		}
-		cache.retMapping, err = queries.BindMapping(basicTradeType, basicTradeMapping, returnColumns)
+		cache.retMapping, err = queries.BindMapping(tradeCategoryType, tradeCategoryMapping, returnColumns)
 		if err != nil {
 			return err
 		}
 		if len(wl) != 0 {
-			cache.query = fmt.Sprintf("INSERT INTO [dbo].[basic_trades] ([%s]) %%sVALUES (%s)%%s", strings.Join(wl, "],["), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
+			cache.query = fmt.Sprintf("INSERT INTO [dbo].[trade_categories] ([%s]) %%sVALUES (%s)%%s", strings.Join(wl, "],["), strmangle.Placeholders(dialect.UseIndexPlaceholders, len(wl), 1, 1))
 		} else {
-			cache.query = "INSERT INTO [dbo].[basic_trades] %sDEFAULT VALUES%s"
+			cache.query = "INSERT INTO [dbo].[trade_categories] %sDEFAULT VALUES%s"
 		}
 
 		var queryOutput, queryReturning string
@@ -658,47 +608,47 @@ func (o *BasicTrade) Insert(exec boil.Executor, columns boil.Columns) error {
 	}
 
 	if err != nil {
-		return errors.Wrap(err, "models: unable to insert into basic_trades")
+		return errors.Wrap(err, "models: unable to insert into trade_categories")
 	}
 
 	if !cached {
-		basicTradeInsertCacheMut.Lock()
-		basicTradeInsertCache[key] = cache
-		basicTradeInsertCacheMut.Unlock()
+		tradeCategoryInsertCacheMut.Lock()
+		tradeCategoryInsertCache[key] = cache
+		tradeCategoryInsertCacheMut.Unlock()
 	}
 
 	return nil
 }
 
-// Update uses an executor to update the BasicTrade.
+// Update uses an executor to update the TradeCategory.
 // See boil.Columns.UpdateColumnSet documentation to understand column list inference for updates.
 // Update does not automatically update the record in case of default values. Use .Reload() to refresh the records.
-func (o *BasicTrade) Update(exec boil.Executor, columns boil.Columns) (int64, error) {
+func (o *TradeCategory) Update(exec boil.Executor, columns boil.Columns) (int64, error) {
 	var err error
 	key := makeCacheKey(columns, nil)
-	basicTradeUpdateCacheMut.RLock()
-	cache, cached := basicTradeUpdateCache[key]
-	basicTradeUpdateCacheMut.RUnlock()
+	tradeCategoryUpdateCacheMut.RLock()
+	cache, cached := tradeCategoryUpdateCache[key]
+	tradeCategoryUpdateCacheMut.RUnlock()
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			basicTradeAllColumns,
-			basicTradePrimaryKeyColumns,
+			tradeCategoryAllColumns,
+			tradeCategoryPrimaryKeyColumns,
 		)
-		wl = strmangle.SetComplement(wl, basicTradeColumnsWithAuto)
+		wl = strmangle.SetComplement(wl, tradeCategoryColumnsWithAuto)
 
 		if !columns.IsWhitelist() {
 			wl = strmangle.SetComplement(wl, []string{"created_at"})
 		}
 		if len(wl) == 0 {
-			return 0, errors.New("models: unable to update basic_trades, could not build whitelist")
+			return 0, errors.New("models: unable to update trade_categories, could not build whitelist")
 		}
 
-		cache.query = fmt.Sprintf("UPDATE [dbo].[basic_trades] SET %s WHERE %s",
+		cache.query = fmt.Sprintf("UPDATE [dbo].[trade_categories] SET %s WHERE %s",
 			strmangle.SetParamNames("[", "]", 1, wl),
-			strmangle.WhereClause("[", "]", len(wl)+1, basicTradePrimaryKeyColumns),
+			strmangle.WhereClause("[", "]", len(wl)+1, tradeCategoryPrimaryKeyColumns),
 		)
-		cache.valueMapping, err = queries.BindMapping(basicTradeType, basicTradeMapping, append(wl, basicTradePrimaryKeyColumns...))
+		cache.valueMapping, err = queries.BindMapping(tradeCategoryType, tradeCategoryMapping, append(wl, tradeCategoryPrimaryKeyColumns...))
 		if err != nil {
 			return 0, err
 		}
@@ -714,42 +664,42 @@ func (o *BasicTrade) Update(exec boil.Executor, columns boil.Columns) (int64, er
 	var result sql.Result
 	result, err = exec.Exec(cache.query, values...)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to update basic_trades row")
+		return 0, errors.Wrap(err, "models: unable to update trade_categories row")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to get rows affected by update for basic_trades")
+		return 0, errors.Wrap(err, "models: failed to get rows affected by update for trade_categories")
 	}
 
 	if !cached {
-		basicTradeUpdateCacheMut.Lock()
-		basicTradeUpdateCache[key] = cache
-		basicTradeUpdateCacheMut.Unlock()
+		tradeCategoryUpdateCacheMut.Lock()
+		tradeCategoryUpdateCache[key] = cache
+		tradeCategoryUpdateCacheMut.Unlock()
 	}
 
 	return rowsAff, nil
 }
 
 // UpdateAll updates all rows with the specified column values.
-func (q basicTradeQuery) UpdateAll(exec boil.Executor, cols M) (int64, error) {
+func (q tradeCategoryQuery) UpdateAll(exec boil.Executor, cols M) (int64, error) {
 	queries.SetUpdate(q.Query, cols)
 
 	result, err := q.Query.Exec(exec)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to update all for basic_trades")
+		return 0, errors.Wrap(err, "models: unable to update all for trade_categories")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to retrieve rows affected for basic_trades")
+		return 0, errors.Wrap(err, "models: unable to retrieve rows affected for trade_categories")
 	}
 
 	return rowsAff, nil
 }
 
 // UpdateAll updates all rows with the specified column values, using an executor.
-func (o BasicTradeSlice) UpdateAll(exec boil.Executor, cols M) (int64, error) {
+func (o TradeCategorySlice) UpdateAll(exec boil.Executor, cols M) (int64, error) {
 	ln := int64(len(o))
 	if ln == 0 {
 		return 0, nil
@@ -771,13 +721,13 @@ func (o BasicTradeSlice) UpdateAll(exec boil.Executor, cols M) (int64, error) {
 
 	// Append all of the primary key values for each column
 	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), basicTradePrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), tradeCategoryPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := fmt.Sprintf("UPDATE [dbo].[basic_trades] SET %s WHERE %s",
+	sql := fmt.Sprintf("UPDATE [dbo].[trade_categories] SET %s WHERE %s",
 		strmangle.SetParamNames("[", "]", 1, colNames),
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), len(colNames)+1, basicTradePrimaryKeyColumns, len(o)))
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), len(colNames)+1, tradeCategoryPrimaryKeyColumns, len(o)))
 
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, sql)
@@ -786,23 +736,23 @@ func (o BasicTradeSlice) UpdateAll(exec boil.Executor, cols M) (int64, error) {
 
 	result, err := exec.Exec(sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to update all in basicTrade slice")
+		return 0, errors.Wrap(err, "models: unable to update all in tradeCategory slice")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to retrieve rows affected all in update all basicTrade")
+		return 0, errors.Wrap(err, "models: unable to retrieve rows affected all in update all tradeCategory")
 	}
 	return rowsAff, nil
 }
 
 // Upsert attempts an insert using an executor, and does an update or ignore on conflict.
-func (o *BasicTrade) Upsert(exec boil.Executor, updateColumns, insertColumns boil.Columns) error {
+func (o *TradeCategory) Upsert(exec boil.Executor, updateColumns, insertColumns boil.Columns) error {
 	if o == nil {
-		return errors.New("models: no basic_trades provided for upsert")
+		return errors.New("models: no trade_categories provided for upsert")
 	}
 
-	nzDefaults := queries.NonZeroDefaultSet(basicTradeColumnsWithDefault, o)
+	nzDefaults := queries.NonZeroDefaultSet(tradeCategoryColumnsWithDefault, o)
 
 	// Build cache key in-line uglily - mysql vs psql problems
 	buf := strmangle.GetBuffer()
@@ -822,55 +772,55 @@ func (o *BasicTrade) Upsert(exec boil.Executor, updateColumns, insertColumns boi
 	key := buf.String()
 	strmangle.PutBuffer(buf)
 
-	basicTradeUpsertCacheMut.RLock()
-	cache, cached := basicTradeUpsertCache[key]
-	basicTradeUpsertCacheMut.RUnlock()
+	tradeCategoryUpsertCacheMut.RLock()
+	cache, cached := tradeCategoryUpsertCache[key]
+	tradeCategoryUpsertCacheMut.RUnlock()
 
 	var err error
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			basicTradeAllColumns,
-			basicTradeColumnsWithDefault,
-			basicTradeColumnsWithoutDefault,
+			tradeCategoryAllColumns,
+			tradeCategoryColumnsWithDefault,
+			tradeCategoryColumnsWithoutDefault,
 			nzDefaults,
 		)
-		insert = strmangle.SetComplement(insert, basicTradeColumnsWithAuto)
+		insert = strmangle.SetComplement(insert, tradeCategoryColumnsWithAuto)
 		for i, v := range insert {
-			if strmangle.ContainsAny(basicTradePrimaryKeyColumns, v) && strmangle.ContainsAny(basicTradeColumnsWithDefault, v) {
+			if strmangle.ContainsAny(tradeCategoryPrimaryKeyColumns, v) && strmangle.ContainsAny(tradeCategoryColumnsWithDefault, v) {
 				insert = append(insert[:i], insert[i+1:]...)
 			}
 		}
 		if len(insert) == 0 {
-			return errors.New("models: unable to upsert basic_trades, could not build insert column list")
+			return errors.New("models: unable to upsert trade_categories, could not build insert column list")
 		}
 
-		ret = strmangle.SetMerge(ret, basicTradeColumnsWithAuto)
-		ret = strmangle.SetMerge(ret, basicTradeColumnsWithDefault)
+		ret = strmangle.SetMerge(ret, tradeCategoryColumnsWithAuto)
+		ret = strmangle.SetMerge(ret, tradeCategoryColumnsWithDefault)
 
 		update := updateColumns.UpdateColumnSet(
-			basicTradeAllColumns,
-			basicTradePrimaryKeyColumns,
+			tradeCategoryAllColumns,
+			tradeCategoryPrimaryKeyColumns,
 		)
-		update = strmangle.SetComplement(update, basicTradeColumnsWithAuto)
+		update = strmangle.SetComplement(update, tradeCategoryColumnsWithAuto)
 
 		if len(update) == 0 {
-			return errors.New("models: unable to upsert basic_trades, could not build update column list")
+			return errors.New("models: unable to upsert trade_categories, could not build update column list")
 		}
 
-		cache.query = buildUpsertQueryMSSQL(dialect, "basic_trades", basicTradePrimaryKeyColumns, update, insert, ret)
+		cache.query = buildUpsertQueryMSSQL(dialect, "trade_categories", tradeCategoryPrimaryKeyColumns, update, insert, ret)
 
-		whitelist := make([]string, len(basicTradePrimaryKeyColumns))
-		copy(whitelist, basicTradePrimaryKeyColumns)
+		whitelist := make([]string, len(tradeCategoryPrimaryKeyColumns))
+		copy(whitelist, tradeCategoryPrimaryKeyColumns)
 		whitelist = append(whitelist, update...)
 		whitelist = append(whitelist, insert...)
 
-		cache.valueMapping, err = queries.BindMapping(basicTradeType, basicTradeMapping, whitelist)
+		cache.valueMapping, err = queries.BindMapping(tradeCategoryType, tradeCategoryMapping, whitelist)
 		if err != nil {
 			return err
 		}
 		if len(ret) != 0 {
-			cache.retMapping, err = queries.BindMapping(basicTradeType, basicTradeMapping, ret)
+			cache.retMapping, err = queries.BindMapping(tradeCategoryType, tradeCategoryMapping, ret)
 			if err != nil {
 				return err
 			}
@@ -898,27 +848,27 @@ func (o *BasicTrade) Upsert(exec boil.Executor, updateColumns, insertColumns boi
 		_, err = exec.Exec(cache.query, vals...)
 	}
 	if err != nil {
-		return errors.Wrap(err, "models: unable to upsert basic_trades")
+		return errors.Wrap(err, "models: unable to upsert trade_categories")
 	}
 
 	if !cached {
-		basicTradeUpsertCacheMut.Lock()
-		basicTradeUpsertCache[key] = cache
-		basicTradeUpsertCacheMut.Unlock()
+		tradeCategoryUpsertCacheMut.Lock()
+		tradeCategoryUpsertCache[key] = cache
+		tradeCategoryUpsertCacheMut.Unlock()
 	}
 
 	return nil
 }
 
-// Delete deletes a single BasicTrade record with an executor.
+// Delete deletes a single TradeCategory record with an executor.
 // Delete will match against the primary key column to find the record to delete.
-func (o *BasicTrade) Delete(exec boil.Executor) (int64, error) {
+func (o *TradeCategory) Delete(exec boil.Executor) (int64, error) {
 	if o == nil {
-		return 0, errors.New("models: no BasicTrade provided for delete")
+		return 0, errors.New("models: no TradeCategory provided for delete")
 	}
 
-	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), basicTradePrimaryKeyMapping)
-	sql := "DELETE FROM [dbo].[basic_trades] WHERE [id]=$1"
+	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), tradeCategoryPrimaryKeyMapping)
+	sql := "DELETE FROM [dbo].[trade_categories] WHERE [id]=$1"
 
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, sql)
@@ -927,52 +877,52 @@ func (o *BasicTrade) Delete(exec boil.Executor) (int64, error) {
 
 	result, err := exec.Exec(sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to delete from basic_trades")
+		return 0, errors.Wrap(err, "models: unable to delete from trade_categories")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to get rows affected by delete for basic_trades")
+		return 0, errors.Wrap(err, "models: failed to get rows affected by delete for trade_categories")
 	}
 
 	return rowsAff, nil
 }
 
 // DeleteAll deletes all matching rows.
-func (q basicTradeQuery) DeleteAll(exec boil.Executor) (int64, error) {
+func (q tradeCategoryQuery) DeleteAll(exec boil.Executor) (int64, error) {
 	if q.Query == nil {
-		return 0, errors.New("models: no basicTradeQuery provided for delete all")
+		return 0, errors.New("models: no tradeCategoryQuery provided for delete all")
 	}
 
 	queries.SetDelete(q.Query)
 
 	result, err := q.Query.Exec(exec)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to delete all from basic_trades")
+		return 0, errors.Wrap(err, "models: unable to delete all from trade_categories")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to get rows affected by deleteall for basic_trades")
+		return 0, errors.Wrap(err, "models: failed to get rows affected by deleteall for trade_categories")
 	}
 
 	return rowsAff, nil
 }
 
 // DeleteAll deletes all rows in the slice, using an executor.
-func (o BasicTradeSlice) DeleteAll(exec boil.Executor) (int64, error) {
+func (o TradeCategorySlice) DeleteAll(exec boil.Executor) (int64, error) {
 	if len(o) == 0 {
 		return 0, nil
 	}
 
 	var args []interface{}
 	for _, obj := range o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), basicTradePrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), tradeCategoryPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "DELETE FROM [dbo].[basic_trades] WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 1, basicTradePrimaryKeyColumns, len(o))
+	sql := "DELETE FROM [dbo].[trade_categories] WHERE " +
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 1, tradeCategoryPrimaryKeyColumns, len(o))
 
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, sql)
@@ -981,12 +931,12 @@ func (o BasicTradeSlice) DeleteAll(exec boil.Executor) (int64, error) {
 
 	result, err := exec.Exec(sql, args...)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: unable to delete all from basicTrade slice")
+		return 0, errors.Wrap(err, "models: unable to delete all from tradeCategory slice")
 	}
 
 	rowsAff, err := result.RowsAffected()
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to get rows affected by deleteall for basic_trades")
+		return 0, errors.Wrap(err, "models: failed to get rows affected by deleteall for trade_categories")
 	}
 
 	return rowsAff, nil
@@ -994,8 +944,8 @@ func (o BasicTradeSlice) DeleteAll(exec boil.Executor) (int64, error) {
 
 // Reload refetches the object from the database
 // using the primary keys with an executor.
-func (o *BasicTrade) Reload(exec boil.Executor) error {
-	ret, err := FindBasicTrade(exec, o.ID)
+func (o *TradeCategory) Reload(exec boil.Executor) error {
+	ret, err := FindTradeCategory(exec, o.ID)
 	if err != nil {
 		return err
 	}
@@ -1006,26 +956,26 @@ func (o *BasicTrade) Reload(exec boil.Executor) error {
 
 // ReloadAll refetches every row with matching primary key column values
 // and overwrites the original object slice with the newly updated slice.
-func (o *BasicTradeSlice) ReloadAll(exec boil.Executor) error {
+func (o *TradeCategorySlice) ReloadAll(exec boil.Executor) error {
 	if o == nil || len(*o) == 0 {
 		return nil
 	}
 
-	slice := BasicTradeSlice{}
+	slice := TradeCategorySlice{}
 	var args []interface{}
 	for _, obj := range *o {
-		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), basicTradePrimaryKeyMapping)
+		pkeyArgs := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(obj)), tradeCategoryPrimaryKeyMapping)
 		args = append(args, pkeyArgs...)
 	}
 
-	sql := "SELECT [dbo].[basic_trades].* FROM [dbo].[basic_trades] WHERE " +
-		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 1, basicTradePrimaryKeyColumns, len(*o))
+	sql := "SELECT [dbo].[trade_categories].* FROM [dbo].[trade_categories] WHERE " +
+		strmangle.WhereClauseRepeated(string(dialect.LQ), string(dialect.RQ), 1, tradeCategoryPrimaryKeyColumns, len(*o))
 
 	q := queries.Raw(sql, args...)
 
 	err := q.Bind(nil, exec, &slice)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to reload all in BasicTradeSlice")
+		return errors.Wrap(err, "models: unable to reload all in TradeCategorySlice")
 	}
 
 	*o = slice
@@ -1033,10 +983,10 @@ func (o *BasicTradeSlice) ReloadAll(exec boil.Executor) error {
 	return nil
 }
 
-// BasicTradeExists checks if the BasicTrade row exists.
-func BasicTradeExists(exec boil.Executor, iD int) (bool, error) {
+// TradeCategoryExists checks if the TradeCategory row exists.
+func TradeCategoryExists(exec boil.Executor, iD int) (bool, error) {
 	var exists bool
-	sql := "select case when exists(select top(1) 1 from [dbo].[basic_trades] where [id]=$1) then 1 else 0 end"
+	sql := "select case when exists(select top(1) 1 from [dbo].[trade_categories] where [id]=$1) then 1 else 0 end"
 
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, sql)
@@ -1047,7 +997,7 @@ func BasicTradeExists(exec boil.Executor, iD int) (bool, error) {
 
 	err := row.Scan(&exists)
 	if err != nil {
-		return false, errors.Wrap(err, "models: unable to check if basic_trades exists")
+		return false, errors.Wrap(err, "models: unable to check if trade_categories exists")
 	}
 
 	return exists, nil

@@ -12,118 +12,116 @@ import "testing"
 // It does NOT run each operation group in parallel.
 // Separating the tests thusly grants avoidance of Postgres deadlocks.
 func TestParent(t *testing.T) {
-	t.Run("BasicTrades", testBasicTrades)
 	t.Run("ClaimHistories", testClaimHistories)
 	t.Run("Claims", testClaims)
 	t.Run("Profiles", testProfiles)
 	t.Run("Projects", testProjects)
 	t.Run("Roles", testRoles)
+	t.Run("TradeCategories", testTradeCategories)
 	t.Run("Trades", testTrades)
 	t.Run("Users", testUsers)
 }
 
 func TestDelete(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesDelete)
 	t.Run("ClaimHistories", testClaimHistoriesDelete)
 	t.Run("Claims", testClaimsDelete)
 	t.Run("Profiles", testProfilesDelete)
 	t.Run("Projects", testProjectsDelete)
 	t.Run("Roles", testRolesDelete)
+	t.Run("TradeCategories", testTradeCategoriesDelete)
 	t.Run("Trades", testTradesDelete)
 	t.Run("Users", testUsersDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesQueryDeleteAll)
 	t.Run("ClaimHistories", testClaimHistoriesQueryDeleteAll)
 	t.Run("Claims", testClaimsQueryDeleteAll)
 	t.Run("Profiles", testProfilesQueryDeleteAll)
 	t.Run("Projects", testProjectsQueryDeleteAll)
 	t.Run("Roles", testRolesQueryDeleteAll)
+	t.Run("TradeCategories", testTradeCategoriesQueryDeleteAll)
 	t.Run("Trades", testTradesQueryDeleteAll)
 	t.Run("Users", testUsersQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesSliceDeleteAll)
 	t.Run("ClaimHistories", testClaimHistoriesSliceDeleteAll)
 	t.Run("Claims", testClaimsSliceDeleteAll)
 	t.Run("Profiles", testProfilesSliceDeleteAll)
 	t.Run("Projects", testProjectsSliceDeleteAll)
 	t.Run("Roles", testRolesSliceDeleteAll)
+	t.Run("TradeCategories", testTradeCategoriesSliceDeleteAll)
 	t.Run("Trades", testTradesSliceDeleteAll)
 	t.Run("Users", testUsersSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesExists)
 	t.Run("ClaimHistories", testClaimHistoriesExists)
 	t.Run("Claims", testClaimsExists)
 	t.Run("Profiles", testProfilesExists)
 	t.Run("Projects", testProjectsExists)
 	t.Run("Roles", testRolesExists)
+	t.Run("TradeCategories", testTradeCategoriesExists)
 	t.Run("Trades", testTradesExists)
 	t.Run("Users", testUsersExists)
 }
 
 func TestFind(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesFind)
 	t.Run("ClaimHistories", testClaimHistoriesFind)
 	t.Run("Claims", testClaimsFind)
 	t.Run("Profiles", testProfilesFind)
 	t.Run("Projects", testProjectsFind)
 	t.Run("Roles", testRolesFind)
+	t.Run("TradeCategories", testTradeCategoriesFind)
 	t.Run("Trades", testTradesFind)
 	t.Run("Users", testUsersFind)
 }
 
 func TestBind(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesBind)
 	t.Run("ClaimHistories", testClaimHistoriesBind)
 	t.Run("Claims", testClaimsBind)
 	t.Run("Profiles", testProfilesBind)
 	t.Run("Projects", testProjectsBind)
 	t.Run("Roles", testRolesBind)
+	t.Run("TradeCategories", testTradeCategoriesBind)
 	t.Run("Trades", testTradesBind)
 	t.Run("Users", testUsersBind)
 }
 
 func TestOne(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesOne)
 	t.Run("ClaimHistories", testClaimHistoriesOne)
 	t.Run("Claims", testClaimsOne)
 	t.Run("Profiles", testProfilesOne)
 	t.Run("Projects", testProjectsOne)
 	t.Run("Roles", testRolesOne)
+	t.Run("TradeCategories", testTradeCategoriesOne)
 	t.Run("Trades", testTradesOne)
 	t.Run("Users", testUsersOne)
 }
 
 func TestAll(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesAll)
 	t.Run("ClaimHistories", testClaimHistoriesAll)
 	t.Run("Claims", testClaimsAll)
 	t.Run("Profiles", testProfilesAll)
 	t.Run("Projects", testProjectsAll)
 	t.Run("Roles", testRolesAll)
+	t.Run("TradeCategories", testTradeCategoriesAll)
 	t.Run("Trades", testTradesAll)
 	t.Run("Users", testUsersAll)
 }
 
 func TestCount(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesCount)
 	t.Run("ClaimHistories", testClaimHistoriesCount)
 	t.Run("Claims", testClaimsCount)
 	t.Run("Profiles", testProfilesCount)
 	t.Run("Projects", testProjectsCount)
 	t.Run("Roles", testRolesCount)
+	t.Run("TradeCategories", testTradeCategoriesCount)
 	t.Run("Trades", testTradesCount)
 	t.Run("Users", testUsersCount)
 }
 
 func TestInsert(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesInsert)
-	t.Run("BasicTrades", testBasicTradesInsertWhitelist)
 	t.Run("ClaimHistories", testClaimHistoriesInsert)
 	t.Run("ClaimHistories", testClaimHistoriesInsertWhitelist)
 	t.Run("Claims", testClaimsInsert)
@@ -134,6 +132,8 @@ func TestInsert(t *testing.T) {
 	t.Run("Projects", testProjectsInsertWhitelist)
 	t.Run("Roles", testRolesInsert)
 	t.Run("Roles", testRolesInsertWhitelist)
+	t.Run("TradeCategories", testTradeCategoriesInsert)
+	t.Run("TradeCategories", testTradeCategoriesInsertWhitelist)
 	t.Run("Trades", testTradesInsert)
 	t.Run("Trades", testTradesInsertWhitelist)
 	t.Run("Users", testUsersInsert)
@@ -145,14 +145,14 @@ func TestInsert(t *testing.T) {
 func TestToOne(t *testing.T) {
 	t.Run("ClaimHistoryToClaimUsingClaim", testClaimHistoryToOneClaimUsingClaim)
 	t.Run("ClaimHistoryToTradeUsingTrade", testClaimHistoryToOneTradeUsingTrade)
-	t.Run("ClaimToBasicTradeUsingBasicTrade", testClaimToOneBasicTradeUsingBasicTrade)
+	t.Run("ClaimToTradeCategoryUsingTradeCategory", testClaimToOneTradeCategoryUsingTradeCategory)
 	t.Run("ClaimToTradeUsingTrade", testClaimToOneTradeUsingTrade)
 	t.Run("ClaimToUserUsingUser", testClaimToOneUserUsingUser)
 	t.Run("ProfileToUserUsingUser", testProfileToOneUserUsingUser)
 	t.Run("ProjectToUserUsingCreator", testProjectToOneUserUsingCreator)
 	t.Run("ProjectToUserUsingManager", testProjectToOneUserUsingManager)
-	t.Run("TradeToBasicTradeUsingBasicTrade", testTradeToOneBasicTradeUsingBasicTrade)
 	t.Run("TradeToProjectUsingProject", testTradeToOneProjectUsingProject)
+	t.Run("TradeToTradeCategoryUsingTradeCategory", testTradeToOneTradeCategoryUsingTradeCategory)
 	t.Run("TradeToUserUsingSurveyor", testTradeToOneUserUsingSurveyor)
 	t.Run("UserToRoleUsingUserRole", testUserToOneRoleUsingUserRole)
 }
@@ -164,11 +164,11 @@ func TestOneToOne(t *testing.T) {}
 // TestToMany tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToMany(t *testing.T) {
-	t.Run("BasicTradeToClaims", testBasicTradeToManyClaims)
-	t.Run("BasicTradeToTrades", testBasicTradeToManyTrades)
 	t.Run("ClaimToClaimHistories", testClaimToManyClaimHistories)
 	t.Run("ProjectToTrades", testProjectToManyTrades)
 	t.Run("RoleToUserRoleUsers", testRoleToManyUserRoleUsers)
+	t.Run("TradeCategoryToClaims", testTradeCategoryToManyClaims)
+	t.Run("TradeCategoryToTrades", testTradeCategoryToManyTrades)
 	t.Run("TradeToClaimHistories", testTradeToManyClaimHistories)
 	t.Run("TradeToClaims", testTradeToManyClaims)
 	t.Run("UserToClaims", testUserToManyClaims)
@@ -183,14 +183,14 @@ func TestToMany(t *testing.T) {
 func TestToOneSet(t *testing.T) {
 	t.Run("ClaimHistoryToClaimUsingClaimHistories", testClaimHistoryToOneSetOpClaimUsingClaim)
 	t.Run("ClaimHistoryToTradeUsingClaimHistories", testClaimHistoryToOneSetOpTradeUsingTrade)
-	t.Run("ClaimToBasicTradeUsingClaims", testClaimToOneSetOpBasicTradeUsingBasicTrade)
+	t.Run("ClaimToTradeCategoryUsingClaims", testClaimToOneSetOpTradeCategoryUsingTradeCategory)
 	t.Run("ClaimToTradeUsingClaims", testClaimToOneSetOpTradeUsingTrade)
 	t.Run("ClaimToUserUsingClaims", testClaimToOneSetOpUserUsingUser)
 	t.Run("ProfileToUserUsingProfiles", testProfileToOneSetOpUserUsingUser)
 	t.Run("ProjectToUserUsingCreatorProjects", testProjectToOneSetOpUserUsingCreator)
 	t.Run("ProjectToUserUsingManagerProjects", testProjectToOneSetOpUserUsingManager)
-	t.Run("TradeToBasicTradeUsingTrades", testTradeToOneSetOpBasicTradeUsingBasicTrade)
 	t.Run("TradeToProjectUsingTrades", testTradeToOneSetOpProjectUsingProject)
+	t.Run("TradeToTradeCategoryUsingTrades", testTradeToOneSetOpTradeCategoryUsingTradeCategory)
 	t.Run("TradeToUserUsingSurveyorTrades", testTradeToOneSetOpUserUsingSurveyor)
 	t.Run("UserToRoleUsingUserRoleUsers", testUserToOneSetOpRoleUsingUserRole)
 }
@@ -210,11 +210,11 @@ func TestOneToOneRemove(t *testing.T) {}
 // TestToManyAdd tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToManyAdd(t *testing.T) {
-	t.Run("BasicTradeToClaims", testBasicTradeToManyAddOpClaims)
-	t.Run("BasicTradeToTrades", testBasicTradeToManyAddOpTrades)
 	t.Run("ClaimToClaimHistories", testClaimToManyAddOpClaimHistories)
 	t.Run("ProjectToTrades", testProjectToManyAddOpTrades)
 	t.Run("RoleToUserRoleUsers", testRoleToManyAddOpUserRoleUsers)
+	t.Run("TradeCategoryToClaims", testTradeCategoryToManyAddOpClaims)
+	t.Run("TradeCategoryToTrades", testTradeCategoryToManyAddOpTrades)
 	t.Run("TradeToClaimHistories", testTradeToManyAddOpClaimHistories)
 	t.Run("TradeToClaims", testTradeToManyAddOpClaims)
 	t.Run("UserToClaims", testUserToManyAddOpClaims)
@@ -233,56 +233,56 @@ func TestToManySet(t *testing.T) {}
 func TestToManyRemove(t *testing.T) {}
 
 func TestReload(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesReload)
 	t.Run("ClaimHistories", testClaimHistoriesReload)
 	t.Run("Claims", testClaimsReload)
 	t.Run("Profiles", testProfilesReload)
 	t.Run("Projects", testProjectsReload)
 	t.Run("Roles", testRolesReload)
+	t.Run("TradeCategories", testTradeCategoriesReload)
 	t.Run("Trades", testTradesReload)
 	t.Run("Users", testUsersReload)
 }
 
 func TestReloadAll(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesReloadAll)
 	t.Run("ClaimHistories", testClaimHistoriesReloadAll)
 	t.Run("Claims", testClaimsReloadAll)
 	t.Run("Profiles", testProfilesReloadAll)
 	t.Run("Projects", testProjectsReloadAll)
 	t.Run("Roles", testRolesReloadAll)
+	t.Run("TradeCategories", testTradeCategoriesReloadAll)
 	t.Run("Trades", testTradesReloadAll)
 	t.Run("Users", testUsersReloadAll)
 }
 
 func TestSelect(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesSelect)
 	t.Run("ClaimHistories", testClaimHistoriesSelect)
 	t.Run("Claims", testClaimsSelect)
 	t.Run("Profiles", testProfilesSelect)
 	t.Run("Projects", testProjectsSelect)
 	t.Run("Roles", testRolesSelect)
+	t.Run("TradeCategories", testTradeCategoriesSelect)
 	t.Run("Trades", testTradesSelect)
 	t.Run("Users", testUsersSelect)
 }
 
 func TestUpdate(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesUpdate)
 	t.Run("ClaimHistories", testClaimHistoriesUpdate)
 	t.Run("Claims", testClaimsUpdate)
 	t.Run("Profiles", testProfilesUpdate)
 	t.Run("Projects", testProjectsUpdate)
 	t.Run("Roles", testRolesUpdate)
+	t.Run("TradeCategories", testTradeCategoriesUpdate)
 	t.Run("Trades", testTradesUpdate)
 	t.Run("Users", testUsersUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesSliceUpdateAll)
 	t.Run("ClaimHistories", testClaimHistoriesSliceUpdateAll)
 	t.Run("Claims", testClaimsSliceUpdateAll)
 	t.Run("Profiles", testProfilesSliceUpdateAll)
 	t.Run("Projects", testProjectsSliceUpdateAll)
 	t.Run("Roles", testRolesSliceUpdateAll)
+	t.Run("TradeCategories", testTradeCategoriesSliceUpdateAll)
 	t.Run("Trades", testTradesSliceUpdateAll)
 	t.Run("Users", testUsersSliceUpdateAll)
 }

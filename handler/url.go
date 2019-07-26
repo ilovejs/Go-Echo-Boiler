@@ -2,27 +2,27 @@ package handler
 
 import (
 	"github.com/labstack/echo"
-	. "onsite/glue"
 	"onsite/router/middleware"
+	"onsite/store"
 	"onsite/utils"
 )
 
 // self designed struct, but better to be dynamic / anonymous struct ?
 type Handler struct {
-	projectStore    ProjectStoreInterface
-	userStore       UserStoreInterface
-	basicTradeStore BasicTradeStoreInterface
-	claimStore      ClaimStoreInterface
+	projectStore       store.ProjectStoreInterface
+	userStore          store.UserStoreInterface
+	TradeCategoryStore store.TradeCategoryStoreInterface
+	claimStore         store.ClaimStoreInterface
 }
 
 // DI, inject store dependencies to controller
-func NewHandler(ps ProjectStoreInterface, us UserStoreInterface, bts BasicTradeStoreInterface,
-	cs ClaimStoreInterface) *Handler {
+func NewHandler(ps store.ProjectStoreInterface, us store.UserStoreInterface, bts store.TradeCategoryStoreInterface,
+	cs store.ClaimStoreInterface) *Handler {
 	return &Handler{
-		projectStore:    ps,
-		userStore:       us,
-		basicTradeStore: bts,
-		claimStore:      cs,
+		projectStore:       ps,
+		userStore:          us,
+		TradeCategoryStore: bts,
+		claimStore:         cs,
 	}
 }
 
@@ -47,11 +47,11 @@ func (h *Handler) Register(v1 *echo.Group) {
 	projects.PUT("/:id", h.UpdateProject)
 	projects.DELETE("/:id", h.DeleteProject)
 
-	basicTrades := v1.Group("/bts")
-	basicTrades.POST("", h.CreateBasicTrade)
-	basicTrades.GET("", h.ListBasicTrades)
-	basicTrades.GET("/:id", h.ReadBasicTrade)
-	basicTrades.PUT("/:id", h.UpdateBasicTrade)
-	basicTrades.DELETE("/:id", h.DeleteBasicTrade)
+	TradeCategories := v1.Group("/bts")
+	TradeCategories.POST("", h.CreateTradeCategory)
+	TradeCategories.GET("", h.ListTradeCategories)
+	TradeCategories.GET("/:id", h.ReadTradeCategory)
+	TradeCategories.PUT("/:id", h.UpdateTradeCategory)
+	TradeCategories.DELETE("/:id", h.DeleteTradeCategory)
 
 }

@@ -27,15 +27,15 @@ go
 --     on basic_trades (name)
 -- go
 
-alter table basic_trades
+alter table trade_categories
     add constraint DF__basic_tra__is_ac__48CFD27E default 1 for is_active
 go
 
-alter table basic_trades
+alter table trade_categories
     add constraint DF__basic_tra__is_de__49C3F6B7 default 0 for is_deleted
 go
 
-alter table basic_trades
+alter table trade_categories
     add constraint DF__basic_tra__updat__4AB81AF0 default getdate() for updated
 go
 

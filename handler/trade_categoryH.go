@@ -6,33 +6,33 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/labstack/echo"
 	"net/http"
-	. "onsite/dto/basic_trade"
+	. "onsite/dto/trade_category"
 	m "onsite/models"
 	. "onsite/utils"
 	"strconv"
 )
 
-func (h *Handler) CreateBasicTrade(c echo.Context) error {
-	var bt m.BasicTrade
-	req := &CreateBasicTradeRequest{}
+func (h *Handler) CreateTradeCategory(c echo.Context) error {
+	var bt m.TradeCategory
+	req := &CreateTradeCategoryRequest{}
 	if err := req.Bind(c, &bt); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	err := h.basicTradeStore.Create(&bt)
+	err := h.TradeCategoryStore.Create(&bt)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	return c.JSON(http.StatusCreated, NewBasicTradeResponse(&bt))
+	return c.JSON(http.StatusCreated, NewTradeCategoryResponse(&bt))
 }
 
-func (h *Handler) ReadBasicTrade(c echo.Context) error {
+func (h *Handler) ReadTradeCategory(c echo.Context) error {
 	var btid int
 	var err error
 	if btid, err = strconv.Atoi(c.Param("id")); err != nil {
 		return errors.New("param: id parsing error")
 	}
 	fmt.Println("btid: ", btid)
-	bt, err := h.basicTradeStore.Get(btid)
+	bt, err := h.TradeCategoryStore.Get(btid)
 	spew.Dump(bt)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
@@ -40,10 +40,10 @@ func (h *Handler) ReadBasicTrade(c echo.Context) error {
 	if bt == nil {
 		return c.JSON(http.StatusNotFound, NewError(err))
 	}
-	return c.JSON(http.StatusOK, NewBasicTradeResponse(bt[0]))
+	return c.JSON(http.StatusOK, NewTradeCategoryResponse(bt[0]))
 }
 
-func (h *Handler) ListBasicTrades(c echo.Context) error {
+func (h *Handler) ListTradeCategories(c echo.Context) error {
 	offset, err := strconv.Atoi(c.QueryParam("offset"))
 	if err != nil {
 		offset = 0
@@ -52,21 +52,21 @@ func (h *Handler) ListBasicTrades(c echo.Context) error {
 	if err != nil {
 		limit = 20
 	}
-	tradeItems, count, err := h.basicTradeStore.List(offset, limit)
+	tradeItems, count, err := h.TradeCategoryStore.List(offset, limit)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
-	return c.JSON(http.StatusOK, NewBasicTradeListResponse(tradeItems, count))
+	return c.JSON(http.StatusOK, NewTradeCategoryListResponse(tradeItems, count))
 }
 
-func (h *Handler) UpdateBasicTrade(c echo.Context) error {
-	req := &UpdateBasicTradeRequest{}
+func (h *Handler) UpdateTradeCategory(c echo.Context) error {
+	req := &UpdateTradeCategoryRequest{}
 
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, errors.New("parsing id error"))
 	}
-	arr, err := h.basicTradeStore.Get(id)
+	arr, err := h.TradeCategoryStore.Get(id)
 	if len(arr) == 0 {
 		return c.JSON(http.StatusNotFound, NotFound())
 	}
@@ -76,23 +76,23 @@ func (h *Handler) UpdateBasicTrade(c echo.Context) error {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
 	//commit updating
-	err = h.basicTradeStore.Update(itemToUpdate)
+	err = h.TradeCategoryStore.Update(itemToUpdate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
-	fmt.Println("basicTradeH: Updated")
-	return c.JSON(http.StatusOK, NewUpdateBasicTradeResponse(itemToUpdate))
+	fmt.Println("TradeCategoryH: Updated")
+	return c.JSON(http.StatusOK, NewUpdateTradeCategoryResponse(itemToUpdate))
 }
 
-func (h *Handler) DeleteBasicTrade(c echo.Context) error {
+func (h *Handler) DeleteTradeCategory(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
 	//del without find
-	err = h.basicTradeStore.Delete(id)
+	err = h.TradeCategoryStore.Delete(id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
-	return c.JSON(http.StatusOK, NewDeleteBasicTradeResponse(id))
+	return c.JSON(http.StatusOK, NewDeleteTradeCategoryResponse(id))
 }

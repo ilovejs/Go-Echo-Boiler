@@ -18,7 +18,7 @@ func main() {
 	//store DI
 	ps := store.NewProjectStore(d)
 	us := store.NewUserStore(d)
-	bts := store.NewBasicTradeStore(d)
+	bts := store.NewTradeCategoryStore(d)
 	cs := store.NewClaimStore(d)
 
 	// NewHandler type and DI constructor is defined in handler/url.go

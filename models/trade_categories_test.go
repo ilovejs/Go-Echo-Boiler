@@ -20,24 +20,24 @@ var (
 	_ = queries.Equal
 )
 
-func testBasicTrades(t *testing.T) {
+func testTradeCategories(t *testing.T) {
 	t.Parallel()
 
-	query := BasicTrades()
+	query := TradeCategories()
 
 	if query.Query == nil {
 		t.Error("expected a query, got nothing")
 	}
 }
 
-func testBasicTradesDelete(t *testing.T) {
+func testTradeCategoriesDelete(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -52,7 +52,7 @@ func testBasicTradesDelete(t *testing.T) {
 		t.Error("should only have deleted one row, but affected:", rowsAff)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -62,14 +62,14 @@ func testBasicTradesDelete(t *testing.T) {
 	}
 }
 
-func testBasicTradesQueryDeleteAll(t *testing.T) {
+func testTradeCategoriesQueryDeleteAll(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -78,13 +78,13 @@ func testBasicTradesQueryDeleteAll(t *testing.T) {
 		t.Error(err)
 	}
 
-	if rowsAff, err := BasicTrades().DeleteAll(tx); err != nil {
+	if rowsAff, err := TradeCategories().DeleteAll(tx); err != nil {
 		t.Error(err)
 	} else if rowsAff != 1 {
 		t.Error("should only have deleted one row, but affected:", rowsAff)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -94,14 +94,14 @@ func testBasicTradesQueryDeleteAll(t *testing.T) {
 	}
 }
 
-func testBasicTradesSliceDeleteAll(t *testing.T) {
+func testTradeCategoriesSliceDeleteAll(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -110,7 +110,7 @@ func testBasicTradesSliceDeleteAll(t *testing.T) {
 		t.Error(err)
 	}
 
-	slice := BasicTradeSlice{o}
+	slice := TradeCategorySlice{o}
 
 	if rowsAff, err := slice.DeleteAll(tx); err != nil {
 		t.Error(err)
@@ -118,7 +118,7 @@ func testBasicTradesSliceDeleteAll(t *testing.T) {
 		t.Error("should only have deleted one row, but affected:", rowsAff)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -128,14 +128,14 @@ func testBasicTradesSliceDeleteAll(t *testing.T) {
 	}
 }
 
-func testBasicTradesExists(t *testing.T) {
+func testTradeCategoriesExists(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -144,23 +144,23 @@ func testBasicTradesExists(t *testing.T) {
 		t.Error(err)
 	}
 
-	e, err := BasicTradeExists(tx, o.ID)
+	e, err := TradeCategoryExists(tx, o.ID)
 	if err != nil {
-		t.Errorf("Unable to check if BasicTrade exists: %s", err)
+		t.Errorf("Unable to check if TradeCategory exists: %s", err)
 	}
 	if !e {
-		t.Errorf("Expected BasicTradeExists to return true, but got false.")
+		t.Errorf("Expected TradeCategoryExists to return true, but got false.")
 	}
 }
 
-func testBasicTradesFind(t *testing.T) {
+func testTradeCategoriesFind(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -169,24 +169,24 @@ func testBasicTradesFind(t *testing.T) {
 		t.Error(err)
 	}
 
-	basicTradeFound, err := FindBasicTrade(tx, o.ID)
+	tradeCategoryFound, err := FindTradeCategory(tx, o.ID)
 	if err != nil {
 		t.Error(err)
 	}
 
-	if basicTradeFound == nil {
+	if tradeCategoryFound == nil {
 		t.Error("want a record, got nil")
 	}
 }
 
-func testBasicTradesBind(t *testing.T) {
+func testTradeCategoriesBind(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -195,19 +195,19 @@ func testBasicTradesBind(t *testing.T) {
 		t.Error(err)
 	}
 
-	if err = BasicTrades().Bind(nil, tx, o); err != nil {
+	if err = TradeCategories().Bind(nil, tx, o); err != nil {
 		t.Error(err)
 	}
 }
 
-func testBasicTradesOne(t *testing.T) {
+func testTradeCategoriesOne(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -216,37 +216,37 @@ func testBasicTradesOne(t *testing.T) {
 		t.Error(err)
 	}
 
-	if x, err := BasicTrades().One(tx); err != nil {
+	if x, err := TradeCategories().One(tx); err != nil {
 		t.Error(err)
 	} else if x == nil {
 		t.Error("expected to get a non nil record")
 	}
 }
 
-func testBasicTradesAll(t *testing.T) {
+func testTradeCategoriesAll(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	basicTradeOne := &BasicTrade{}
-	basicTradeTwo := &BasicTrade{}
-	if err = randomize.Struct(seed, basicTradeOne, basicTradeDBTypes, false, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	tradeCategoryOne := &TradeCategory{}
+	tradeCategoryTwo := &TradeCategory{}
+	if err = randomize.Struct(seed, tradeCategoryOne, tradeCategoryDBTypes, false, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
-	if err = randomize.Struct(seed, basicTradeTwo, basicTradeDBTypes, false, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	if err = randomize.Struct(seed, tradeCategoryTwo, tradeCategoryDBTypes, false, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
-	if err = basicTradeOne.Insert(tx, boil.Infer()); err != nil {
+	if err = tradeCategoryOne.Insert(tx, boil.Infer()); err != nil {
 		t.Error(err)
 	}
-	if err = basicTradeTwo.Insert(tx, boil.Infer()); err != nil {
+	if err = tradeCategoryTwo.Insert(tx, boil.Infer()); err != nil {
 		t.Error(err)
 	}
 
-	slice, err := BasicTrades().All(tx)
+	slice, err := TradeCategories().All(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -256,30 +256,30 @@ func testBasicTradesAll(t *testing.T) {
 	}
 }
 
-func testBasicTradesCount(t *testing.T) {
+func testTradeCategoriesCount(t *testing.T) {
 	t.Parallel()
 
 	var err error
 	seed := randomize.NewSeed()
-	basicTradeOne := &BasicTrade{}
-	basicTradeTwo := &BasicTrade{}
-	if err = randomize.Struct(seed, basicTradeOne, basicTradeDBTypes, false, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	tradeCategoryOne := &TradeCategory{}
+	tradeCategoryTwo := &TradeCategory{}
+	if err = randomize.Struct(seed, tradeCategoryOne, tradeCategoryDBTypes, false, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
-	if err = randomize.Struct(seed, basicTradeTwo, basicTradeDBTypes, false, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	if err = randomize.Struct(seed, tradeCategoryTwo, tradeCategoryDBTypes, false, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
-	if err = basicTradeOne.Insert(tx, boil.Infer()); err != nil {
+	if err = tradeCategoryOne.Insert(tx, boil.Infer()); err != nil {
 		t.Error(err)
 	}
-	if err = basicTradeTwo.Insert(tx, boil.Infer()); err != nil {
+	if err = tradeCategoryTwo.Insert(tx, boil.Infer()); err != nil {
 		t.Error(err)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -289,14 +289,14 @@ func testBasicTradesCount(t *testing.T) {
 	}
 }
 
-func testBasicTradesInsert(t *testing.T) {
+func testTradeCategoriesInsert(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -305,7 +305,7 @@ func testBasicTradesInsert(t *testing.T) {
 		t.Error(err)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -315,23 +315,23 @@ func testBasicTradesInsert(t *testing.T) {
 	}
 }
 
-func testBasicTradesInsertWhitelist(t *testing.T) {
+func testTradeCategoriesInsertWhitelist(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
-	if err = o.Insert(tx, boil.Whitelist(basicTradeColumnsWithoutDefault...)); err != nil {
+	if err = o.Insert(tx, boil.Whitelist(tradeCategoryColumnsWithoutDefault...)); err != nil {
 		t.Error(err)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -341,18 +341,18 @@ func testBasicTradesInsertWhitelist(t *testing.T) {
 	}
 }
 
-func testBasicTradeToManyClaims(t *testing.T) {
+func testTradeCategoryToManyClaims(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
-	var a BasicTrade
+	var a TradeCategory
 	var b, c Claim
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	if err = randomize.Struct(seed, &a, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	if err := a.Insert(tx, boil.Infer()); err != nil {
@@ -366,8 +366,8 @@ func testBasicTradeToManyClaims(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b.BasicTradeID = a.ID
-	c.BasicTradeID = a.ID
+	b.TradeCategoryID = a.ID
+	c.TradeCategoryID = a.ID
 
 	if err = b.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -383,10 +383,10 @@ func testBasicTradeToManyClaims(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.BasicTradeID == b.BasicTradeID {
+		if v.TradeCategoryID == b.TradeCategoryID {
 			bFound = true
 		}
-		if v.BasicTradeID == c.BasicTradeID {
+		if v.TradeCategoryID == c.TradeCategoryID {
 			cFound = true
 		}
 	}
@@ -398,8 +398,8 @@ func testBasicTradeToManyClaims(t *testing.T) {
 		t.Error("expected to find c")
 	}
 
-	slice := BasicTradeSlice{&a}
-	if err = a.L.LoadClaims(tx, false, (*[]*BasicTrade)(&slice), nil); err != nil {
+	slice := TradeCategorySlice{&a}
+	if err = a.L.LoadClaims(tx, false, (*[]*TradeCategory)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
 	if got := len(a.R.Claims); got != 2 {
@@ -419,18 +419,18 @@ func testBasicTradeToManyClaims(t *testing.T) {
 	}
 }
 
-func testBasicTradeToManyTrades(t *testing.T) {
+func testTradeCategoryToManyTrades(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
-	var a BasicTrade
+	var a TradeCategory
 	var b, c Trade
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	if err = randomize.Struct(seed, &a, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	if err := a.Insert(tx, boil.Infer()); err != nil {
@@ -444,8 +444,8 @@ func testBasicTradeToManyTrades(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b.BasicTradeID = a.ID
-	c.BasicTradeID = a.ID
+	b.TradeCategoryID = a.ID
+	c.TradeCategoryID = a.ID
 
 	if err = b.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -461,10 +461,10 @@ func testBasicTradeToManyTrades(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.BasicTradeID == b.BasicTradeID {
+		if v.TradeCategoryID == b.TradeCategoryID {
 			bFound = true
 		}
-		if v.BasicTradeID == c.BasicTradeID {
+		if v.TradeCategoryID == c.TradeCategoryID {
 			cFound = true
 		}
 	}
@@ -476,8 +476,8 @@ func testBasicTradeToManyTrades(t *testing.T) {
 		t.Error("expected to find c")
 	}
 
-	slice := BasicTradeSlice{&a}
-	if err = a.L.LoadTrades(tx, false, (*[]*BasicTrade)(&slice), nil); err != nil {
+	slice := TradeCategorySlice{&a}
+	if err = a.L.LoadTrades(tx, false, (*[]*TradeCategory)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
 	if got := len(a.R.Trades); got != 2 {
@@ -497,17 +497,17 @@ func testBasicTradeToManyTrades(t *testing.T) {
 	}
 }
 
-func testBasicTradeToManyAddOpClaims(t *testing.T) {
+func testTradeCategoryToManyAddOpClaims(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
-	var a BasicTrade
+	var a TradeCategory
 	var b, c, d, e Claim
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, basicTradeDBTypes, false, strmangle.SetComplement(basicTradePrimaryKeyColumns, basicTradeColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &a, tradeCategoryDBTypes, false, strmangle.SetComplement(tradeCategoryPrimaryKeyColumns, tradeCategoryColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
 	foreigners := []*Claim{&b, &c, &d, &e}
@@ -541,17 +541,17 @@ func testBasicTradeToManyAddOpClaims(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.BasicTradeID {
-			t.Error("foreign key was wrong value", a.ID, first.BasicTradeID)
+		if a.ID != first.TradeCategoryID {
+			t.Error("foreign key was wrong value", a.ID, first.TradeCategoryID)
 		}
-		if a.ID != second.BasicTradeID {
-			t.Error("foreign key was wrong value", a.ID, second.BasicTradeID)
+		if a.ID != second.TradeCategoryID {
+			t.Error("foreign key was wrong value", a.ID, second.TradeCategoryID)
 		}
 
-		if first.R.BasicTrade != &a {
+		if first.R.TradeCategory != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.BasicTrade != &a {
+		if second.R.TradeCategory != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -571,17 +571,17 @@ func testBasicTradeToManyAddOpClaims(t *testing.T) {
 		}
 	}
 }
-func testBasicTradeToManyAddOpTrades(t *testing.T) {
+func testTradeCategoryToManyAddOpTrades(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
-	var a BasicTrade
+	var a TradeCategory
 	var b, c, d, e Trade
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, basicTradeDBTypes, false, strmangle.SetComplement(basicTradePrimaryKeyColumns, basicTradeColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &a, tradeCategoryDBTypes, false, strmangle.SetComplement(tradeCategoryPrimaryKeyColumns, tradeCategoryColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
 	foreigners := []*Trade{&b, &c, &d, &e}
@@ -615,17 +615,17 @@ func testBasicTradeToManyAddOpTrades(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.BasicTradeID {
-			t.Error("foreign key was wrong value", a.ID, first.BasicTradeID)
+		if a.ID != first.TradeCategoryID {
+			t.Error("foreign key was wrong value", a.ID, first.TradeCategoryID)
 		}
-		if a.ID != second.BasicTradeID {
-			t.Error("foreign key was wrong value", a.ID, second.BasicTradeID)
+		if a.ID != second.TradeCategoryID {
+			t.Error("foreign key was wrong value", a.ID, second.TradeCategoryID)
 		}
 
-		if first.R.BasicTrade != &a {
+		if first.R.TradeCategory != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.BasicTrade != &a {
+		if second.R.TradeCategory != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -646,14 +646,14 @@ func testBasicTradeToManyAddOpTrades(t *testing.T) {
 	}
 }
 
-func testBasicTradesReload(t *testing.T) {
+func testTradeCategoriesReload(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -667,14 +667,14 @@ func testBasicTradesReload(t *testing.T) {
 	}
 }
 
-func testBasicTradesReloadAll(t *testing.T) {
+func testTradeCategoriesReloadAll(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -683,21 +683,21 @@ func testBasicTradesReloadAll(t *testing.T) {
 		t.Error(err)
 	}
 
-	slice := BasicTradeSlice{o}
+	slice := TradeCategorySlice{o}
 
 	if err = slice.ReloadAll(tx); err != nil {
 		t.Error(err)
 	}
 }
 
-func testBasicTradesSelect(t *testing.T) {
+func testTradeCategoriesSelect(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -706,7 +706,7 @@ func testBasicTradesSelect(t *testing.T) {
 		t.Error(err)
 	}
 
-	slice, err := BasicTrades().All(tx)
+	slice, err := TradeCategories().All(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -717,25 +717,25 @@ func testBasicTradesSelect(t *testing.T) {
 }
 
 var (
-	basicTradeDBTypes = map[string]string{`ID`: `int`, `Name`: `varchar`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
-	_                 = bytes.MinRead
+	tradeCategoryDBTypes = map[string]string{`ID`: `int`, `Name`: `varchar`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
+	_                    = bytes.MinRead
 )
 
-func testBasicTradesUpdate(t *testing.T) {
+func testTradeCategoriesUpdate(t *testing.T) {
 	t.Parallel()
 
-	if 0 == len(basicTradePrimaryKeyColumns) {
+	if 0 == len(tradeCategoryPrimaryKeyColumns) {
 		t.Skip("Skipping table with no primary key columns")
 	}
-	if len(basicTradeAllColumns) == len(basicTradePrimaryKeyColumns) {
+	if len(tradeCategoryAllColumns) == len(tradeCategoryPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -744,7 +744,7 @@ func testBasicTradesUpdate(t *testing.T) {
 		t.Error(err)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -753,8 +753,8 @@ func testBasicTradesUpdate(t *testing.T) {
 		t.Error("want one record, got:", count)
 	}
 
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradePrimaryKeyColumns...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryPrimaryKeyColumns...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	if rowsAff, err := o.Update(tx, boil.Infer()); err != nil {
@@ -764,18 +764,18 @@ func testBasicTradesUpdate(t *testing.T) {
 	}
 }
 
-func testBasicTradesSliceUpdateAll(t *testing.T) {
+func testTradeCategoriesSliceUpdateAll(t *testing.T) {
 	t.Parallel()
 
-	if len(basicTradeAllColumns) == len(basicTradePrimaryKeyColumns) {
+	if len(tradeCategoryAllColumns) == len(tradeCategoryPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &BasicTrade{}
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := &TradeCategory{}
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
@@ -784,7 +784,7 @@ func testBasicTradesSliceUpdateAll(t *testing.T) {
 		t.Error(err)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -793,22 +793,22 @@ func testBasicTradesSliceUpdateAll(t *testing.T) {
 		t.Error("want one record, got:", count)
 	}
 
-	if err = randomize.Struct(seed, o, basicTradeDBTypes, true, basicTradePrimaryKeyColumns...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	if err = randomize.Struct(seed, o, tradeCategoryDBTypes, true, tradeCategoryPrimaryKeyColumns...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	// Remove Primary keys and unique columns from what we plan to update
 	var fields []string
-	if strmangle.StringSliceMatch(basicTradeAllColumns, basicTradePrimaryKeyColumns) {
-		fields = basicTradeAllColumns
+	if strmangle.StringSliceMatch(tradeCategoryAllColumns, tradeCategoryPrimaryKeyColumns) {
+		fields = tradeCategoryAllColumns
 	} else {
 		fields = strmangle.SetComplement(
-			basicTradeAllColumns,
-			basicTradePrimaryKeyColumns,
+			tradeCategoryAllColumns,
+			tradeCategoryPrimaryKeyColumns,
 		)
 		fields = strmangle.SetComplement(
 			fields,
-			basicTradeColumnsWithAuto,
+			tradeCategoryColumnsWithAuto,
 		)
 	}
 
@@ -826,7 +826,7 @@ func testBasicTradesSliceUpdateAll(t *testing.T) {
 		}
 	}
 
-	slice := BasicTradeSlice{o}
+	slice := TradeCategorySlice{o}
 	if rowsAff, err := slice.UpdateAll(tx, updateMap); err != nil {
 		t.Error(err)
 	} else if rowsAff != 1 {
@@ -834,28 +834,28 @@ func testBasicTradesSliceUpdateAll(t *testing.T) {
 	}
 }
 
-func testBasicTradesUpsert(t *testing.T) {
+func testTradeCategoriesUpsert(t *testing.T) {
 	t.Parallel()
 
-	if len(basicTradeAllColumns) == len(basicTradePrimaryKeyColumns) {
+	if len(tradeCategoryAllColumns) == len(tradeCategoryPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
 	seed := randomize.NewSeed()
 	var err error
 	// Attempt the INSERT side of an UPSERT
-	o := BasicTrade{}
-	if err = randomize.Struct(seed, &o, basicTradeDBTypes, true); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	o := TradeCategory{}
+	if err = randomize.Struct(seed, &o, tradeCategoryDBTypes, true); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 	if err = o.Upsert(tx, boil.Infer(), boil.Infer()); err != nil {
-		t.Errorf("Unable to upsert BasicTrade: %s", err)
+		t.Errorf("Unable to upsert TradeCategory: %s", err)
 	}
 
-	count, err := BasicTrades().Count(tx)
+	count, err := TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -864,15 +864,15 @@ func testBasicTradesUpsert(t *testing.T) {
 	}
 
 	// Attempt the UPDATE side of an UPSERT
-	if err = randomize.Struct(seed, &o, basicTradeDBTypes, false, basicTradePrimaryKeyColumns...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	if err = randomize.Struct(seed, &o, tradeCategoryDBTypes, false, tradeCategoryPrimaryKeyColumns...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	if err = o.Upsert(tx, boil.Infer(), boil.Infer()); err != nil {
-		t.Errorf("Unable to upsert BasicTrade: %s", err)
+		t.Errorf("Unable to upsert TradeCategory: %s", err)
 	}
 
-	count, err = BasicTrades().Count(tx)
+	count, err = TradeCategories().Count(tx)
 	if err != nil {
 		t.Error(err)
 	}

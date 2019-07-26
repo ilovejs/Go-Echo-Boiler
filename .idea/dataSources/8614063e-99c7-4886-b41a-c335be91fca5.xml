@@ -91,7 +91,7 @@
     </schema>
     <schema id="24" parent="13" name="dbo">
       <ObjectId>1</ObjectId>
-      <IntrospectionTimestamp>2019-07-24.10:32:22.960</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2019-07-26.22:51:58.893</IntrospectionTimestamp>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -101,40 +101,40 @@
     <schema id="26" parent="13" name="sys">
       <ObjectId>4</ObjectId>
     </schema>
-    <table id="27" parent="24" name="basic_trades">
-      <ObjectId>1189579276</ObjectId>
-      <CreatedTimestamp>2019-07-23.23:43:39.377</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-24.10:32:03.677</ModifiedTimestamp>
-    </table>
-    <table id="28" parent="24" name="claim_histories">
+    <table id="27" parent="24" name="claim_histories">
       <ObjectId>1429580131</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.383</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:31:43.053</ModifiedTimestamp>
     </table>
-    <table id="29" parent="24" name="claims">
+    <table id="28" parent="24" name="claims">
       <ObjectId>1349579846</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.380</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-24.10:31:20.760</ModifiedTimestamp>
+      <ModifiedTimestamp>2019-07-26.22:51:58.757</ModifiedTimestamp>
     </table>
-    <table id="30" parent="24" name="profiles">
+    <table id="29" parent="24" name="profiles">
       <ObjectId>1029578706</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.373</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:28:22.107</ModifiedTimestamp>
     </table>
-    <table id="31" parent="24" name="projects">
+    <table id="30" parent="24" name="projects">
       <ObjectId>1109578991</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.377</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-24.10:25:18.830</ModifiedTimestamp>
+      <ModifiedTimestamp>2019-07-26.22:50:25.187</ModifiedTimestamp>
     </table>
-    <table id="32" parent="24" name="roles">
+    <table id="31" parent="24" name="roles">
       <ObjectId>901578250</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.370</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:27:15.177</ModifiedTimestamp>
     </table>
+    <table id="32" parent="24" name="trade_categories">
+      <ObjectId>1189579276</ObjectId>
+      <CreatedTimestamp>2019-07-23.23:43:39.377</CreatedTimestamp>
+      <ModifiedTimestamp>2019-07-26.22:44:32.823</ModifiedTimestamp>
+    </table>
     <table id="33" parent="24" name="trades">
       <ObjectId>1269579561</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.380</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-24.10:31:43.053</ModifiedTimestamp>
+      <ModifiedTimestamp>2019-07-26.22:49:33.577</ModifiedTimestamp>
     </table>
     <table id="34" parent="24" name="users">
       <ObjectId>949578421</ObjectId>
@@ -147,134 +147,57 @@
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="36" parent="27" name="name">
-      <Position>2</Position>
-      <DataType>varchar(200 char)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="37" parent="27" name="is_active">
-      <Position>3</Position>
-      <DefaultConstraintName>DF__basic_tra__is_ac__48CFD27E</DefaultConstraintName>
-      <DefaultExpression>1</DefaultExpression>
-      <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="38" parent="27" name="is_deleted">
-      <Position>4</Position>
-      <DefaultConstraintName>DF__basic_tra__is_de__49C3F6B7</DefaultConstraintName>
-      <DefaultExpression>0</DefaultExpression>
-      <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="39" parent="27" name="created">
-      <Position>5</Position>
-      <DataType>datetime|0s</DataType>
-    </column>
-    <column id="40" parent="27" name="updated">
-      <Position>6</Position>
-      <DefaultConstraintName>DF__basic_tra__updat__4AB81AF0</DefaultConstraintName>
-      <DefaultExpression>getdate()</DefaultExpression>
-      <DataType>datetime|0s</DataType>
-    </column>
-    <index id="41" parent="27" name="PK__basic_tr__3213E83F65D6E3CB">
-      <Position>1</Position>
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Clustering>1</Clustering>
-      <Unique>1</Unique>
-    </index>
-    <index id="42" parent="27" name="basic_trades_name_uindex">
-      <Position>2</Position>
-      <ColNames>name</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="43" parent="27" name="PK__basic_tr__3213E83F65D6E3CB">
-      <ObjectId>1205579333</ObjectId>
-      <NameSurrogate>1</NameSurrogate>
-      <CreatedTimestamp>2019-07-23.23:43:39.377</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-23.23:43:39.377</ModifiedTimestamp>
-      <ColNames>id</ColNames>
-      <UnderlyingIndexName>PK__basic_tr__3213E83F65D6E3CB</UnderlyingIndexName>
-      <Primary>1</Primary>
-    </key>
-    <default id="44" parent="27" name="DF__basic_tra__is_ac__48CFD27E">
-      <ObjectId>1221579390</ObjectId>
-      <NameSurrogate>1</NameSurrogate>
-      <ModifiedTimestamp>2019-07-23.23:43:39.377</ModifiedTimestamp>
-      <ColNames>is_active</ColNames>
-      <DefaultExpression>1</DefaultExpression>
-    </default>
-    <default id="45" parent="27" name="DF__basic_tra__is_de__49C3F6B7">
-      <ObjectId>1237579447</ObjectId>
-      <NameSurrogate>1</NameSurrogate>
-      <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
-      <ColNames>is_deleted</ColNames>
-      <DefaultExpression>0</DefaultExpression>
-    </default>
-    <default id="46" parent="27" name="DF__basic_tra__updat__4AB81AF0">
-      <ObjectId>1253579504</ObjectId>
-      <NameSurrogate>1</NameSurrogate>
-      <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
-      <ColNames>updated</ColNames>
-      <DefaultExpression>getdate()</DefaultExpression>
-    </default>
-    <column id="47" parent="28" name="id">
-      <Position>1</Position>
-      <SequenceIdentity>1</SequenceIdentity>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="48" parent="28" name="trade_id">
+    <column id="36" parent="27" name="trade_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="49" parent="28" name="claim_id">
+    <column id="37" parent="27" name="claim_id">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="50" parent="28" name="profile_id">
+    <column id="38" parent="27" name="profile_id">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="51" parent="28" name="previous_claimed">
+    <column id="39" parent="27" name="previous_claimed">
       <Position>5</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="52" parent="28" name="is_active">
+    <column id="40" parent="27" name="is_active">
       <Position>6</Position>
       <DefaultConstraintName>DF__claim_his__is_ac__571DF1D5</DefaultConstraintName>
       <DefaultExpression>1</DefaultExpression>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="53" parent="28" name="is_deleted">
+    <column id="41" parent="27" name="is_deleted">
       <Position>7</Position>
       <DefaultConstraintName>DF__claim_his__is_de__5812160E</DefaultConstraintName>
       <DefaultExpression>0</DefaultExpression>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="54" parent="28" name="created">
+    <column id="42" parent="27" name="created">
       <Position>8</Position>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="55" parent="28" name="updated">
+    <column id="43" parent="27" name="updated">
       <Position>9</Position>
       <DefaultConstraintName>DF__claim_his__updat__59063A47</DefaultConstraintName>
       <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
-    <index id="56" parent="28" name="PK__claim_hi__3213E83F3E81EDEE">
+    <index id="44" parent="27" name="PK__claim_hi__3213E83F3E81EDEE">
       <Position>1</Position>
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="57" parent="28" name="PK__claim_hi__3213E83F3E81EDEE">
+    <key id="45" parent="27" name="PK__claim_hi__3213E83F3E81EDEE">
       <ObjectId>1445580188</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <CreatedTimestamp>2019-07-23.23:43:39.383</CreatedTimestamp>
@@ -283,7 +206,7 @@
       <UnderlyingIndexName>PK__claim_hi__3213E83F3E81EDEE</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="58" parent="28" name="claim_histories_trades_id_fk">
+    <foreign-key id="46" parent="27" name="claim_histories_trades_id_fk">
       <ObjectId>1893581784</ObjectId>
       <CreatedTimestamp>2019-07-24.10:31:43.053</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:31:43.053</ModifiedTimestamp>
@@ -294,7 +217,7 @@
       <RefKeyName>PK__trades__3213E83F4B2326BC</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="59" parent="28" name="claim_histories_claims_id_fk">
+    <foreign-key id="47" parent="27" name="claim_histories_claims_id_fk">
       <ObjectId>1877581727</ObjectId>
       <CreatedTimestamp>2019-07-24.10:31:20.760</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:31:20.760</ModifiedTimestamp>
@@ -305,120 +228,120 @@
       <RefKeyName>PK__claims__3213E83F8F3D3087</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <default id="60" parent="28" name="DF__claim_his__is_ac__571DF1D5">
+    <default id="48" parent="27" name="DF__claim_his__is_ac__571DF1D5">
       <ObjectId>1461580245</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.383</ModifiedTimestamp>
       <ColNames>is_active</ColNames>
       <DefaultExpression>1</DefaultExpression>
     </default>
-    <default id="61" parent="28" name="DF__claim_his__is_de__5812160E">
+    <default id="49" parent="27" name="DF__claim_his__is_de__5812160E">
       <ObjectId>1477580302</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.383</ModifiedTimestamp>
       <ColNames>is_deleted</ColNames>
       <DefaultExpression>0</DefaultExpression>
     </default>
-    <default id="62" parent="28" name="DF__claim_his__updat__59063A47">
+    <default id="50" parent="27" name="DF__claim_his__updat__59063A47">
       <ObjectId>1493580359</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.383</ModifiedTimestamp>
       <ColNames>updated</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
     </default>
-    <column id="63" parent="29" name="id">
+    <column id="51" parent="28" name="id">
       <Position>1</Position>
       <SequenceIdentity>1</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="64" parent="29" name="trade_id">
+    <column id="52" parent="28" name="trade_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="65" parent="29" name="user_id">
+    <column id="53" parent="28" name="user_id">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="66" parent="29" name="basic_trade_id">
+    <column id="54" parent="28" name="trade_category_id">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="67" parent="29" name="total_amount">
+    <column id="55" parent="28" name="total_amount">
       <Position>5</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="68" parent="29" name="claimed_amount">
+    <column id="56" parent="28" name="claimed_amount">
       <Position>6</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="69" parent="29" name="previous_claimed">
+    <column id="57" parent="28" name="previous_claimed">
       <Position>7</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="70" parent="29" name="amount_due">
+    <column id="58" parent="28" name="amount_due">
       <Position>8</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="71" parent="29" name="cost_to_completed">
+    <column id="59" parent="28" name="cost_to_completed">
       <Position>9</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="72" parent="29" name="claim_number">
+    <column id="60" parent="28" name="claim_no">
       <Position>10</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="73" parent="29" name="claim_period">
+    <column id="61" parent="28" name="claim_period">
       <Position>11</Position>
       <DataType>varchar(50 char)|0s</DataType>
     </column>
-    <column id="74" parent="29" name="action_claim">
+    <column id="62" parent="28" name="action_claim">
       <Position>12</Position>
       <DataType>bit|0s</DataType>
     </column>
-    <column id="75" parent="29" name="old_claimed_amount">
+    <column id="63" parent="28" name="old_claimed_amount">
       <Position>13</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="76" parent="29" name="claim_percentage">
+    <column id="64" parent="28" name="claim_percentage">
       <Position>14</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="77" parent="29" name="is_active">
+    <column id="65" parent="28" name="is_active">
       <Position>15</Position>
       <DefaultConstraintName>DF__claims__is_activ__52593CB8</DefaultConstraintName>
       <DefaultExpression>1</DefaultExpression>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="78" parent="29" name="is_deleted">
+    <column id="66" parent="28" name="is_deleted">
       <Position>16</Position>
       <DefaultConstraintName>DF__claims__is_delet__534D60F1</DefaultConstraintName>
       <DefaultExpression>0</DefaultExpression>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="79" parent="29" name="created">
+    <column id="67" parent="28" name="created">
       <Position>17</Position>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="80" parent="29" name="updated">
+    <column id="68" parent="28" name="updated">
       <Position>18</Position>
       <DefaultConstraintName>DF__claims__updated__5441852A</DefaultConstraintName>
       <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
-    <index id="81" parent="29" name="PK__claims__3213E83F8F3D3087">
+    <index id="69" parent="28" name="PK__claims__3213E83F8F3D3087">
       <Position>1</Position>
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="82" parent="29" name="PK__claims__3213E83F8F3D3087">
+    <key id="70" parent="28" name="PK__claims__3213E83F8F3D3087">
       <ObjectId>1365579903</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <CreatedTimestamp>2019-07-23.23:43:39.380</CreatedTimestamp>
@@ -427,7 +350,7 @@
       <UnderlyingIndexName>PK__claims__3213E83F8F3D3087</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="83" parent="29" name="claims_trades_id_fk">
+    <foreign-key id="71" parent="28" name="claims_trades_id_fk">
       <ObjectId>1829581556</ObjectId>
       <CreatedTimestamp>2019-07-24.10:28:50.840</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:28:50.840</ModifiedTimestamp>
@@ -438,7 +361,7 @@
       <RefKeyName>PK__trades__3213E83F4B2326BC</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="84" parent="29" name="claims_users_id_fk">
+    <foreign-key id="72" parent="28" name="claims_users_id_fk">
       <ObjectId>1845581613</ObjectId>
       <CreatedTimestamp>2019-07-24.10:29:57.797</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:29:57.797</ModifiedTimestamp>
@@ -449,101 +372,101 @@
       <RefKeyName>PK__users__3213E83F76A4D7D2</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="85" parent="29" name="claims_basic_trades_id_fk">
+    <foreign-key id="73" parent="28" name="claims_trade_category_id_fk">
       <ObjectId>1861581670</ObjectId>
       <CreatedTimestamp>2019-07-24.10:30:22.797</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-24.10:30:22.797</ModifiedTimestamp>
-      <ColNames>basic_trade_id</ColNames>
+      <ModifiedTimestamp>2019-07-26.22:51:58.753</ModifiedTimestamp>
+      <ColNames>trade_category_id</ColNames>
       <RefTableId>1189579276</RefTableId>
       <RefSchemaName>dbo</RefSchemaName>
-      <RefTableName>basic_trades</RefTableName>
+      <RefTableName>trade_categories</RefTableName>
       <RefKeyName>PK__basic_tr__3213E83F65D6E3CB</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <default id="86" parent="29" name="DF__claims__is_activ__52593CB8">
+    <default id="74" parent="28" name="DF__claims__is_activ__52593CB8">
       <ObjectId>1381579960</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
       <ColNames>is_active</ColNames>
       <DefaultExpression>1</DefaultExpression>
     </default>
-    <default id="87" parent="29" name="DF__claims__is_delet__534D60F1">
+    <default id="75" parent="28" name="DF__claims__is_delet__534D60F1">
       <ObjectId>1397580017</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
       <ColNames>is_deleted</ColNames>
       <DefaultExpression>0</DefaultExpression>
     </default>
-    <default id="88" parent="29" name="DF__claims__updated__5441852A">
+    <default id="76" parent="28" name="DF__claims__updated__5441852A">
       <ObjectId>1413580074</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
       <ColNames>updated</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
     </default>
-    <column id="89" parent="30" name="id">
+    <column id="77" parent="29" name="id">
       <Position>1</Position>
       <SequenceIdentity>1</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="90" parent="30" name="user_id">
+    <column id="78" parent="29" name="user_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="91" parent="30" name="image_url">
+    <column id="79" parent="29" name="image_url">
       <Position>3</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="92" parent="30" name="mobile">
+    <column id="80" parent="29" name="mobile">
       <Position>4</Position>
       <DataType>varchar(50 char)|0s</DataType>
     </column>
-    <column id="93" parent="30" name="company">
+    <column id="81" parent="29" name="company">
       <Position>5</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="94" parent="30" name="first_name">
+    <column id="82" parent="29" name="first_name">
       <Position>6</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="95" parent="30" name="last_name">
+    <column id="83" parent="29" name="last_name">
       <Position>7</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="96" parent="30" name="is_active">
+    <column id="84" parent="29" name="is_active">
       <Position>8</Position>
       <DefaultConstraintName>DF__profiles__is_act__3F466844</DefaultConstraintName>
       <DefaultExpression>1</DefaultExpression>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="97" parent="30" name="is_deleted">
+    <column id="85" parent="29" name="is_deleted">
       <Position>9</Position>
       <DefaultConstraintName>DF__profiles__is_del__403A8C7D</DefaultConstraintName>
       <DefaultExpression>0</DefaultExpression>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="98" parent="30" name="created">
+    <column id="86" parent="29" name="created">
       <Position>10</Position>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="99" parent="30" name="updated">
+    <column id="87" parent="29" name="updated">
       <Position>11</Position>
       <DefaultConstraintName>DF__profiles__update__412EB0B6</DefaultConstraintName>
       <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
-    <index id="100" parent="30" name="PK__profiles__3213E83F027B532D">
+    <index id="88" parent="29" name="PK__profiles__3213E83F027B532D">
       <Position>1</Position>
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="101" parent="30" name="PK__profiles__3213E83F027B532D">
+    <key id="89" parent="29" name="PK__profiles__3213E83F027B532D">
       <ObjectId>1045578763</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <CreatedTimestamp>2019-07-23.23:43:39.373</CreatedTimestamp>
@@ -552,7 +475,7 @@
       <UnderlyingIndexName>PK__profiles__3213E83F027B532D</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="102" parent="30" name="profiles_users_id_fk">
+    <foreign-key id="90" parent="29" name="profiles_users_id_fk">
       <ObjectId>1813581499</ObjectId>
       <CreatedTimestamp>2019-07-24.10:28:22.107</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:28:22.107</ModifiedTimestamp>
@@ -563,107 +486,107 @@
       <RefKeyName>PK__users__3213E83F76A4D7D2</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <default id="103" parent="30" name="DF__profiles__is_act__3F466844">
+    <default id="91" parent="29" name="DF__profiles__is_act__3F466844">
       <ObjectId>1061578820</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.373</ModifiedTimestamp>
       <ColNames>is_active</ColNames>
       <DefaultExpression>1</DefaultExpression>
     </default>
-    <default id="104" parent="30" name="DF__profiles__is_del__403A8C7D">
+    <default id="92" parent="29" name="DF__profiles__is_del__403A8C7D">
       <ObjectId>1077578877</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.373</ModifiedTimestamp>
       <ColNames>is_deleted</ColNames>
       <DefaultExpression>0</DefaultExpression>
     </default>
-    <default id="105" parent="30" name="DF__profiles__update__412EB0B6">
+    <default id="93" parent="29" name="DF__profiles__update__412EB0B6">
       <ObjectId>1093578934</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.373</ModifiedTimestamp>
       <ColNames>updated</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
     </default>
-    <column id="106" parent="31" name="id">
+    <column id="94" parent="30" name="id">
       <Position>1</Position>
       <SequenceIdentity>1</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="107" parent="31" name="manager_id">
+    <column id="95" parent="30" name="manager_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="108" parent="31" name="creator_id">
+    <column id="96" parent="30" name="creator_id">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="109" parent="31" name="name">
+    <column id="97" parent="30" name="name">
       <Position>4</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="110" parent="31" name="total_item_breakdown">
+    <column id="98" parent="30" name="total_trade_value">
       <Position>5</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="111" parent="31" name="contractor_total_claim">
+    <column id="99" parent="30" name="contractor_total_claim">
       <Position>6</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="112" parent="31" name="serial_no">
+    <column id="100" parent="30" name="serial_no">
       <Position>7</Position>
       <DataType>varchar(50 char)|0s</DataType>
     </column>
-    <column id="113" parent="31" name="details">
+    <column id="101" parent="30" name="details">
       <Position>8</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="114" parent="31" name="total_contract_value">
+    <column id="102" parent="30" name="total_contract_value">
       <Position>9</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="115" parent="31" name="quantity_surveyor">
+    <column id="103" parent="30" name="quantity_surveyor">
       <Position>10</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="116" parent="31" name="notes">
+    <column id="104" parent="30" name="notes">
       <Position>11</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="117" parent="31" name="is_active">
+    <column id="105" parent="30" name="is_active">
       <Position>12</Position>
       <DefaultConstraintName>DF__projects__is_act__440B1D61</DefaultConstraintName>
       <DefaultExpression>1</DefaultExpression>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="118" parent="31" name="is_deleted">
+    <column id="106" parent="30" name="is_deleted">
       <Position>13</Position>
       <DefaultConstraintName>DF__projects__is_del__44FF419A</DefaultConstraintName>
       <DefaultExpression>0</DefaultExpression>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="119" parent="31" name="created">
+    <column id="107" parent="30" name="created">
       <Position>14</Position>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="120" parent="31" name="updated">
+    <column id="108" parent="30" name="updated">
       <Position>15</Position>
       <DefaultConstraintName>DF__projects__update__45F365D3</DefaultConstraintName>
       <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
-    <index id="121" parent="31" name="PK__projects__3213E83F354FBA22">
+    <index id="109" parent="30" name="PK__projects__3213E83F354FBA22">
       <Position>1</Position>
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="122" parent="31" name="PK__projects__3213E83F354FBA22">
+    <key id="110" parent="30" name="PK__projects__3213E83F354FBA22">
       <ObjectId>1125579048</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <CreatedTimestamp>2019-07-23.23:43:39.377</CreatedTimestamp>
@@ -672,7 +595,7 @@
       <UnderlyingIndexName>PK__projects__3213E83F354FBA22</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="123" parent="31" name="fk_project_manager_id">
+    <foreign-key id="111" parent="30" name="fk_project_manager_id">
       <ObjectId>1717581157</ObjectId>
       <CreatedTimestamp>2019-07-24.10:23:20.213</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:23:20.213</ModifiedTimestamp>
@@ -683,7 +606,7 @@
       <RefKeyName>PK__users__3213E83F76A4D7D2</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="124" parent="31" name="fk_project_creator_id">
+    <foreign-key id="112" parent="30" name="fk_project_creator_id">
       <ObjectId>1701581100</ObjectId>
       <CreatedTimestamp>2019-07-24.10:23:03.700</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:23:03.700</ModifiedTimestamp>
@@ -694,57 +617,57 @@
       <RefKeyName>PK__users__3213E83F76A4D7D2</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <default id="125" parent="31" name="DF__projects__is_act__440B1D61">
+    <default id="113" parent="30" name="DF__projects__is_act__440B1D61">
       <ObjectId>1141579105</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.377</ModifiedTimestamp>
       <ColNames>is_active</ColNames>
       <DefaultExpression>1</DefaultExpression>
     </default>
-    <default id="126" parent="31" name="DF__projects__is_del__44FF419A">
+    <default id="114" parent="30" name="DF__projects__is_del__44FF419A">
       <ObjectId>1157579162</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.377</ModifiedTimestamp>
       <ColNames>is_deleted</ColNames>
       <DefaultExpression>0</DefaultExpression>
     </default>
-    <default id="127" parent="31" name="DF__projects__update__45F365D3">
+    <default id="115" parent="30" name="DF__projects__update__45F365D3">
       <ObjectId>1173579219</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.377</ModifiedTimestamp>
       <ColNames>updated</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
     </default>
-    <column id="128" parent="32" name="id">
+    <column id="116" parent="31" name="id">
       <Position>1</Position>
       <SequenceIdentity>1</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="129" parent="32" name="user_role_type">
+    <column id="117" parent="31" name="user_role_type">
       <Position>2</Position>
       <DataType>varchar(50 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="130" parent="32" name="created">
+    <column id="118" parent="31" name="created">
       <Position>3</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="131" parent="32" name="updated">
+    <column id="119" parent="31" name="updated">
       <Position>4</Position>
       <DefaultConstraintName>DF__roles__updated__37A5467C</DefaultConstraintName>
       <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
-    <index id="132" parent="32" name="PK__roles__3213E83FA5FB49E1">
+    <index id="120" parent="31" name="PK__roles__3213E83FA5FB49E1">
       <Position>1</Position>
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="133" parent="32" name="PK__roles__3213E83FA5FB49E1">
+    <key id="121" parent="31" name="PK__roles__3213E83FA5FB49E1">
       <ObjectId>917578307</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <CreatedTimestamp>2019-07-23.23:43:39.370</CreatedTimestamp>
@@ -753,10 +676,87 @@
       <UnderlyingIndexName>PK__roles__3213E83FA5FB49E1</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <default id="134" parent="32" name="DF__roles__updated__37A5467C">
+    <default id="122" parent="31" name="DF__roles__updated__37A5467C">
       <ObjectId>933578364</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.370</ModifiedTimestamp>
+      <ColNames>updated</ColNames>
+      <DefaultExpression>getdate()</DefaultExpression>
+    </default>
+    <column id="123" parent="32" name="id">
+      <Position>1</Position>
+      <SequenceIdentity>1</SequenceIdentity>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="124" parent="32" name="name">
+      <Position>2</Position>
+      <DataType>varchar(200 char)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="125" parent="32" name="is_active">
+      <Position>3</Position>
+      <DefaultConstraintName>DF__basic_tra__is_ac__48CFD27E</DefaultConstraintName>
+      <DefaultExpression>1</DefaultExpression>
+      <DataType>bit|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="126" parent="32" name="is_deleted">
+      <Position>4</Position>
+      <DefaultConstraintName>DF__basic_tra__is_de__49C3F6B7</DefaultConstraintName>
+      <DefaultExpression>0</DefaultExpression>
+      <DataType>bit|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="127" parent="32" name="created">
+      <Position>5</Position>
+      <DataType>datetime|0s</DataType>
+    </column>
+    <column id="128" parent="32" name="updated">
+      <Position>6</Position>
+      <DefaultConstraintName>DF__basic_tra__updat__4AB81AF0</DefaultConstraintName>
+      <DefaultExpression>getdate()</DefaultExpression>
+      <DataType>datetime|0s</DataType>
+    </column>
+    <index id="129" parent="32" name="PK__basic_tr__3213E83F65D6E3CB">
+      <Position>1</Position>
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Clustering>1</Clustering>
+      <Unique>1</Unique>
+    </index>
+    <index id="130" parent="32" name="basic_trades_name_uindex">
+      <Position>2</Position>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="131" parent="32" name="PK__basic_tr__3213E83F65D6E3CB">
+      <ObjectId>1205579333</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <CreatedTimestamp>2019-07-23.23:43:39.377</CreatedTimestamp>
+      <ModifiedTimestamp>2019-07-23.23:43:39.377</ModifiedTimestamp>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>PK__basic_tr__3213E83F65D6E3CB</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <default id="132" parent="32" name="DF__basic_tra__is_ac__48CFD27E">
+      <ObjectId>1221579390</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <ModifiedTimestamp>2019-07-23.23:43:39.377</ModifiedTimestamp>
+      <ColNames>is_active</ColNames>
+      <DefaultExpression>1</DefaultExpression>
+    </default>
+    <default id="133" parent="32" name="DF__basic_tra__is_de__49C3F6B7">
+      <ObjectId>1237579447</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
+      <ColNames>is_deleted</ColNames>
+      <DefaultExpression>0</DefaultExpression>
+    </default>
+    <default id="134" parent="32" name="DF__basic_tra__updat__4AB81AF0">
+      <ObjectId>1253579504</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
       <ColNames>updated</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
     </default>
@@ -766,7 +766,7 @@
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="136" parent="33" name="basic_trade_id">
+    <column id="136" parent="33" name="trade_category_id">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
@@ -781,20 +781,20 @@
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="139" parent="33" name="floor_level">
+    <column id="139" parent="33" name="level">
       <Position>5</Position>
       <DataType>varchar(20 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="140" parent="33" name="work_desc">
+    <column id="140" parent="33" name="description">
       <Position>6</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
-    <column id="141" parent="33" name="item_breakdown">
+    <column id="141" parent="33" name="value">
       <Position>7</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="142" parent="33" name="tempcheck">
+    <column id="142" parent="33" name="temp">
       <Position>8</Position>
       <DataType>bit|0s</DataType>
     </column>
@@ -838,14 +838,14 @@
       <UnderlyingIndexName>PK__trades__3213E83F4B2326BC</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="149" parent="33" name="trades_basic_trades_id_fk">
+    <foreign-key id="149" parent="33" name="trades_trade_category_id_fk">
       <ObjectId>1797581442</ObjectId>
       <CreatedTimestamp>2019-07-24.10:27:41.920</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-24.10:27:41.920</ModifiedTimestamp>
-      <ColNames>basic_trade_id</ColNames>
+      <ModifiedTimestamp>2019-07-26.22:49:33.573</ModifiedTimestamp>
+      <ColNames>trade_category_id</ColNames>
       <RefTableId>1189579276</RefTableId>
       <RefSchemaName>dbo</RefSchemaName>
-      <RefTableName>basic_trades</RefTableName>
+      <RefTableName>trade_categories</RefTableName>
       <RefKeyName>PK__basic_tr__3213E83F65D6E3CB</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>

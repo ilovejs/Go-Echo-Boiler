@@ -20,5 +20,5 @@ echo "tables_schema.sql copied to models/"
 cp mssql_main_test.txt models/mssql_main_test.go
 echo "patched bugs test code"
 
-echo "testing"
-go test ./models
+echo "test has been skip. Turn in on for Release"
+#go test ./models

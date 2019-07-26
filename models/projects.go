@@ -27,7 +27,7 @@ type Project struct {
 	ManagerID            int          `boil:"manager_id" json:"manager_id" toml:"manager_id" yaml:"manager_id"`
 	CreatorID            int          `boil:"creator_id" json:"creator_id" toml:"creator_id" yaml:"creator_id"`
 	Name                 null.String  `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
-	TotalItemBreakdown   null.Float64 `boil:"total_item_breakdown" json:"total_item_breakdown,omitempty" toml:"total_item_breakdown" yaml:"total_item_breakdown,omitempty"`
+	TotalTradeValue      null.Float64 `boil:"total_trade_value" json:"total_trade_value,omitempty" toml:"total_trade_value" yaml:"total_trade_value,omitempty"`
 	ContractorTotalClaim null.Float64 `boil:"contractor_total_claim" json:"contractor_total_claim,omitempty" toml:"contractor_total_claim" yaml:"contractor_total_claim,omitempty"`
 	SerialNo             null.String  `boil:"serial_no" json:"serial_no,omitempty" toml:"serial_no" yaml:"serial_no,omitempty"`
 	Details              null.String  `boil:"details" json:"details,omitempty" toml:"details" yaml:"details,omitempty"`
@@ -48,7 +48,7 @@ var ProjectColumns = struct {
 	ManagerID            string
 	CreatorID            string
 	Name                 string
-	TotalItemBreakdown   string
+	TotalTradeValue      string
 	ContractorTotalClaim string
 	SerialNo             string
 	Details              string
@@ -64,7 +64,7 @@ var ProjectColumns = struct {
 	ManagerID:            "manager_id",
 	CreatorID:            "creator_id",
 	Name:                 "name",
-	TotalItemBreakdown:   "total_item_breakdown",
+	TotalTradeValue:      "total_trade_value",
 	ContractorTotalClaim: "contractor_total_claim",
 	SerialNo:             "serial_no",
 	Details:              "details",
@@ -84,7 +84,7 @@ var ProjectWhere = struct {
 	ManagerID            whereHelperint
 	CreatorID            whereHelperint
 	Name                 whereHelpernull_String
-	TotalItemBreakdown   whereHelpernull_Float64
+	TotalTradeValue      whereHelpernull_Float64
 	ContractorTotalClaim whereHelpernull_Float64
 	SerialNo             whereHelpernull_String
 	Details              whereHelpernull_String
@@ -100,7 +100,7 @@ var ProjectWhere = struct {
 	ManagerID:            whereHelperint{field: "[dbo].[projects].[manager_id]"},
 	CreatorID:            whereHelperint{field: "[dbo].[projects].[creator_id]"},
 	Name:                 whereHelpernull_String{field: "[dbo].[projects].[name]"},
-	TotalItemBreakdown:   whereHelpernull_Float64{field: "[dbo].[projects].[total_item_breakdown]"},
+	TotalTradeValue:      whereHelpernull_Float64{field: "[dbo].[projects].[total_trade_value]"},
 	ContractorTotalClaim: whereHelpernull_Float64{field: "[dbo].[projects].[contractor_total_claim]"},
 	SerialNo:             whereHelpernull_String{field: "[dbo].[projects].[serial_no]"},
 	Details:              whereHelpernull_String{field: "[dbo].[projects].[details]"},
@@ -140,9 +140,9 @@ func (*projectR) NewStruct() *projectR {
 type projectL struct{}
 
 var (
-	projectAllColumns            = []string{"id", "manager_id", "creator_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_active", "is_deleted", "created", "updated"}
+	projectAllColumns            = []string{"id", "manager_id", "creator_id", "name", "total_trade_value", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_active", "is_deleted", "created", "updated"}
 	projectColumnsWithAuto       = []string{}
-	projectColumnsWithoutDefault = []string{"manager_id", "creator_id", "name", "total_item_breakdown", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "created"}
+	projectColumnsWithoutDefault = []string{"manager_id", "creator_id", "name", "total_trade_value", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "created"}
 	projectColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	projectPrimaryKeyColumns     = []string{"id"}
 )

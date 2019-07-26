@@ -6,8 +6,6 @@ package models
 import "testing"
 
 func TestUpsert(t *testing.T) {
-	t.Run("BasicTrades", testBasicTradesUpsert)
-
 	t.Run("ClaimHistories", testClaimHistoriesUpsert)
 
 	t.Run("Claims", testClaimsUpsert)
@@ -17,6 +15,8 @@ func TestUpsert(t *testing.T) {
 	t.Run("Projects", testProjectsUpsert)
 
 	t.Run("Roles", testRolesUpsert)
+
+	t.Run("TradeCategories", testTradeCategoriesUpsert)
 
 	t.Run("Trades", testTradesUpsert)
 

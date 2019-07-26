@@ -67,6 +67,18 @@ func (ps *ProjectStore) Delete(id int) error {
 	return nil
 }
 
+func (ps *ProjectStore) List(offset int, limit int) ([]*models.Project, int, error) {
+	allProjects, err := models.Projects(Where("is_deleted = ?", false),
+		Limit(limit),
+		Offset(offset),
+	).All(ps.db)
+
+	if err != nil {
+		return nil, 0, err
+	}
+	return allProjects, len(allProjects), nil
+}
+
 //GetAll: Active Contractors
 func (ps *ProjectStore) Contractors(pid int) ([]models.User, error) {
 	panic("no")

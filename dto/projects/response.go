@@ -14,7 +14,7 @@ type ProjectResponse struct {
 		SerialNo string `json:"serial_no,omitempty"`
 		Details  string `json:"details,omitempty"`
 		//
-		TotalItemBreakdown   float64 `json:"total_item_breakdown,omitempty"`
+		Value                float64 `json:"total_item_breakdown,omitempty"`
 		ContractorTotalClaim float64 `json:"contractor_total_claim,omitempty"`
 		TotalContractValue   float64 `json:"total_contract_value,omitempty"`
 		QuantitySurveyor     string  `json:"quantity_surveyor,omitempty"`
@@ -39,7 +39,7 @@ type UpdateProjectResponse struct {
 		CreatorProfileID     int     `json:"creator_profile_id"`
 		SerialNo             string  `json:"serial_no"`
 		Details              string  `json:"details"`
-		TotalItemBreakdown   float64 `json:"total_item_breakdown"`
+		TotalTradeValue      float64 `json:"total_trade_value"`
 		ContractorTotalClaim float64 `json:"contractor_total_claim"`
 		TotalContractValue   float64 `json:"total_contract_value"`
 		QuantitySurveyor     string  `json:"quantity_surveyor"`
@@ -54,7 +54,7 @@ func NewUpdateProjectResponse(p *Project) *UpdateProjectResponse {
 	resp.Project.CreatorProfileID = p.CreatorID
 	resp.Project.SerialNo = *p.SerialNo.Ptr()
 	resp.Project.Details = *p.Details.Ptr()
-	resp.Project.TotalItemBreakdown = *p.TotalItemBreakdown.Ptr()
+	resp.Project.TotalTradeValue = *p.TotalTradeValue.Ptr()
 	resp.Project.ContractorTotalClaim = *p.ContractorTotalClaim.Ptr()
 	resp.Project.TotalContractValue = *p.TotalContractValue.Ptr()
 	resp.Project.QuantitySurveyor = *p.QuantitySurveyor.Ptr()

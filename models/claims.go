@@ -26,13 +26,13 @@ type Claim struct {
 	ID               int          `boil:"id" json:"id" toml:"id" yaml:"id"`
 	TradeID          int          `boil:"trade_id" json:"trade_id" toml:"trade_id" yaml:"trade_id"`
 	UserID           int          `boil:"user_id" json:"user_id" toml:"user_id" yaml:"user_id"`
-	BasicTradeID     int          `boil:"basic_trade_id" json:"basic_trade_id" toml:"basic_trade_id" yaml:"basic_trade_id"`
+	TradeCategoryID  int          `boil:"trade_category_id" json:"trade_category_id" toml:"trade_category_id" yaml:"trade_category_id"`
 	TotalAmount      null.Float64 `boil:"total_amount" json:"total_amount,omitempty" toml:"total_amount" yaml:"total_amount,omitempty"`
 	ClaimedAmount    null.Float64 `boil:"claimed_amount" json:"claimed_amount,omitempty" toml:"claimed_amount" yaml:"claimed_amount,omitempty"`
 	PreviousClaimed  null.Float64 `boil:"previous_claimed" json:"previous_claimed,omitempty" toml:"previous_claimed" yaml:"previous_claimed,omitempty"`
 	AmountDue        null.Float64 `boil:"amount_due" json:"amount_due,omitempty" toml:"amount_due" yaml:"amount_due,omitempty"`
 	CostToCompleted  null.Float64 `boil:"cost_to_completed" json:"cost_to_completed,omitempty" toml:"cost_to_completed" yaml:"cost_to_completed,omitempty"`
-	ClaimNumber      null.String  `boil:"claim_number" json:"claim_number,omitempty" toml:"claim_number" yaml:"claim_number,omitempty"`
+	ClaimNo          null.String  `boil:"claim_no" json:"claim_no,omitempty" toml:"claim_no" yaml:"claim_no,omitempty"`
 	ClaimPeriod      null.String  `boil:"claim_period" json:"claim_period,omitempty" toml:"claim_period" yaml:"claim_period,omitempty"`
 	ActionClaim      null.Bool    `boil:"action_claim" json:"action_claim,omitempty" toml:"action_claim" yaml:"action_claim,omitempty"`
 	OldClaimedAmount null.Float64 `boil:"old_claimed_amount" json:"old_claimed_amount,omitempty" toml:"old_claimed_amount" yaml:"old_claimed_amount,omitempty"`
@@ -50,13 +50,13 @@ var ClaimColumns = struct {
 	ID               string
 	TradeID          string
 	UserID           string
-	BasicTradeID     string
+	TradeCategoryID  string
 	TotalAmount      string
 	ClaimedAmount    string
 	PreviousClaimed  string
 	AmountDue        string
 	CostToCompleted  string
-	ClaimNumber      string
+	ClaimNo          string
 	ClaimPeriod      string
 	ActionClaim      string
 	OldClaimedAmount string
@@ -69,13 +69,13 @@ var ClaimColumns = struct {
 	ID:               "id",
 	TradeID:          "trade_id",
 	UserID:           "user_id",
-	BasicTradeID:     "basic_trade_id",
+	TradeCategoryID:  "trade_category_id",
 	TotalAmount:      "total_amount",
 	ClaimedAmount:    "claimed_amount",
 	PreviousClaimed:  "previous_claimed",
 	AmountDue:        "amount_due",
 	CostToCompleted:  "cost_to_completed",
-	ClaimNumber:      "claim_number",
+	ClaimNo:          "claim_no",
 	ClaimPeriod:      "claim_period",
 	ActionClaim:      "action_claim",
 	OldClaimedAmount: "old_claimed_amount",
@@ -138,13 +138,13 @@ var ClaimWhere = struct {
 	ID               whereHelperint
 	TradeID          whereHelperint
 	UserID           whereHelperint
-	BasicTradeID     whereHelperint
+	TradeCategoryID  whereHelperint
 	TotalAmount      whereHelpernull_Float64
 	ClaimedAmount    whereHelpernull_Float64
 	PreviousClaimed  whereHelpernull_Float64
 	AmountDue        whereHelpernull_Float64
 	CostToCompleted  whereHelpernull_Float64
-	ClaimNumber      whereHelpernull_String
+	ClaimNo          whereHelpernull_String
 	ClaimPeriod      whereHelpernull_String
 	ActionClaim      whereHelpernull_Bool
 	OldClaimedAmount whereHelpernull_Float64
@@ -157,13 +157,13 @@ var ClaimWhere = struct {
 	ID:               whereHelperint{field: "[dbo].[claims].[id]"},
 	TradeID:          whereHelperint{field: "[dbo].[claims].[trade_id]"},
 	UserID:           whereHelperint{field: "[dbo].[claims].[user_id]"},
-	BasicTradeID:     whereHelperint{field: "[dbo].[claims].[basic_trade_id]"},
+	TradeCategoryID:  whereHelperint{field: "[dbo].[claims].[trade_category_id]"},
 	TotalAmount:      whereHelpernull_Float64{field: "[dbo].[claims].[total_amount]"},
 	ClaimedAmount:    whereHelpernull_Float64{field: "[dbo].[claims].[claimed_amount]"},
 	PreviousClaimed:  whereHelpernull_Float64{field: "[dbo].[claims].[previous_claimed]"},
 	AmountDue:        whereHelpernull_Float64{field: "[dbo].[claims].[amount_due]"},
 	CostToCompleted:  whereHelpernull_Float64{field: "[dbo].[claims].[cost_to_completed]"},
-	ClaimNumber:      whereHelpernull_String{field: "[dbo].[claims].[claim_number]"},
+	ClaimNo:          whereHelpernull_String{field: "[dbo].[claims].[claim_no]"},
 	ClaimPeriod:      whereHelpernull_String{field: "[dbo].[claims].[claim_period]"},
 	ActionClaim:      whereHelpernull_Bool{field: "[dbo].[claims].[action_claim]"},
 	OldClaimedAmount: whereHelpernull_Float64{field: "[dbo].[claims].[old_claimed_amount]"},
@@ -176,12 +176,12 @@ var ClaimWhere = struct {
 
 // ClaimRels is where relationship names are stored.
 var ClaimRels = struct {
-	BasicTrade     string
+	TradeCategory  string
 	Trade          string
 	User           string
 	ClaimHistories string
 }{
-	BasicTrade:     "BasicTrade",
+	TradeCategory:  "TradeCategory",
 	Trade:          "Trade",
 	User:           "User",
 	ClaimHistories: "ClaimHistories",
@@ -189,7 +189,7 @@ var ClaimRels = struct {
 
 // claimR is where relationships are stored.
 type claimR struct {
-	BasicTrade     *BasicTrade
+	TradeCategory  *TradeCategory
 	Trade          *Trade
 	User           *User
 	ClaimHistories ClaimHistorySlice
@@ -204,9 +204,9 @@ func (*claimR) NewStruct() *claimR {
 type claimL struct{}
 
 var (
-	claimAllColumns            = []string{"id", "trade_id", "user_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "is_active", "is_deleted", "created", "updated"}
+	claimAllColumns            = []string{"id", "trade_id", "user_id", "trade_category_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_no", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "is_active", "is_deleted", "created", "updated"}
 	claimColumnsWithAuto       = []string{}
-	claimColumnsWithoutDefault = []string{"trade_id", "user_id", "basic_trade_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_number", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "created"}
+	claimColumnsWithoutDefault = []string{"trade_id", "user_id", "trade_category_id", "total_amount", "claimed_amount", "previous_claimed", "amount_due", "cost_to_completed", "claim_no", "claim_period", "action_claim", "old_claimed_amount", "claim_percentage", "created"}
 	claimColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	claimPrimaryKeyColumns     = []string{"id"}
 )
@@ -302,16 +302,16 @@ func (q claimQuery) Exists(exec boil.Executor) (bool, error) {
 	return count > 0, nil
 }
 
-// BasicTrade pointed to by the foreign key.
-func (o *Claim) BasicTrade(mods ...qm.QueryMod) basicTradeQuery {
+// TradeCategory pointed to by the foreign key.
+func (o *Claim) TradeCategory(mods ...qm.QueryMod) tradeCategoryQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.BasicTradeID),
+		qm.Where("id=?", o.TradeCategoryID),
 	}
 
 	queryMods = append(queryMods, mods...)
 
-	query := BasicTrades(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[basic_trades]")
+	query := TradeCategories(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[trade_categories]")
 
 	return query
 }
@@ -365,9 +365,9 @@ func (o *Claim) ClaimHistories(mods ...qm.QueryMod) claimHistoryQuery {
 	return query
 }
 
-// LoadBasicTrade allows an eager lookup of values, cached into the
+// LoadTradeCategory allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (claimL) LoadBasicTrade(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
+func (claimL) LoadTradeCategory(e boil.Executor, singular bool, maybeClaim interface{}, mods queries.Applicator) error {
 	var slice []*Claim
 	var object *Claim
 
@@ -382,7 +382,7 @@ func (claimL) LoadBasicTrade(e boil.Executor, singular bool, maybeClaim interfac
 		if object.R == nil {
 			object.R = &claimR{}
 		}
-		args = append(args, object.BasicTradeID)
+		args = append(args, object.TradeCategoryID)
 
 	} else {
 	Outer:
@@ -392,12 +392,12 @@ func (claimL) LoadBasicTrade(e boil.Executor, singular bool, maybeClaim interfac
 			}
 
 			for _, a := range args {
-				if a == obj.BasicTradeID {
+				if a == obj.TradeCategoryID {
 					continue Outer
 				}
 			}
 
-			args = append(args, obj.BasicTradeID)
+			args = append(args, obj.TradeCategoryID)
 
 		}
 	}
@@ -406,26 +406,26 @@ func (claimL) LoadBasicTrade(e boil.Executor, singular bool, maybeClaim interfac
 		return nil
 	}
 
-	query := NewQuery(qm.From(`dbo.basic_trades`), qm.WhereIn(`id in ?`, args...))
+	query := NewQuery(qm.From(`dbo.trade_categories`), qm.WhereIn(`id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
 
 	results, err := query.Query(e)
 	if err != nil {
-		return errors.Wrap(err, "failed to eager load BasicTrade")
+		return errors.Wrap(err, "failed to eager load TradeCategory")
 	}
 
-	var resultSlice []*BasicTrade
+	var resultSlice []*TradeCategory
 	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice BasicTrade")
+		return errors.Wrap(err, "failed to bind eager loaded slice TradeCategory")
 	}
 
 	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for basic_trades")
+		return errors.Wrap(err, "failed to close results of eager load for trade_categories")
 	}
 	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for basic_trades")
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trade_categories")
 	}
 
 	if len(resultSlice) == 0 {
@@ -434,9 +434,9 @@ func (claimL) LoadBasicTrade(e boil.Executor, singular bool, maybeClaim interfac
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.BasicTrade = foreign
+		object.R.TradeCategory = foreign
 		if foreign.R == nil {
-			foreign.R = &basicTradeR{}
+			foreign.R = &tradeCategoryR{}
 		}
 		foreign.R.Claims = append(foreign.R.Claims, object)
 		return nil
@@ -444,10 +444,10 @@ func (claimL) LoadBasicTrade(e boil.Executor, singular bool, maybeClaim interfac
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if local.BasicTradeID == foreign.ID {
-				local.R.BasicTrade = foreign
+			if local.TradeCategoryID == foreign.ID {
+				local.R.TradeCategory = foreign
 				if foreign.R == nil {
-					foreign.R = &basicTradeR{}
+					foreign.R = &tradeCategoryR{}
 				}
 				foreign.R.Claims = append(foreign.R.Claims, local)
 				break
@@ -732,10 +732,10 @@ func (claimL) LoadClaimHistories(e boil.Executor, singular bool, maybeClaim inte
 	return nil
 }
 
-// SetBasicTrade of the claim to the related item.
-// Sets o.R.BasicTrade to related.
+// SetTradeCategory of the claim to the related item.
+// Sets o.R.TradeCategory to related.
 // Adds o to related.R.Claims.
-func (o *Claim) SetBasicTrade(exec boil.Executor, insert bool, related *BasicTrade) error {
+func (o *Claim) SetTradeCategory(exec boil.Executor, insert bool, related *TradeCategory) error {
 	var err error
 	if insert {
 		if err = related.Insert(exec, boil.Infer()); err != nil {
@@ -745,7 +745,7 @@ func (o *Claim) SetBasicTrade(exec boil.Executor, insert bool, related *BasicTra
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE [dbo].[claims] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
+		strmangle.SetParamNames("[", "]", 1, []string{"trade_category_id"}),
 		strmangle.WhereClause("[", "]", 2, claimPrimaryKeyColumns),
 	)
 	values := []interface{}{related.ID, o.ID}
@@ -759,17 +759,17 @@ func (o *Claim) SetBasicTrade(exec boil.Executor, insert bool, related *BasicTra
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.BasicTradeID = related.ID
+	o.TradeCategoryID = related.ID
 	if o.R == nil {
 		o.R = &claimR{
-			BasicTrade: related,
+			TradeCategory: related,
 		}
 	} else {
-		o.R.BasicTrade = related
+		o.R.TradeCategory = related
 	}
 
 	if related.R == nil {
-		related.R = &basicTradeR{
+		related.R = &tradeCategoryR{
 			Claims: ClaimSlice{o},
 		}
 	} else {

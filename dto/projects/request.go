@@ -15,7 +15,7 @@ type CreateProjectRequest struct {
 		SerialNo string `json:"serial_no,omitempty"`
 		Details  string `json:"details,omitempty"`
 		// for future input
-		TotalItemBreakdown   float64 `json:"total_item_breakdown,omitempty"`
+		Value                float64 `json:"total_item_breakdown,omitempty"`
 		ContractorTotalClaim float64 `json:"contractor_total_claim,omitempty"`
 		TotalContractValue   float64 `json:"total_contract_value,omitempty"`
 		QuantitySurveyor     string  `json:"quantity_surveyor,omitempty"`
@@ -48,7 +48,7 @@ type UpdateProjectRequest struct {
 		CreatorID            int     `json:"creator_id" validate:"required"`
 		SerialNo             string  `json:"serial_no,omitempty"`
 		Details              string  `json:"details,omitempty"`
-		TotalItemBreakdown   float64 `json:"total_item_breakdown,omitempty"`
+		TotalTradeValue      float64 `json:"total_trade_value,omitempty"`
 		ContractorTotalClaim float64 `json:"contractor_total_claim,omitempty"`
 		TotalContractValue   float64 `json:"total_contract_value,omitempty"`
 		QuantitySurveyor     string  `json:"quantity_surveyor,omitempty"`
@@ -68,7 +68,7 @@ func (r *UpdateProjectRequest) Bind(c echo.Context, p *m.Project) error {
 	p.CreatorID = r.Project.CreatorID
 	p.SerialNo.SetValid(r.Project.SerialNo)
 	p.Details.SetValid(r.Project.Details)
-	p.TotalItemBreakdown.SetValid(r.Project.TotalItemBreakdown)
+	p.TotalTradeValue.SetValid(r.Project.TotalTradeValue)
 	p.ContractorTotalClaim.SetValid(r.Project.ContractorTotalClaim)
 	p.TotalContractValue.SetValid(r.Project.TotalContractValue)
 	p.QuantitySurveyor.SetValid(r.Project.QuantitySurveyor)

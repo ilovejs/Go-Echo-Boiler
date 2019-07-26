@@ -11,7 +11,7 @@ create table basic_trades
 go
 
 create unique index basic_trades_name_uindex
-    on basic_trades (name)
+    on trade_categories (name)
 go
 
 create table roles
@@ -94,7 +94,7 @@ create table trades
         primary key,
     basic_trade_id int                not null
         constraint trades_basic_trades_id_fk
-            references basic_trades,
+            references trade_categories,
     surveyor_id    int                not null
         constraint trades_users_id_fk
             references users,
@@ -124,7 +124,7 @@ create table claims
             references users,
     basic_trade_id     int                not null
         constraint claims_basic_trades_id_fk
-            references basic_trades,
+            references trade_categories,
     total_amount       float,
     claimed_amount     float,
     previous_claimed   float,

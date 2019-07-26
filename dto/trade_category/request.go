@@ -1,4 +1,4 @@
-package basic_trade
+package trade_category
 
 import (
 	"github.com/labstack/echo"
@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-type CreateBasicTradeRequest struct {
+type CreateTradeCategoryRequest struct {
 	Name string `json:"name" validate:"required"`
 }
 
-func (r *CreateBasicTradeRequest) Bind(c echo.Context, bt *models.BasicTrade) error {
+func (r *CreateTradeCategoryRequest) Bind(c echo.Context, bt *models.TradeCategory) error {
 	if err := c.Bind(r); err != nil {
 		return err
 	}
@@ -22,13 +22,13 @@ func (r *CreateBasicTradeRequest) Bind(c echo.Context, bt *models.BasicTrade) er
 }
 
 /* update */
-type UpdateBasicTradeRequest struct {
+type UpdateTradeCategoryRequest struct {
 	Name string `json:"name" validate:"required"`
 	//todo: we skip to use this field, why keep here ?
 	IsActive bool `json:"is_active,omitempty"`
 }
 
-func (r *UpdateBasicTradeRequest) Bind(c echo.Context, item *models.BasicTrade) error {
+func (r *UpdateTradeCategoryRequest) Bind(c echo.Context, item *models.TradeCategory) error {
 	if err := c.Bind(r); err != nil {
 		return err
 	}

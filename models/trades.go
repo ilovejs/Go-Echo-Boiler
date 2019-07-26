@@ -23,91 +23,91 @@ import (
 
 // Trade is an object representing the database table.
 type Trade struct {
-	ID            int          `boil:"id" json:"id" toml:"id" yaml:"id"`
-	BasicTradeID  int          `boil:"basic_trade_id" json:"basic_trade_id" toml:"basic_trade_id" yaml:"basic_trade_id"`
-	SurveyorID    int          `boil:"surveyor_id" json:"surveyor_id" toml:"surveyor_id" yaml:"surveyor_id"`
-	ProjectID     int          `boil:"project_id" json:"project_id" toml:"project_id" yaml:"project_id"`
-	FloorLevel    string       `boil:"floor_level" json:"floor_level" toml:"floor_level" yaml:"floor_level"`
-	WorkDesc      null.String  `boil:"work_desc" json:"work_desc,omitempty" toml:"work_desc" yaml:"work_desc,omitempty"`
-	ItemBreakdown null.Float64 `boil:"item_breakdown" json:"item_breakdown,omitempty" toml:"item_breakdown" yaml:"item_breakdown,omitempty"`
-	Tempcheck     null.Bool    `boil:"tempcheck" json:"tempcheck,omitempty" toml:"tempcheck" yaml:"tempcheck,omitempty"`
-	IsActive      bool         `boil:"is_active" json:"is_active" toml:"is_active" yaml:"is_active"`
-	IsDeleted     bool         `boil:"is_deleted" json:"is_deleted" toml:"is_deleted" yaml:"is_deleted"`
-	Created       null.Time    `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
-	Updated       null.Time    `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
+	ID              int          `boil:"id" json:"id" toml:"id" yaml:"id"`
+	TradeCategoryID int          `boil:"trade_category_id" json:"trade_category_id" toml:"trade_category_id" yaml:"trade_category_id"`
+	SurveyorID      int          `boil:"surveyor_id" json:"surveyor_id" toml:"surveyor_id" yaml:"surveyor_id"`
+	ProjectID       int          `boil:"project_id" json:"project_id" toml:"project_id" yaml:"project_id"`
+	Level           string       `boil:"level" json:"level" toml:"level" yaml:"level"`
+	Description     null.String  `boil:"description" json:"description,omitempty" toml:"description" yaml:"description,omitempty"`
+	Value           null.Float64 `boil:"value" json:"value,omitempty" toml:"value" yaml:"value,omitempty"`
+	Temp            null.Bool    `boil:"temp" json:"temp,omitempty" toml:"temp" yaml:"temp,omitempty"`
+	IsActive        bool         `boil:"is_active" json:"is_active" toml:"is_active" yaml:"is_active"`
+	IsDeleted       bool         `boil:"is_deleted" json:"is_deleted" toml:"is_deleted" yaml:"is_deleted"`
+	Created         null.Time    `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
+	Updated         null.Time    `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
 
 	R *tradeR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L tradeL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var TradeColumns = struct {
-	ID            string
-	BasicTradeID  string
-	SurveyorID    string
-	ProjectID     string
-	FloorLevel    string
-	WorkDesc      string
-	ItemBreakdown string
-	Tempcheck     string
-	IsActive      string
-	IsDeleted     string
-	Created       string
-	Updated       string
+	ID              string
+	TradeCategoryID string
+	SurveyorID      string
+	ProjectID       string
+	Level           string
+	Description     string
+	Value           string
+	Temp            string
+	IsActive        string
+	IsDeleted       string
+	Created         string
+	Updated         string
 }{
-	ID:            "id",
-	BasicTradeID:  "basic_trade_id",
-	SurveyorID:    "surveyor_id",
-	ProjectID:     "project_id",
-	FloorLevel:    "floor_level",
-	WorkDesc:      "work_desc",
-	ItemBreakdown: "item_breakdown",
-	Tempcheck:     "tempcheck",
-	IsActive:      "is_active",
-	IsDeleted:     "is_deleted",
-	Created:       "created",
-	Updated:       "updated",
+	ID:              "id",
+	TradeCategoryID: "trade_category_id",
+	SurveyorID:      "surveyor_id",
+	ProjectID:       "project_id",
+	Level:           "level",
+	Description:     "description",
+	Value:           "value",
+	Temp:            "temp",
+	IsActive:        "is_active",
+	IsDeleted:       "is_deleted",
+	Created:         "created",
+	Updated:         "updated",
 }
 
 // Generated where
 
 var TradeWhere = struct {
-	ID            whereHelperint
-	BasicTradeID  whereHelperint
-	SurveyorID    whereHelperint
-	ProjectID     whereHelperint
-	FloorLevel    whereHelperstring
-	WorkDesc      whereHelpernull_String
-	ItemBreakdown whereHelpernull_Float64
-	Tempcheck     whereHelpernull_Bool
-	IsActive      whereHelperbool
-	IsDeleted     whereHelperbool
-	Created       whereHelpernull_Time
-	Updated       whereHelpernull_Time
+	ID              whereHelperint
+	TradeCategoryID whereHelperint
+	SurveyorID      whereHelperint
+	ProjectID       whereHelperint
+	Level           whereHelperstring
+	Description     whereHelpernull_String
+	Value           whereHelpernull_Float64
+	Temp            whereHelpernull_Bool
+	IsActive        whereHelperbool
+	IsDeleted       whereHelperbool
+	Created         whereHelpernull_Time
+	Updated         whereHelpernull_Time
 }{
-	ID:            whereHelperint{field: "[dbo].[trades].[id]"},
-	BasicTradeID:  whereHelperint{field: "[dbo].[trades].[basic_trade_id]"},
-	SurveyorID:    whereHelperint{field: "[dbo].[trades].[surveyor_id]"},
-	ProjectID:     whereHelperint{field: "[dbo].[trades].[project_id]"},
-	FloorLevel:    whereHelperstring{field: "[dbo].[trades].[floor_level]"},
-	WorkDesc:      whereHelpernull_String{field: "[dbo].[trades].[work_desc]"},
-	ItemBreakdown: whereHelpernull_Float64{field: "[dbo].[trades].[item_breakdown]"},
-	Tempcheck:     whereHelpernull_Bool{field: "[dbo].[trades].[tempcheck]"},
-	IsActive:      whereHelperbool{field: "[dbo].[trades].[is_active]"},
-	IsDeleted:     whereHelperbool{field: "[dbo].[trades].[is_deleted]"},
-	Created:       whereHelpernull_Time{field: "[dbo].[trades].[created]"},
-	Updated:       whereHelpernull_Time{field: "[dbo].[trades].[updated]"},
+	ID:              whereHelperint{field: "[dbo].[trades].[id]"},
+	TradeCategoryID: whereHelperint{field: "[dbo].[trades].[trade_category_id]"},
+	SurveyorID:      whereHelperint{field: "[dbo].[trades].[surveyor_id]"},
+	ProjectID:       whereHelperint{field: "[dbo].[trades].[project_id]"},
+	Level:           whereHelperstring{field: "[dbo].[trades].[level]"},
+	Description:     whereHelpernull_String{field: "[dbo].[trades].[description]"},
+	Value:           whereHelpernull_Float64{field: "[dbo].[trades].[value]"},
+	Temp:            whereHelpernull_Bool{field: "[dbo].[trades].[temp]"},
+	IsActive:        whereHelperbool{field: "[dbo].[trades].[is_active]"},
+	IsDeleted:       whereHelperbool{field: "[dbo].[trades].[is_deleted]"},
+	Created:         whereHelpernull_Time{field: "[dbo].[trades].[created]"},
+	Updated:         whereHelpernull_Time{field: "[dbo].[trades].[updated]"},
 }
 
 // TradeRels is where relationship names are stored.
 var TradeRels = struct {
-	BasicTrade     string
 	Project        string
+	TradeCategory  string
 	Surveyor       string
 	ClaimHistories string
 	Claims         string
 }{
-	BasicTrade:     "BasicTrade",
 	Project:        "Project",
+	TradeCategory:  "TradeCategory",
 	Surveyor:       "Surveyor",
 	ClaimHistories: "ClaimHistories",
 	Claims:         "Claims",
@@ -115,8 +115,8 @@ var TradeRels = struct {
 
 // tradeR is where relationships are stored.
 type tradeR struct {
-	BasicTrade     *BasicTrade
 	Project        *Project
+	TradeCategory  *TradeCategory
 	Surveyor       *User
 	ClaimHistories ClaimHistorySlice
 	Claims         ClaimSlice
@@ -131,9 +131,9 @@ func (*tradeR) NewStruct() *tradeR {
 type tradeL struct{}
 
 var (
-	tradeAllColumns            = []string{"id", "basic_trade_id", "surveyor_id", "project_id", "floor_level", "work_desc", "item_breakdown", "tempcheck", "is_active", "is_deleted", "created", "updated"}
+	tradeAllColumns            = []string{"id", "trade_category_id", "surveyor_id", "project_id", "level", "description", "value", "temp", "is_active", "is_deleted", "created", "updated"}
 	tradeColumnsWithAuto       = []string{}
-	tradeColumnsWithoutDefault = []string{"basic_trade_id", "surveyor_id", "project_id", "floor_level", "work_desc", "item_breakdown", "tempcheck", "created"}
+	tradeColumnsWithoutDefault = []string{"trade_category_id", "surveyor_id", "project_id", "level", "description", "value", "temp", "created"}
 	tradeColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
 	tradePrimaryKeyColumns     = []string{"id"}
 )
@@ -229,20 +229,6 @@ func (q tradeQuery) Exists(exec boil.Executor) (bool, error) {
 	return count > 0, nil
 }
 
-// BasicTrade pointed to by the foreign key.
-func (o *Trade) BasicTrade(mods ...qm.QueryMod) basicTradeQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.BasicTradeID),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	query := BasicTrades(queryMods...)
-	queries.SetFrom(query.Query, "[dbo].[basic_trades]")
-
-	return query
-}
-
 // Project pointed to by the foreign key.
 func (o *Trade) Project(mods ...qm.QueryMod) projectQuery {
 	queryMods := []qm.QueryMod{
@@ -253,6 +239,20 @@ func (o *Trade) Project(mods ...qm.QueryMod) projectQuery {
 
 	query := Projects(queryMods...)
 	queries.SetFrom(query.Query, "[dbo].[projects]")
+
+	return query
+}
+
+// TradeCategory pointed to by the foreign key.
+func (o *Trade) TradeCategory(mods ...qm.QueryMod) tradeCategoryQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.TradeCategoryID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := TradeCategories(queryMods...)
+	queries.SetFrom(query.Query, "[dbo].[trade_categories]")
 
 	return query
 }
@@ -311,99 +311,6 @@ func (o *Trade) Claims(mods ...qm.QueryMod) claimQuery {
 	}
 
 	return query
-}
-
-// LoadBasicTrade allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (tradeL) LoadBasicTrade(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
-	var slice []*Trade
-	var object *Trade
-
-	if singular {
-		object = maybeTrade.(*Trade)
-	} else {
-		slice = *maybeTrade.(*[]*Trade)
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &tradeR{}
-		}
-		args = append(args, object.BasicTradeID)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &tradeR{}
-			}
-
-			for _, a := range args {
-				if a == obj.BasicTradeID {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.BasicTradeID)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(qm.From(`dbo.basic_trades`), qm.WhereIn(`id in ?`, args...))
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.Query(e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load BasicTrade")
-	}
-
-	var resultSlice []*BasicTrade
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice BasicTrade")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for basic_trades")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for basic_trades")
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.BasicTrade = foreign
-		if foreign.R == nil {
-			foreign.R = &basicTradeR{}
-		}
-		foreign.R.Trades = append(foreign.R.Trades, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.BasicTradeID == foreign.ID {
-				local.R.BasicTrade = foreign
-				if foreign.R == nil {
-					foreign.R = &basicTradeR{}
-				}
-				foreign.R.Trades = append(foreign.R.Trades, local)
-				break
-			}
-		}
-	}
-
-	return nil
 }
 
 // LoadProject allows an eager lookup of values, cached into the
@@ -489,6 +396,99 @@ func (tradeL) LoadProject(e boil.Executor, singular bool, maybeTrade interface{}
 				local.R.Project = foreign
 				if foreign.R == nil {
 					foreign.R = &projectR{}
+				}
+				foreign.R.Trades = append(foreign.R.Trades, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadTradeCategory allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (tradeL) LoadTradeCategory(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
+	var slice []*Trade
+	var object *Trade
+
+	if singular {
+		object = maybeTrade.(*Trade)
+	} else {
+		slice = *maybeTrade.(*[]*Trade)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &tradeR{}
+		}
+		args = append(args, object.TradeCategoryID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &tradeR{}
+			}
+
+			for _, a := range args {
+				if a == obj.TradeCategoryID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.TradeCategoryID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`dbo.trade_categories`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.Query(e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load TradeCategory")
+	}
+
+	var resultSlice []*TradeCategory
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice TradeCategory")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for trade_categories")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for trade_categories")
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.TradeCategory = foreign
+		if foreign.R == nil {
+			foreign.R = &tradeCategoryR{}
+		}
+		foreign.R.Trades = append(foreign.R.Trades, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.TradeCategoryID == foreign.ID {
+				local.R.TradeCategory = foreign
+				if foreign.R == nil {
+					foreign.R = &tradeCategoryR{}
 				}
 				foreign.R.Trades = append(foreign.R.Trades, local)
 				break
@@ -768,53 +768,6 @@ func (tradeL) LoadClaims(e boil.Executor, singular bool, maybeTrade interface{},
 	return nil
 }
 
-// SetBasicTrade of the trade to the related item.
-// Sets o.R.BasicTrade to related.
-// Adds o to related.R.Trades.
-func (o *Trade) SetBasicTrade(exec boil.Executor, insert bool, related *BasicTrade) error {
-	var err error
-	if insert {
-		if err = related.Insert(exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE [dbo].[trades] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"basic_trade_id"}),
-		strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
-	)
-	values := []interface{}{related.ID, o.ID}
-
-	if boil.DebugMode {
-		fmt.Fprintln(boil.DebugWriter, updateQuery)
-		fmt.Fprintln(boil.DebugWriter, values)
-	}
-
-	if _, err = exec.Exec(updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.BasicTradeID = related.ID
-	if o.R == nil {
-		o.R = &tradeR{
-			BasicTrade: related,
-		}
-	} else {
-		o.R.BasicTrade = related
-	}
-
-	if related.R == nil {
-		related.R = &basicTradeR{
-			Trades: TradeSlice{o},
-		}
-	} else {
-		related.R.Trades = append(related.R.Trades, o)
-	}
-
-	return nil
-}
-
 // SetProject of the trade to the related item.
 // Sets o.R.Project to related.
 // Adds o to related.R.Trades.
@@ -853,6 +806,53 @@ func (o *Trade) SetProject(exec boil.Executor, insert bool, related *Project) er
 
 	if related.R == nil {
 		related.R = &projectR{
+			Trades: TradeSlice{o},
+		}
+	} else {
+		related.R.Trades = append(related.R.Trades, o)
+	}
+
+	return nil
+}
+
+// SetTradeCategory of the trade to the related item.
+// Sets o.R.TradeCategory to related.
+// Adds o to related.R.Trades.
+func (o *Trade) SetTradeCategory(exec boil.Executor, insert bool, related *TradeCategory) error {
+	var err error
+	if insert {
+		if err = related.Insert(exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE [dbo].[trades] SET %s WHERE %s",
+		strmangle.SetParamNames("[", "]", 1, []string{"trade_category_id"}),
+		strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.Exec(updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.TradeCategoryID = related.ID
+	if o.R == nil {
+		o.R = &tradeR{
+			TradeCategory: related,
+		}
+	} else {
+		o.R.TradeCategory = related
+	}
+
+	if related.R == nil {
+		related.R = &tradeCategoryR{
 			Trades: TradeSlice{o},
 		}
 	} else {

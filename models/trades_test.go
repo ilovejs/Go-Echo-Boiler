@@ -645,57 +645,6 @@ func testTradeToManyAddOpClaims(t *testing.T) {
 		}
 	}
 }
-func testTradeToOneBasicTradeUsingBasicTrade(t *testing.T) {
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var local Trade
-	var foreign BasicTrade
-
-	seed := randomize.NewSeed()
-	if err := randomize.Struct(seed, &local, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Trade struct: %s", err)
-	}
-	if err := randomize.Struct(seed, &foreign, basicTradeDBTypes, false, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
-	}
-
-	if err := foreign.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	local.BasicTradeID = foreign.ID
-	if err := local.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	check, err := local.BasicTrade().One(tx)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if check.ID != foreign.ID {
-		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
-	}
-
-	slice := TradeSlice{&local}
-	if err = local.L.LoadBasicTrade(tx, false, (*[]*Trade)(&slice), nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.BasicTrade == nil {
-		t.Error("struct should have been eager loaded")
-	}
-
-	local.R.BasicTrade = nil
-	if err = local.L.LoadBasicTrade(tx, true, &local, nil); err != nil {
-		t.Fatal(err)
-	}
-	if local.R.BasicTrade == nil {
-		t.Error("struct should have been eager loaded")
-	}
-}
-
 func testTradeToOneProjectUsingProject(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
@@ -743,6 +692,57 @@ func testTradeToOneProjectUsingProject(t *testing.T) {
 		t.Fatal(err)
 	}
 	if local.R.Project == nil {
+		t.Error("struct should have been eager loaded")
+	}
+}
+
+func testTradeToOneTradeCategoryUsingTradeCategory(t *testing.T) {
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var local Trade
+	var foreign TradeCategory
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, tradeDBTypes, false, tradeColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Trade struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, tradeCategoryDBTypes, false, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
+	}
+
+	if err := foreign.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.TradeCategoryID = foreign.ID
+	if err := local.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.TradeCategory().One(tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	slice := TradeSlice{&local}
+	if err = local.L.LoadTradeCategory(tx, false, (*[]*Trade)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.TradeCategory == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.TradeCategory = nil
+	if err = local.L.LoadTradeCategory(tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.TradeCategory == nil {
 		t.Error("struct should have been eager loaded")
 	}
 }
@@ -798,62 +798,6 @@ func testTradeToOneUserUsingSurveyor(t *testing.T) {
 	}
 }
 
-func testTradeToOneSetOpBasicTradeUsingBasicTrade(t *testing.T) {
-	var err error
-
-	tx := MustTx(boil.Begin())
-	defer func() { _ = tx.Rollback() }()
-
-	var a Trade
-	var b, c BasicTrade
-
-	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, tradeDBTypes, false, strmangle.SetComplement(tradePrimaryKeyColumns, tradeColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &b, basicTradeDBTypes, false, strmangle.SetComplement(basicTradePrimaryKeyColumns, basicTradeColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-	if err = randomize.Struct(seed, &c, basicTradeDBTypes, false, strmangle.SetComplement(basicTradePrimaryKeyColumns, basicTradeColumnsWithoutDefault)...); err != nil {
-		t.Fatal(err)
-	}
-
-	if err := a.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-	if err = b.Insert(tx, boil.Infer()); err != nil {
-		t.Fatal(err)
-	}
-
-	for i, x := range []*BasicTrade{&b, &c} {
-		err = a.SetBasicTrade(tx, i != 0, x)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		if a.R.BasicTrade != x {
-			t.Error("relationship struct not set to correct value")
-		}
-
-		if x.R.Trades[0] != &a {
-			t.Error("failed to append to foreign relationship struct")
-		}
-		if a.BasicTradeID != x.ID {
-			t.Error("foreign key was wrong value", a.BasicTradeID)
-		}
-
-		zero := reflect.Zero(reflect.TypeOf(a.BasicTradeID))
-		reflect.Indirect(reflect.ValueOf(&a.BasicTradeID)).Set(zero)
-
-		if err = a.Reload(tx); err != nil {
-			t.Fatal("failed to reload", err)
-		}
-
-		if a.BasicTradeID != x.ID {
-			t.Error("foreign key was wrong value", a.BasicTradeID, x.ID)
-		}
-	}
-}
 func testTradeToOneSetOpProjectUsingProject(t *testing.T) {
 	var err error
 
@@ -907,6 +851,62 @@ func testTradeToOneSetOpProjectUsingProject(t *testing.T) {
 
 		if a.ProjectID != x.ID {
 			t.Error("foreign key was wrong value", a.ProjectID, x.ID)
+		}
+	}
+}
+func testTradeToOneSetOpTradeCategoryUsingTradeCategory(t *testing.T) {
+	var err error
+
+	tx := MustTx(boil.Begin())
+	defer func() { _ = tx.Rollback() }()
+
+	var a Trade
+	var b, c TradeCategory
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, tradeDBTypes, false, strmangle.SetComplement(tradePrimaryKeyColumns, tradeColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, tradeCategoryDBTypes, false, strmangle.SetComplement(tradeCategoryPrimaryKeyColumns, tradeCategoryColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, tradeCategoryDBTypes, false, strmangle.SetComplement(tradeCategoryPrimaryKeyColumns, tradeCategoryColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*TradeCategory{&b, &c} {
+		err = a.SetTradeCategory(tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.TradeCategory != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.Trades[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.TradeCategoryID != x.ID {
+			t.Error("foreign key was wrong value", a.TradeCategoryID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.TradeCategoryID))
+		reflect.Indirect(reflect.ValueOf(&a.TradeCategoryID)).Set(zero)
+
+		if err = a.Reload(tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if a.TradeCategoryID != x.ID {
+			t.Error("foreign key was wrong value", a.TradeCategoryID, x.ID)
 		}
 	}
 }
@@ -1038,7 +1038,7 @@ func testTradesSelect(t *testing.T) {
 }
 
 var (
-	tradeDBTypes = map[string]string{`ID`: `int`, `BasicTradeID`: `int`, `SurveyorID`: `int`, `ProjectID`: `int`, `FloorLevel`: `varchar`, `WorkDesc`: `varchar`, `ItemBreakdown`: `float`, `Tempcheck`: `bit`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
+	tradeDBTypes = map[string]string{`ID`: `int`, `TradeCategoryID`: `int`, `SurveyorID`: `int`, `ProjectID`: `int`, `Level`: `varchar`, `Description`: `varchar`, `Value`: `float`, `Temp`: `bit`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
 	_            = bytes.MinRead
 )
 

@@ -493,32 +493,32 @@ func testClaimToManyAddOpClaimHistories(t *testing.T) {
 		}
 	}
 }
-func testClaimToOneBasicTradeUsingBasicTrade(t *testing.T) {
+func testClaimToOneTradeCategoryUsingTradeCategory(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
 	var local Claim
-	var foreign BasicTrade
+	var foreign TradeCategory
 
 	seed := randomize.NewSeed()
 	if err := randomize.Struct(seed, &local, claimDBTypes, false, claimColumnsWithDefault...); err != nil {
 		t.Errorf("Unable to randomize Claim struct: %s", err)
 	}
-	if err := randomize.Struct(seed, &foreign, basicTradeDBTypes, false, basicTradeColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize BasicTrade struct: %s", err)
+	if err := randomize.Struct(seed, &foreign, tradeCategoryDBTypes, false, tradeCategoryColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize TradeCategory struct: %s", err)
 	}
 
 	if err := foreign.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	local.BasicTradeID = foreign.ID
+	local.TradeCategoryID = foreign.ID
 	if err := local.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	check, err := local.BasicTrade().One(tx)
+	check, err := local.TradeCategory().One(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -528,18 +528,18 @@ func testClaimToOneBasicTradeUsingBasicTrade(t *testing.T) {
 	}
 
 	slice := ClaimSlice{&local}
-	if err = local.L.LoadBasicTrade(tx, false, (*[]*Claim)(&slice), nil); err != nil {
+	if err = local.L.LoadTradeCategory(tx, false, (*[]*Claim)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.BasicTrade == nil {
+	if local.R.TradeCategory == nil {
 		t.Error("struct should have been eager loaded")
 	}
 
-	local.R.BasicTrade = nil
-	if err = local.L.LoadBasicTrade(tx, true, &local, nil); err != nil {
+	local.R.TradeCategory = nil
+	if err = local.L.LoadTradeCategory(tx, true, &local, nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.BasicTrade == nil {
+	if local.R.TradeCategory == nil {
 		t.Error("struct should have been eager loaded")
 	}
 }
@@ -646,23 +646,23 @@ func testClaimToOneUserUsingUser(t *testing.T) {
 	}
 }
 
-func testClaimToOneSetOpBasicTradeUsingBasicTrade(t *testing.T) {
+func testClaimToOneSetOpTradeCategoryUsingTradeCategory(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
 
 	var a Claim
-	var b, c BasicTrade
+	var b, c TradeCategory
 
 	seed := randomize.NewSeed()
 	if err = randomize.Struct(seed, &a, claimDBTypes, false, strmangle.SetComplement(claimPrimaryKeyColumns, claimColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	if err = randomize.Struct(seed, &b, basicTradeDBTypes, false, strmangle.SetComplement(basicTradePrimaryKeyColumns, basicTradeColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &b, tradeCategoryDBTypes, false, strmangle.SetComplement(tradeCategoryPrimaryKeyColumns, tradeCategoryColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	if err = randomize.Struct(seed, &c, basicTradeDBTypes, false, strmangle.SetComplement(basicTradePrimaryKeyColumns, basicTradeColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &c, tradeCategoryDBTypes, false, strmangle.SetComplement(tradeCategoryPrimaryKeyColumns, tradeCategoryColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
 
@@ -673,32 +673,32 @@ func testClaimToOneSetOpBasicTradeUsingBasicTrade(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for i, x := range []*BasicTrade{&b, &c} {
-		err = a.SetBasicTrade(tx, i != 0, x)
+	for i, x := range []*TradeCategory{&b, &c} {
+		err = a.SetTradeCategory(tx, i != 0, x)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if a.R.BasicTrade != x {
+		if a.R.TradeCategory != x {
 			t.Error("relationship struct not set to correct value")
 		}
 
 		if x.R.Claims[0] != &a {
 			t.Error("failed to append to foreign relationship struct")
 		}
-		if a.BasicTradeID != x.ID {
-			t.Error("foreign key was wrong value", a.BasicTradeID)
+		if a.TradeCategoryID != x.ID {
+			t.Error("foreign key was wrong value", a.TradeCategoryID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.BasicTradeID))
-		reflect.Indirect(reflect.ValueOf(&a.BasicTradeID)).Set(zero)
+		zero := reflect.Zero(reflect.TypeOf(a.TradeCategoryID))
+		reflect.Indirect(reflect.ValueOf(&a.TradeCategoryID)).Set(zero)
 
 		if err = a.Reload(tx); err != nil {
 			t.Fatal("failed to reload", err)
 		}
 
-		if a.BasicTradeID != x.ID {
-			t.Error("foreign key was wrong value", a.BasicTradeID, x.ID)
+		if a.TradeCategoryID != x.ID {
+			t.Error("foreign key was wrong value", a.TradeCategoryID, x.ID)
 		}
 	}
 }
@@ -886,7 +886,7 @@ func testClaimsSelect(t *testing.T) {
 }
 
 var (
-	claimDBTypes = map[string]string{`ID`: `int`, `TradeID`: `int`, `UserID`: `int`, `BasicTradeID`: `int`, `TotalAmount`: `float`, `ClaimedAmount`: `float`, `PreviousClaimed`: `float`, `AmountDue`: `float`, `CostToCompleted`: `float`, `ClaimNumber`: `varchar`, `ClaimPeriod`: `varchar`, `ActionClaim`: `bit`, `OldClaimedAmount`: `float`, `ClaimPercentage`: `float`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
+	claimDBTypes = map[string]string{`ID`: `int`, `TradeID`: `int`, `UserID`: `int`, `TradeCategoryID`: `int`, `TotalAmount`: `float`, `ClaimedAmount`: `float`, `PreviousClaimed`: `float`, `AmountDue`: `float`, `CostToCompleted`: `float`, `ClaimNo`: `varchar`, `ClaimPeriod`: `varchar`, `ActionClaim`: `bit`, `OldClaimedAmount`: `float`, `ClaimPercentage`: `float`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
 	_            = bytes.MinRead
 )
 
