@@ -1,0 +1,5 @@
+package trades
+
+func NewTradeResponse() {
+
+}

@@ -29,9 +29,9 @@ func NewHandler(ps store.ProjectStoreInterface, us store.UserStoreInterface, bts
 func (h *Handler) Register(v1 *echo.Group) {
 	jwtMiddleware := middleware.JWT(utils.JWTSecret)
 
-	guests := v1.Group("/users")
-	guests.POST("", h.SignUp)
-	guests.POST("/login", h.Login)
+	users := v1.Group("/users")
+	users.POST("", h.SignUp)
+	users.POST("/login", h.Login)
 
 	user := v1.Group("/user", jwtMiddleware)
 	user.GET("", h.CurrentUser)
@@ -47,11 +47,17 @@ func (h *Handler) Register(v1 *echo.Group) {
 	projects.PUT("/:id", h.UpdateProject)
 	projects.DELETE("/:id", h.DeleteProject)
 
-	TradeCategories := v1.Group("/bts")
-	TradeCategories.POST("", h.CreateTradeCategory)
-	TradeCategories.GET("", h.ListTradeCategories)
-	TradeCategories.GET("/:id", h.ReadTradeCategory)
-	TradeCategories.PUT("/:id", h.UpdateTradeCategory)
-	TradeCategories.DELETE("/:id", h.DeleteTradeCategory)
+	tradeCategories := v1.Group("/bts")
+	tradeCategories.POST("", h.CreateTradeCategory)
+	tradeCategories.GET("", h.ListTradeCategories)
+	tradeCategories.GET("/:id", h.ReadTradeCategory)
+	tradeCategories.PUT("/:id", h.UpdateTradeCategory)
+	tradeCategories.DELETE("/:id", h.DeleteTradeCategory)
 
+	trade := v1.Group("/trade")
+	trade.POST("", h.CreateTrade)
+	trade.GET("", h.ListTrade)
+	trade.GET("/:id", h.ReadTrade)
+	trade.PUT("/:id", h.UpdateTrade)
+	trade.DELETE("/:id", h.DeleteTrade)
 }

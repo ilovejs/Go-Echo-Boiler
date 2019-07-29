@@ -21,13 +21,13 @@ func NewTradeCategoryStore(db *sql.DB) *TradeCategoryStore {
 	}
 }
 
-func (bts TradeCategoryStore) Create(trade *models.TradeCategory) error {
-	trade.Created.SetValid(time.Now())
-	err := trade.Insert(bts.db, boil.Infer())
+func (bts TradeCategoryStore) Create(tradeC *models.TradeCategory) error {
+	tradeC.Created.SetValid(time.Now())
+	err := tradeC.Insert(bts.db, boil.Infer())
 	if err != nil {
 		return err
 	}
-	fmt.Println("Create trade catogory")
+	fmt.Println("Create trade category")
 	return nil
 }
 
@@ -39,13 +39,13 @@ func (bts TradeCategoryStore) Get(ids ...int) ([]*models.TradeCategory, error) {
 	if len(ids) == 1 {
 		single, err = models.TradeCategories(Where("id = ? and is_deleted = ?", ids[0], false)).One(bts.db)
 		if single == nil {
-			return nil, errors.New("trade catogory not found")
+			return nil, errors.New("trade category not found")
 		}
 	} else {
 		//todo: test not covered
 		bt, err = models.TradeCategories(WhereIn("id in ?", ids)).All(bts.db)
 		if bt == nil {
-			return nil, errors.New("trade catogory not found")
+			return nil, errors.New("trade category not found")
 		}
 	}
 
@@ -84,7 +84,7 @@ func (bts TradeCategoryStore) Update(t *models.TradeCategory) error {
 func (bts TradeCategoryStore) Delete(id int) error {
 	arr, err := bts.Get(id)
 	if len(arr) != 1 {
-		return errors.New("item not found, wrong id for trade catogory")
+		return errors.New("item not found, wrong id for trade category")
 	}
 	if err != nil {
 		//no record
