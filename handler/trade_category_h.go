@@ -32,8 +32,10 @@ func (h *Handler) ReadTradeCategory(c echo.Context) error {
 		return errors.New("param: id parsing error")
 	}
 	fmt.Println("btid: ", btid)
+
 	bt, err := h.TradeCategoryStore.Get(btid)
 	spew.Dump(bt)
+
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
@@ -71,11 +73,11 @@ func (h *Handler) UpdateTradeCategory(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, NotFound())
 	}
 	itemToUpdate := arr[0]
-	//update model payload
+	// update model payload
 	if err := req.Bind(c, itemToUpdate); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	//commit updating
+	// commit updating
 	err = h.TradeCategoryStore.Update(itemToUpdate)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
@@ -89,7 +91,7 @@ func (h *Handler) DeleteTradeCategory(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	//del without find
+	// del without find
 	err = h.TradeCategoryStore.Delete(id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))

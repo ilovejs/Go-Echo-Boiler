@@ -12,16 +12,23 @@ type Handler struct {
 	projectStore       store.ProjectStoreInterface
 	userStore          store.UserStoreInterface
 	TradeCategoryStore store.TradeCategoryStoreInterface
+	TradeStore         store.TradeStoreInterface
 	claimStore         store.ClaimStoreInterface
 }
 
 // DI, inject store dependencies to controller
-func NewHandler(ps store.ProjectStoreInterface, us store.UserStoreInterface, bts store.TradeCategoryStoreInterface,
+func NewHandler(
+	ps store.ProjectStoreInterface,
+	us store.UserStoreInterface,
+	bts store.TradeCategoryStoreInterface,
+	ts store.TradeStoreInterface,
 	cs store.ClaimStoreInterface) *Handler {
+
 	return &Handler{
 		projectStore:       ps,
 		userStore:          us,
 		TradeCategoryStore: bts,
+		TradeStore:         ts,
 		claimStore:         cs,
 	}
 }

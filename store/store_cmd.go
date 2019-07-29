@@ -26,21 +26,20 @@ type ProjectStoreInterface interface {
 
 type TradeCategoryStoreInterface interface {
 	Create(trade *models.TradeCategory) error
-	Get(ids ...int) ([]*models.TradeCategory, error) //Get one or all
+	Get(ids ...int) ([]*models.TradeCategory, error) // Get one or all
 	Update(trade *models.TradeCategory) error
 	Delete(int) error
-
 	List(offset int, limit int) ([]*models.TradeCategory, int, error)
 }
 
 type TradeStoreInterface interface {
 	Create(trade *models.Trade) error
-	Get(ids ...int) ([]*models.Trade, error) //Get one or all
+	Get(ids ...int) ([]*models.Trade, error) // Get one or all
 	Update(trade *models.Trade) error
 	Delete(int) error
 	List(offset int, limit int) ([]*models.Trade, int, error)
 	GetByProject(projectId int) ([]*models.Trade, error)
-	Count(tradeId) (int, err)
+	Count(tradeId int) (int, error)
 }
 
 type ClaimStoreInterface interface {

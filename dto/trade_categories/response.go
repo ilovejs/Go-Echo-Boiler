@@ -6,11 +6,16 @@ import (
 	"time"
 )
 
-//single response
+// single response
 type TradeCategoryResponse struct {
 	ID      int       `json:"trade_category_id"`
 	Name    string    `json:"name"`
 	Created null.Time `json:"created"`
+}
+
+type TradeCategoryListResponse struct {
+	TradeCategories []*TradeCategoryResponse `json:"trade_categories"`
+	ItemCount       int                      `json:"item_count"`
 }
 
 func NewTradeCategoryResponse(bt *models.TradeCategory) *TradeCategoryResponse {
@@ -21,12 +26,7 @@ func NewTradeCategoryResponse(bt *models.TradeCategory) *TradeCategoryResponse {
 	return resp
 }
 
-type TradeCategoryListResponse struct {
-	TradeCategories []*TradeCategoryResponse `json:"trade_categories"`
-	ItemCount       int                      `json:"item_count"`
-}
-
-/* update */
+/* Update */
 type UpdateTradeCategoryResponse struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
@@ -38,7 +38,7 @@ func NewUpdateTradeCategoryResponse(item *models.TradeCategory) *UpdateTradeCate
 	return resp
 }
 
-//list response
+/* List */
 func NewTradeCategoryListResponse(
 	TradeCategoriesSource []*models.TradeCategory,
 	count int) *TradeCategoryListResponse {

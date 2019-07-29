@@ -21,6 +21,7 @@ type ProjectResponse struct {
 	} `json:"project"`
 }
 
+/* create */
 func NewProjectResponse(p *Project) *ProjectResponse {
 	resp := new(ProjectResponse)
 	resp.Project.ID = p.ID

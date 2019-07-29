@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+/* create */
 type CreateTradeCategoryRequest struct {
 	Name string `json:"name" validate:"required"`
 }

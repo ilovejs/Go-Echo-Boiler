@@ -19,10 +19,11 @@ func main() {
 	ps := store.NewProjectStore(d)
 	us := store.NewUserStore(d)
 	bts := store.NewTradeCategoryStore(d)
+	ts := store.NewTradeStore(d)
 	cs := store.NewClaimStore(d)
 
 	// NewHandler type and DI constructor is defined in handler/url.go
-	h := handler.NewHandler(ps, us, bts, cs)
+	h := handler.NewHandler(ps, us, bts, ts, cs)
 	h.Register(v1)
 
 	r.Logger.Fatal(r.Start("localhost:8585"))

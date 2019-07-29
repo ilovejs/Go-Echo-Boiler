@@ -42,7 +42,7 @@ func (ts TradeStore) Get(ids ...int) ([]*models.Trade, error) {
 			return nil, errors.New("trade not found")
 		}
 	} else {
-		//todo: test not covered
+		// todo: test not covered
 		bt, err = models.Trades(WhereIn("id in ?", ids)).All(ts.db)
 		if bt == nil {
 			return nil, errors.New("trade not found")
@@ -52,7 +52,7 @@ func (ts TradeStore) Get(ids ...int) ([]*models.Trade, error) {
 	if err != nil {
 		return nil, err
 	}
-	//compile multiple
+	// compile multiple
 	var multiple = make([]*models.Trade, 0)
 	multiple = append(multiple, single)
 	return multiple, nil
@@ -87,7 +87,7 @@ func (ts TradeStore) Delete(id int) error {
 		return errors.New("item not found, wrong id for trade")
 	}
 	if err != nil {
-		//no record
+		// no record
 		return err
 	}
 	TradeToDelete := arr[0]
@@ -98,4 +98,12 @@ func (ts TradeStore) Delete(id int) error {
 	}
 	fmt.Println("Delete Trade row affect: ", rowAffected)
 	return nil
+}
+
+func (ts TradeStore) GetByProject(projectId int) ([]*models.Trade, error) {
+	panic("no")
+}
+
+func (ts TradeStore) Count(tradeId int) (int, error) {
+	panic("not yet")
 }

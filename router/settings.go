@@ -6,10 +6,10 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
-//custom new
+// custom new
 func New() *echo.Echo {
 	e := echo.New()
-	//log level
+	// log level
 	e.Logger.SetLevel(log.DEBUG)
 
 	e.Pre(middleware.RemoveTrailingSlash())
@@ -19,7 +19,7 @@ func New() *echo.Echo {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
 	}))
-	//validator v9
+	// validator v9
 	e.Validator = NewValidator()
 	return e
 }
