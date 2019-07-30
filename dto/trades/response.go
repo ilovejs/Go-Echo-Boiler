@@ -3,7 +3,6 @@ package trades
 import (
 	"github.com/volatiletech/null"
 	"onsite/models"
-	"time"
 )
 
 type TradeResponse struct {
@@ -26,40 +25,46 @@ func NewTradeResponse(t *models.Trade) *TradeResponse {
 	return resp
 }
 
-/* update */
+/* Update */
 type UpdateTradeResponse struct {
-	ID   int    `json:"id"`
-	Desc string `json:"name"`
+	ID         int     `json:"id"`
+	CategoryID int     `json:"category_id"`
+	SurveyorID int     `json:"surveyor_id"`
+	ProjectID  int     `json:"project_id"`
+	Level      string  `json:"level"`
+	Desc       string  `json:"description"`
+	Value      float64 `json:"value"`
+	IsActive   bool    `json:"is_active"`
+	IsDeleted  bool    `json:"is_deleted"`
 }
 
-func NewUpdateTradeResponse(item *models.Trade) *UpdateTradeRequest {
-	resp := new(UpdateTradeRequest)
-	resp.Desc = *item.Description.Ptr()
+func NewUpdateTradeResponse(t *models.Trade) *UpdateTradeResponse {
+	resp := new(UpdateTradeResponse)
+	resp.ID = t.ID
+	resp.CategoryID = t.TradeCategoryID
+	resp.SurveyorID = t.SurveyorID
+	resp.ProjectID = t.ProjectID
+	resp.Level = t.Level
+	resp.Desc = *t.Description.Ptr()
+	resp.Value = *t.Value.Ptr()
+	resp.IsActive = t.IsActive
+	resp.IsDeleted = t.IsDeleted
 	return resp
 }
 
 /* List */
-func NewTradeListResponse(
-	TradesSource []*models.Trade,
-	count int) *TradeListResponse {
-
+func NewTradeListResponse(trades []*models.Trade, count int) *TradeListResponse {
 	r := new(TradeListResponse)
-	r.Trades = make([]*TradeResponse, 0)
-	timeNow := time.Now()
-
-	for _, btSrc := range TradesSource {
-		item := new(TradeResponse)
-		item.ID = btSrc.ID
-		item.Desc = *btSrc.Description.Ptr()
-		item.Created.SetValid(timeNow)
-
+	for _, t := range trades {
+		// reuse
+		item := NewTradeResponse(t)
 		r.Trades = append(r.Trades, item)
 	}
 	r.Count = count
 	return r
 }
 
-/* delete */
+/* Delete */
 type DeleteTradeResponse struct {
 	Trade struct {
 		ID int `json:"id"`

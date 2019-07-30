@@ -32,8 +32,8 @@ type UpdateTradeCategoryResponse struct {
 	Name string `json:"name"`
 }
 
-func NewUpdateTradeCategoryResponse(item *models.TradeCategory) *UpdateTradeCategoryRequest {
-	resp := new(UpdateTradeCategoryRequest)
+func NewUpdateTradeCategoryResponse(item *models.TradeCategory) *UpdateTradeCategoryResponse {
+	resp := new(UpdateTradeCategoryResponse)
 	resp.Name = item.Name
 	return resp
 }

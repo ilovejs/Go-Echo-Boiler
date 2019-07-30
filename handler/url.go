@@ -40,31 +40,33 @@ func (h *Handler) Register(v1 *echo.Group) {
 	users.POST("", h.SignUp)
 	users.POST("/login", h.Login)
 
+	// single user with api protected
 	user := v1.Group("/user", jwtMiddleware)
 	user.GET("", h.CurrentUser)
 	user.PUT("", h.UpdateUser)
 
 	profiles := v1.Group("/profiles", jwtMiddleware)
 	profiles.GET("/:username", h.GetProfile)
-	//todo: profile
+	// todo: profile
 
-	projects := v1.Group("/projects")
+	projects := v1.Group("/projects", jwtMiddleware)
 	projects.POST("", h.CreateProject)
 	projects.GET("/:id", h.ReadProject)
 	projects.PUT("/:id", h.UpdateProject)
 	projects.DELETE("/:id", h.DeleteProject)
 
-	tradeCategories := v1.Group("/bts")
+	tradeCategories := v1.Group("/bts", jwtMiddleware)
 	tradeCategories.POST("", h.CreateTradeCategory)
 	tradeCategories.GET("", h.ListTradeCategories)
 	tradeCategories.GET("/:id", h.ReadTradeCategory)
 	tradeCategories.PUT("/:id", h.UpdateTradeCategory)
 	tradeCategories.DELETE("/:id", h.DeleteTradeCategory)
 
-	trade := v1.Group("/trade")
+	trade := v1.Group("/trade", jwtMiddleware)
 	trade.POST("", h.CreateTrade)
 	trade.GET("", h.ListTrade)
 	trade.GET("/:id", h.ReadTrade)
 	trade.PUT("/:id", h.UpdateTrade)
 	trade.DELETE("/:id", h.DeleteTrade)
+
 }
