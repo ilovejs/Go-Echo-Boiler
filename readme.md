@@ -42,8 +42,13 @@ nicer sql not found err
 Project Serial No | Name should be unique
 
 - Project Update
+
     u creator_id and manager_id MUST exists OR FK issue from db
         sol: detect that in store level
     u need to have permission system
         not every user can modify creator,manager etc.
     + show latest updates so as to notify user.
+
+- Trade
+    
+    skip field 'temp'
