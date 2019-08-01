@@ -8,14 +8,16 @@ import (
 )
 
 func main() {
+	// see router/settings.go type definition
 	r := router.New()
+
 	// not to mix with page router
 	v1 := r.Group("/api")
 
-	//init db and logger
+	// init db and logger
 	d := db.New()
 
-	//store DI
+	// store DI
 	ps := store.NewProjectStore(d)
 	us := store.NewUserStore(d)
 	bts := store.NewTradeCategoryStore(d)
@@ -26,5 +28,6 @@ func main() {
 	h := handler.NewHandler(ps, us, bts, ts, cs)
 	h.Register(v1)
 
+	// don't use 8080 since vue app would occupy that common port number.
 	r.Logger.Fatal(r.Start("localhost:8585"))
 }

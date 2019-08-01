@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/doc/sql/DDL_dump_from_goland.sql" dialect="TSQL" />
-    <file url="file://$PROJECT_DIR$/doc/sql/db_side_run.sql" dialect="TSQL" />
-    <file url="file://$PROJECT_DIR$/models/tables_schema.sql" dialect="TSQL" />
-  </component>
   <component name="SqlResolveMappings">
     <file url="file://$PROJECT_DIR$/doc/sql/alter_fk.sql" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;name&quot;:{     &quot;@qname&quot;:&quot;8614063e-99c7-4886-b41a-c335be91fca5&quot;    },    &quot;group&quot;:{     &quot;@kind&quot;:&quot;database&quot;,     &quot;node&quot;:{      &quot;@negative&quot;:&quot;1&quot;     }    }   }  } }}" />
   </component>

@@ -36,9 +36,12 @@ func NewHandler(
 func (h *Handler) Register(v1 *echo.Group) {
 	jwtMiddleware := middleware.JWT(utils.JWTSecret)
 
-	users := v1.Group("/users")
-	users.POST("", h.SignUp)
+	users := v1.Group("/auth")
+	users.POST("/register", h.SignUp)
 	users.POST("/login", h.Login)
+	// users.POST("/logout", h.Logout)
+	// sms
+	// 2step
 
 	// single user with api protected
 	user := v1.Group("/user", jwtMiddleware)

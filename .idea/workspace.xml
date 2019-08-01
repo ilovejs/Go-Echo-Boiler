@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f08673bc-0587-4aa3-b5e7-334f3d2804c7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d9d68f6e-ce9c-4db3-aa76-d99275772a92.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d9d68f6e-ce9c-4db3-aa76-d99275772a92.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/url.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/settings.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/settings.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,17 +30,6 @@
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="sql server" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="sql server" type="feb32156:DbDataSourceImpl" />
-        <item name="test2: database" type="ccb7ac2a:MsImplModel$Database" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="sql server" type="feb32156:DbDataSourceImpl" />
-        <item name="test2: database" type="ccb7ac2a:MsImplModel$Database" />
-        <item name="dbo: schema" type="2865ee2e:MsImplModel$Schema" />
       </path>
     </expand>
     <select />
@@ -75,6 +69,7 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="sqlserver&#10;mariadb" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
@@ -83,6 +78,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ToolWindowPlantUML.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="go" />
     <property name="configurable.Global.GOPATH.is.expanded" value="true" />
     <property name="configurable.Module.GOPATH.is.expanded" value="true" />
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
@@ -91,7 +87,7 @@
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/dto/claims" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../github.com/ilovejs/benchsyncmap" />
     <property name="node.js.detected.package.stylelint" value="true" />
     <property name="node.js.path.for.package.stylelint" value="project" />
     <property name="node.js.selected.package.stylelint" value="" />
@@ -99,7 +95,7 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Go" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -485,17 +481,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Go Build.go build main.go">
-    <configuration name="gen.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
-      <module name="go-onsite2" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="INTERPRETER_PATH" value="C:\msys64\usr\bin\bash.exe" />
-      <option name="PROJECT_INTERPRETER" value="false" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\mzhuang\go\src\onsite" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\mzhuang\go\src\onsite\gen.sh" />
-      <option name="PARAMETERS" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="go-onsite2" />
       <working_directory value="$PROJECT_DIR$" />
@@ -535,7 +520,6 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Bash.gen.sh" />
       <item itemvalue="Go Build.go build main.go" />
       <item itemvalue="Go Test.go test onsite/models" />
       <item itemvalue="Go Test.TestDelete/ClaimHistories in onsite/models" />
@@ -640,7 +624,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="PASS compilation&#10;dto, handler for /user" />
     <MESSAGE value="well, mssql use dynamic query.&#10;issue when user insert" />
     <MESSAGE value="dsn str bug fixed.&#10;trace 'master' database for the leak...&#10;bug is hard since sql profiler keep getting dynamic query but it's value is wrong" />
     <MESSAGE value="most of handler type bug got fixed&#10;but not Data bug&#10;Insertion may be depends on driver...&#10;Dynamic sp_exec is not acceptable" />
@@ -665,7 +648,8 @@
     <MESSAGE value="trade CRUD boilplate done&#10;start handler but not passing compilation" />
     <MESSAGE value="trade store and CRUD for handler" />
     <MESSAGE value="extend trade item update payload&#10;fix bug in previous response.go&#10;   - misuse of request object for response" />
-    <option name="LAST_COMMIT_MESSAGE" value="extend trade item update payload&#10;fix bug in previous response.go&#10;   - misuse of request object for response" />
+    <MESSAGE value="postman" />
+    <option name="LAST_COMMIT_MESSAGE" value="postman" />
   </component>
   <component name="VgoProject">
     <proxy>direct</proxy>
