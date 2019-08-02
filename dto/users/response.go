@@ -14,7 +14,8 @@ type UserResponse struct {
 		Token      string `json:"token"`
 		IsDeleted  bool   `json:"is_deleted"`
 		IsActive   bool   `json:"is_active"`
-	} `json:"user"`
+		Role       *Role  `json:"role"` // object type in json
+	} `json:"result"`
 }
 
 func NewUserResponse(u *m.User) *UserResponse {
@@ -27,11 +28,18 @@ func NewUserResponse(u *m.User) *UserResponse {
 	r.User.Username = u.Username
 	r.User.IsDeleted = u.IsDeleted
 	r.User.IsActive = u.IsActive
+
 	return r
 }
 
 type Role struct {
-	Name string `json:"name,omitempty"`
+	ID          string        `json:"id,omitempty"`
+	Name        string        `json:"name,omitempty"`
+	Describe    string        `json:"describe,omitempty"`
+	Permissions []*Permission `json:"permissions,omitempty"`
+}
+
+type Permission struct {
 }
 
 /* login */

@@ -3,12 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f08673bc-0587-4aa3-b5e7-334f3d2804c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dto/users/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/users/request.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dto/users/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/users/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/url.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/user_h.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/user_h.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/settings.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/settings.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -625,7 +621,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="turn off mysql custom logger that i wrote&#10;change dsn to constant.&#10;now it is working" />
     <MESSAGE value="model change" />
     <MESSAGE value="create user" />
     <MESSAGE value="current user and jwt is working" />
@@ -650,7 +645,8 @@
     <MESSAGE value="join code FE and BE has different protocal and data requirement.." />
     <MESSAGE value="jwt" />
     <MESSAGE value="logout is working !!" />
-    <option name="LAST_COMMIT_MESSAGE" value="logout is working !!" />
+    <MESSAGE value="token after login, add new playload" />
+    <option name="LAST_COMMIT_MESSAGE" value="token after login, add new playload" />
   </component>
   <component name="VgoProject">
     <proxy>direct</proxy>
