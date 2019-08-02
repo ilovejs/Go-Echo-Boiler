@@ -1,7 +1,7 @@
 package users
 
 import (
-	. "onsite/models"
+	m "onsite/models"
 	"onsite/utils"
 )
 
@@ -17,7 +17,7 @@ type UserResponse struct {
 	} `json:"user"`
 }
 
-func NewUserResponse(u *User) *UserResponse {
+func NewUserResponse(u *m.User) *UserResponse {
 	r := new(UserResponse)
 	r.User.ID = u.ID
 	r.User.UserRoleID = u.UserRoleID
@@ -27,6 +27,39 @@ func NewUserResponse(u *User) *UserResponse {
 	r.User.Username = u.Username
 	r.User.IsDeleted = u.IsDeleted
 	r.User.IsActive = u.IsActive
+	return r
+}
+
+type Role struct {
+	Name string `json:"name,omitempty"`
+}
+
+/* login */
+type UserLoginResponse struct {
+	User struct {
+		ID       int    `json:"id"`
+		Name     string `json:"name"`
+		Username string `json:"username"`
+		Deleted  int    `json:"deleted"`
+		RoleID   string `json:"roleId"`
+		Role     *Role  `json:"role"`
+		Token    string `json:"token"`
+	} `json:"result"`
+}
+
+func NewUserLoginResponse(u *m.User) *UserLoginResponse {
+	r := new(UserLoginResponse)
+	r.User.ID = u.ID
+	r.User.Name = "Michael"
+	r.User.Username = u.Username
+	if u.IsDeleted {
+		r.User.Deleted = 1
+	} else {
+		r.User.Deleted = 0
+	}
+	r.User.RoleID = "admin"
+	r.User.Role = &Role{} // making sure {} not null
+	r.User.Token = utils.GenerateJWT(u.ID)
 	return r
 }
 
@@ -49,7 +82,7 @@ type ProfileResponse struct {
 	} `json:"profile"`
 }
 
-func NewProfileResponse(u *User) *ProfileResponse {
+func NewProfileResponse(u *m.User) *ProfileResponse {
 	r := new(ProfileResponse)
 	r.Profile.Username = u.Username
 	return r

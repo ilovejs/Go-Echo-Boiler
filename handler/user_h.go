@@ -28,17 +28,17 @@ func (h *Handler) Login(c echo.Context) error {
 	if err := req.Bind(c); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	u, err := h.userStore.GetByEmail(req.User.Email)
+	u, err := h.userStore.GetByEmail(req.Email)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
 	if u == nil {
 		return c.JSON(http.StatusForbidden, AccessForbidden())
 	}
-	if !CheckPassword(u, req.User.Password) {
-		return c.JSON(http.StatusForbidden, AccessForbidden())
+	if !CheckPassword(u, req.Password) {
+		return c.JSON(http.StatusForbidden, H{"message": "wrong password"})
 	}
-	return c.JSON(http.StatusOK, NewUserResponse(u)) // new token
+	return c.JSON(http.StatusOK, NewUserLoginResponse(u))
 }
 
 func (h *Handler) Logout(c echo.Context) error {

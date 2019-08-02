@@ -75,7 +75,7 @@ type UserRegisterRequest struct {
 	} `json:"user"`
 }
 
-//only touch 2 fields: 'new' username and email
+// Only touch 2 fields: 'new' username and email
 func (r *UserRegisterRequest) Bind(c echo.Context, u *m.User) error {
 	if err := c.Bind(r); err != nil {
 		return err
@@ -97,10 +97,8 @@ func (r *UserRegisterRequest) Bind(c echo.Context, u *m.User) error {
 
 /* Login */
 type UserLoginRequest struct {
-	User struct {
-		Email    string `json:"email" validate:"required,email"`
-		Password string `json:"password" validate:"required"`
-	} `json:"user"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
 }
 
 // only validate, not to touch model

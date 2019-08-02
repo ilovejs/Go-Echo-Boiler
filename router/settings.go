@@ -23,8 +23,14 @@ func New() *echo.Echo {
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
-		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
+		AllowHeaders: []string{
+			echo.HeaderOrigin,
+			echo.HeaderContentType,
+			echo.HeaderAccept,
+			echo.HeaderAuthorization},
+		AllowMethods: []string{
+			echo.GET, echo.HEAD, echo.PUT, echo.OPTIONS,
+			echo.PATCH, echo.POST, echo.DELETE},
 	}))
 
 	// validator v9
