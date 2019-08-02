@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f08673bc-0587-4aa3-b5e7-334f3d2804c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dto/users/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/users/request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/url.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/users/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/users/response.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/user_h.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/user_h.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/middleware/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/middleware/jwt.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/jwt.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -624,7 +622,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="dsn str bug fixed.&#10;trace 'master' database for the leak...&#10;bug is hard since sql profiler keep getting dynamic query but it's value is wrong" />
     <MESSAGE value="most of handler type bug got fixed&#10;but not Data bug&#10;Insertion may be depends on driver...&#10;Dynamic sp_exec is not acceptable" />
     <MESSAGE value="turn off mysql custom logger that i wrote&#10;change dsn to constant.&#10;now it is working" />
     <MESSAGE value="model change" />
@@ -649,7 +646,8 @@
     <MESSAGE value="extend trade item update payload&#10;fix bug in previous response.go&#10;   - misuse of request object for response" />
     <MESSAGE value="postman" />
     <MESSAGE value="join code FE and BE has different protocal and data requirement.." />
-    <option name="LAST_COMMIT_MESSAGE" value="join code FE and BE has different protocal and data requirement.." />
+    <MESSAGE value="jwt" />
+    <option name="LAST_COMMIT_MESSAGE" value="jwt" />
   </component>
   <component name="VgoProject">
     <proxy>direct</proxy>
@@ -676,6 +674,11 @@
           <url>file://$PROJECT_DIR$/dto/users/request.go</url>
           <line>46</line>
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/router/middleware/jwt.go</url>
+          <line>35</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

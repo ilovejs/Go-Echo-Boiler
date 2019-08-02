@@ -19,7 +19,7 @@ func (h *Handler) SignUp(c echo.Context) error {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
 	// spew.Dump(u)
-	return c.JSON(http.StatusCreated, NewUserResponse(&u))
+	return c.JSON(http.StatusCreated, NewUserResponse(&u)) // new token
 }
 
 func (h *Handler) Login(c echo.Context) error {
@@ -38,26 +38,12 @@ func (h *Handler) Login(c echo.Context) error {
 	if !CheckPassword(u, req.User.Password) {
 		return c.JSON(http.StatusForbidden, AccessForbidden())
 	}
-	return c.JSON(http.StatusOK, NewUserResponse(u))
+	return c.JSON(http.StatusOK, NewUserResponse(u)) // new token
 }
 
 func (h *Handler) Logout(c echo.Context) error {
-	req := &UserLogoutRequest{}
-
-	if err := req.Bind(c); err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
-	}
-	u, err := h.userStore.GetByEmail(req.User.Email)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, NewError(err))
-	}
-	if u == nil {
-		return c.JSON(http.StatusForbidden, AccessForbidden())
-	}
-	if !CheckPassword(u, req.User.Password) {
-		return c.JSON(http.StatusForbidden, AccessForbidden())
-	}
-	return c.JSON(http.StatusOK, NewUserResponse(u))
+	c.Set("user", "")
+	return c.JSON(http.StatusOK, NewUserLogoutResponse())
 }
 
 func (h *Handler) CurrentUser(c echo.Context) error {
@@ -72,7 +58,7 @@ func (h *Handler) CurrentUser(c echo.Context) error {
 }
 
 func (h *Handler) UpdateUser(c echo.Context) error {
-	//find user from JWT context
+	// find user from JWT context
 	targetUser, err := h.userStore.GetByID(getUserId(c))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
@@ -89,11 +75,11 @@ func (h *Handler) UpdateUser(c echo.Context) error {
 	if err := req.Bind(c, targetUser); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	//update
+	// update
 	if err := h.userStore.Update(targetUser); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	return c.JSON(http.StatusOK, NewUserResponse(targetUser))
+	return c.JSON(http.StatusOK, NewUserResponse(targetUser)) // new token
 }
 
 func (h *Handler) GetProfile(c echo.Context) error {

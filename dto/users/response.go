@@ -22,12 +22,23 @@ func NewUserResponse(u *User) *UserResponse {
 	r.User.ID = u.ID
 	r.User.UserRoleID = u.UserRoleID
 	r.User.Email = u.Email
-	//for each login action, we generate token
+	// for each login action, we generate token
 	r.User.Token = utils.GenerateJWT(u.ID)
 	r.User.Username = u.Username
 	r.User.IsDeleted = u.IsDeleted
 	r.User.IsActive = u.IsActive
 	return r
+}
+
+/* logout */
+type UserLogoutResponse struct {
+	Message string `json:"message"`
+}
+
+func NewUserLogoutResponse() *UserLogoutResponse {
+	lr := new(UserLogoutResponse)
+	lr.Message = "Logout Success"
+	return lr
 }
 
 type ProfileResponse struct {
@@ -40,7 +51,6 @@ type ProfileResponse struct {
 
 func NewProfileResponse(u *User) *ProfileResponse {
 	r := new(ProfileResponse)
-	//err := u.Username.Scan(&r.Profile.Username)
 	r.Profile.Username = u.Username
 	return r
 }
