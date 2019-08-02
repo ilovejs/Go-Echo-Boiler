@@ -6,7 +6,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-var JWTSecret = []byte("!!SECRET!!")
+// this is the SECRET !!
+var JWTSecret = []byte("KL:JJH&*OOH#rewrjkl jzk;f qsdar.?<:IOHQWDQW")
 
 func GenerateJWT(id int) string {
 	token := jwt.New(jwt.SigningMethodHS256)

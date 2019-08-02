@@ -84,7 +84,7 @@ func (r *UserRegisterRequest) Bind(c echo.Context, u *m.User) error {
 		return err
 	}
 	u.UserRoleID = r.User.UserRoleId
-	//u.Username = null.StringFrom(r.User.Username)
+	// u.Username = null.StringFrom(r.User.Username)
 	u.Username = r.User.Username
 	u.Email = r.User.Email
 	hashed, err := HashPassword(r.User.Password)

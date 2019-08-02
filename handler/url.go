@@ -39,14 +39,15 @@ func (h *Handler) Register(v1 *echo.Group) {
 	users := v1.Group("/auth")
 	users.POST("/register", h.SignUp)
 	users.POST("/login", h.Login)
-	// users.POST("/logout", h.Logout)
+	users.POST("/logout", h.Logout)
 	// sms
 	// 2step
 
 	// single user with api protected
 	user := v1.Group("/user", jwtMiddleware)
-	user.GET("", h.CurrentUser)
+	user.GET("/info", h.CurrentUser)
 	user.PUT("", h.UpdateUser)
+	// user.GET("", h.inf)
 
 	profiles := v1.Group("/profiles", jwtMiddleware)
 	profiles.GET("/:username", h.GetProfile)

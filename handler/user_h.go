@@ -18,12 +18,31 @@ func (h *Handler) SignUp(c echo.Context) error {
 	if err := h.userStore.Create(&u); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	//spew.Dump(u)
+	// spew.Dump(u)
 	return c.JSON(http.StatusCreated, NewUserResponse(&u))
 }
 
 func (h *Handler) Login(c echo.Context) error {
 	req := &UserLoginRequest{}
+
+	if err := req.Bind(c); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
+	}
+	u, err := h.userStore.GetByEmail(req.User.Email)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, NewError(err))
+	}
+	if u == nil {
+		return c.JSON(http.StatusForbidden, AccessForbidden())
+	}
+	if !CheckPassword(u, req.User.Password) {
+		return c.JSON(http.StatusForbidden, AccessForbidden())
+	}
+	return c.JSON(http.StatusOK, NewUserResponse(u))
+}
+
+func (h *Handler) Logout(c echo.Context) error {
+	req := &UserLogoutRequest{}
 
 	if err := req.Bind(c); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
