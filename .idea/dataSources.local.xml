@@ -23,7 +23,9 @@
       <user-name>tester</user-name>
       <schema-mapping>
         <introspection-scope>
-          <node kind="database" qname="@">
+          <node kind="database">
+            <name qname="@" />
+            <name qname="stage" />
             <node kind="schema" qname="@" />
           </node>
         </introspection-scope>

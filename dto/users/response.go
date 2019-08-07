@@ -42,7 +42,7 @@ type Role struct {
 type Permission struct {
 }
 
-/* login */
+/* Login */
 type UserLoginResponse struct {
 	User struct {
 		ID       int    `json:"id"`
@@ -71,7 +71,7 @@ func NewUserLoginResponse(u *m.User) *UserLoginResponse {
 	return r
 }
 
-/* logout */
+/* Logout */
 type UserLogoutResponse struct {
 	Message string `json:"message"`
 }
@@ -82,6 +82,7 @@ func NewUserLogoutResponse() *UserLogoutResponse {
 	return lr
 }
 
+/* Profile */
 type ProfileResponse struct {
 	Profile struct {
 		Username string  `json:"username"`

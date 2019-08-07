@@ -50,6 +50,8 @@ func (h *Handler) Register(v1 *echo.Group) {
 	profiles := v1.Group("/profiles", jwtMiddleware)
 	profiles.GET("/:username", h.GetProfile)
 	// todo: profile
+	
+	// todo: roles
 
 	projects := v1.Group("/projects", jwtMiddleware)
 	projects.POST("", h.CreateProject)

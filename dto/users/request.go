@@ -6,7 +6,7 @@ import (
 	. "onsite/utils"
 )
 
-/* Update user */
+/* Update */
 type userUpdateRequest struct {
 	User struct {
 		UserRoleId int    `json:"user_role_id" validate:"required"`
@@ -58,7 +58,7 @@ func (r *userUpdateRequest) Bind(c echo.Context, u *m.User) error {
 
 	// todo: Don't update email, cuz we don't send email to let user reset password themselves yet
 	//  email is unique so safe from impersonating a different user
-	//u.Email = r.User.Email
+	// u.Email = r.User.Email
 
 	u.IsDeleted = r.User.IsDeleted
 	u.IsActive = r.User.IsActive
