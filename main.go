@@ -29,5 +29,6 @@ func main() {
 	h.Register(v1)
 
 	// don't use 8080 since vue app would occupy that common port number.
-	r.Logger.Fatal(r.Start("localhost:8585"))
+	// r.Logger.Fatal(r.Start("localhost:8585"))
+	r.Logger.Fatal(r.Start(":8585"))
 }
