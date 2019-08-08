@@ -31,7 +31,7 @@ func (r *CreateProjectRequest) Bind(c echo.Context, p *m.Project) error {
 	}
 	p.ManagerID = r.Project.ManagerID
 	p.CreatorID = r.Project.CreatorID
-	//optional
+	// optional
 	p.Name.SetValid(r.Project.Name)
 	p.SerialNo.SetValid(r.Project.SerialNo)
 	p.Details.SetValid(r.Project.Details)
@@ -43,7 +43,7 @@ type UpdateProjectRequest struct {
 	Project struct {
 		ID   int    `json:"id,omitempty"`
 		Name string `json:"name,omitempty"`
-		//value required by db fk
+		// value required by db fk
 		ManagerID            int     `json:"manager_id" validate:"required"`
 		CreatorID            int     `json:"creator_id" validate:"required"`
 		SerialNo             string  `json:"serial_no,omitempty"`

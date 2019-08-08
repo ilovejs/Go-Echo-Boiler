@@ -11,7 +11,7 @@ type UserResponse struct {
 		UserRoleID int    `json:"user_role_id"`
 		Username   string `json:"username"`
 		Email      string `json:"email"`
-		Token      string `json:"token"`
+		Token      string `json:"token,omitempty"`
 		IsDeleted  bool   `json:"is_deleted"`
 		IsActive   bool   `json:"is_active"`
 		Role       *Role  `json:"role"` // object type in json
@@ -68,6 +68,23 @@ func NewUserLoginResponse(u *m.User) *UserLoginResponse {
 	r.User.RoleID = "admin"
 	r.User.Role = &Role{} // making sure {} not null
 	r.User.Token = utils.GenerateJWT(u.ID)
+	return r
+}
+
+/* List */
+type UserListResponse struct {
+	Users []*UserResponse `json:"users"`
+	Count int             `json:"count"`
+}
+
+func NewListUserResponse(users []*m.User, count int) *UserListResponse {
+	r := new(UserListResponse)
+	for _, u := range users {
+		item := NewUserResponse(u)
+		item.User.Token = ""
+		r.Users = append(r.Users, item)
+	}
+	r.Count = count
 	return r
 }
 

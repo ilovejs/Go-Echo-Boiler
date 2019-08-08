@@ -11,6 +11,7 @@ type UserStoreInterface interface {
 	GetByID(int) (*models.User, error)
 	GetByEmail(string) (*models.User, error)
 	GetByUserName(string) (*models.User, error)
+	List(offset int, limit int) ([]*models.User, int, error)
 	Update(*models.User) error
 	Delete(int) error
 }

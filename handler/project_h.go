@@ -25,7 +25,7 @@ func (h *Handler) CreateProject(c echo.Context) error {
 }
 
 func (h *Handler) ReadProject(c echo.Context) error {
-	//get this from url.go where router is defined
+	// get this from url.go where router is defined
 	pid, err := strconv.Atoi(c.Param("id"))
 	fmt.Println("Pid is: ", pid)
 	p, err := h.projectStore.Read(pid)

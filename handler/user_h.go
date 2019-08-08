@@ -6,6 +6,7 @@ import (
 	. "onsite/dto/users"
 	"onsite/models"
 	. "onsite/utils"
+	"strconv"
 )
 
 func (h *Handler) SignUp(c echo.Context) error {
@@ -80,6 +81,22 @@ func (h *Handler) UpdateUser(c echo.Context) error {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
 	return c.JSON(http.StatusOK, NewUserResponse(targetUser)) // new token
+}
+
+func (h *Handler) ListUser(c echo.Context) error {
+	offset, err := strconv.Atoi(c.QueryParam("offset"))
+	if err != nil {
+		offset = 0
+	}
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil {
+		limit = 20
+	}
+	tradeItems, count, err := h.userStore.List(offset, limit)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, NewError(err))
+	}
+	return c.JSON(http.StatusOK, NewListUserResponse(tradeItems, count))
 }
 
 func (h *Handler) GetProfile(c echo.Context) error {

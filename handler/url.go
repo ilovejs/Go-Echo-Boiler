@@ -45,12 +45,12 @@ func (h *Handler) Register(v1 *echo.Group) {
 	user := v1.Group("/user", jwtMiddleware)
 	user.GET("/info", h.CurrentUser)
 	user.PUT("", h.UpdateUser)
-	// user.GET("", h.inf)
+	user.GET("", h.ListUser)
 
 	profiles := v1.Group("/profiles", jwtMiddleware)
 	profiles.GET("/:username", h.GetProfile)
 	// todo: profile
-	
+
 	// todo: roles
 
 	projects := v1.Group("/projects", jwtMiddleware)

@@ -7,8 +7,8 @@ import (
 type ProjectResponse struct {
 	Project struct {
 		ID               int    `json:"id"`
-		ManagerProfileID int    `json:"manager_profile_id" validate:"required"`
-		CreatorProfileID int    `json:"creator_profile_id" validate:"required"`
+		ManagerProfileID int    `json:"manager_id" validate:"required"`
+		CreatorProfileID int    `json:"creator_id" validate:"required"`
 		Name             string `json:"name,omitempty" validate:"required"`
 		//
 		SerialNo string `json:"serial_no,omitempty"`
