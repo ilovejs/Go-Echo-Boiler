@@ -38,6 +38,22 @@ func (h *Handler) ReadProject(c echo.Context) error {
 	return c.JSON(http.StatusOK, NewProjectResponse(p))
 }
 
+func (h *Handler) ListProject(c echo.Context) error {
+	offset, err := strconv.Atoi(c.QueryParam("offset"))
+	if err != nil {
+		offset = 0
+	}
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil {
+		limit = 20
+	}
+	projects, count, err := h.projectStore.List(offset, limit)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, NewError(err))
+	}
+	return c.JSON(http.StatusOK, NewProjectListResponse(projects, count))
+}
+
 func (h *Handler) UpdateProject(c echo.Context) error {
 	req := &UpdateProjectRequest{}
 
@@ -49,11 +65,11 @@ func (h *Handler) UpdateProject(c echo.Context) error {
 	if p == nil {
 		return c.JSON(http.StatusNotFound, NotFound())
 	}
-	//update model payload
+	// update model payload
 	if err := req.Bind(c, p); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	//commit updating
+	// commit updating
 	err = h.projectStore.Update(p)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
@@ -63,17 +79,17 @@ func (h *Handler) UpdateProject(c echo.Context) error {
 }
 
 func (h *Handler) DeleteProject(c echo.Context) error {
-	//not QueryParam
+	// not QueryParam
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	//find
+	// find
 	p, err := h.projectStore.Read(id)
 	if p == nil {
 		return c.JSON(http.StatusNotFound, NotFound())
 	}
-	//del
+	// del
 	err = h.projectStore.Delete(id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))

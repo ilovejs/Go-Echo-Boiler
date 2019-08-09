@@ -30,7 +30,7 @@ type Project struct {
 	TotalTradeValue      null.Float64 `boil:"total_trade_value" json:"total_trade_value,omitempty" toml:"total_trade_value" yaml:"total_trade_value,omitempty"`
 	ContractorTotalClaim null.Float64 `boil:"contractor_total_claim" json:"contractor_total_claim,omitempty" toml:"contractor_total_claim" yaml:"contractor_total_claim,omitempty"`
 	SerialNo             null.String  `boil:"serial_no" json:"serial_no,omitempty" toml:"serial_no" yaml:"serial_no,omitempty"`
-	Details              null.String  `boil:"details" json:"details,omitempty" toml:"details" yaml:"details,omitempty"`
+	Address              null.String  `boil:"address" json:"address,omitempty" toml:"address" yaml:"address,omitempty"`
 	TotalContractValue   null.Float64 `boil:"total_contract_value" json:"total_contract_value,omitempty" toml:"total_contract_value" yaml:"total_contract_value,omitempty"`
 	QuantitySurveyor     null.String  `boil:"quantity_surveyor" json:"quantity_surveyor,omitempty" toml:"quantity_surveyor" yaml:"quantity_surveyor,omitempty"`
 	Notes                null.String  `boil:"notes" json:"notes,omitempty" toml:"notes" yaml:"notes,omitempty"`
@@ -51,7 +51,7 @@ var ProjectColumns = struct {
 	TotalTradeValue      string
 	ContractorTotalClaim string
 	SerialNo             string
-	Details              string
+	Address              string
 	TotalContractValue   string
 	QuantitySurveyor     string
 	Notes                string
@@ -67,7 +67,7 @@ var ProjectColumns = struct {
 	TotalTradeValue:      "total_trade_value",
 	ContractorTotalClaim: "contractor_total_claim",
 	SerialNo:             "serial_no",
-	Details:              "details",
+	Address:              "address",
 	TotalContractValue:   "total_contract_value",
 	QuantitySurveyor:     "quantity_surveyor",
 	Notes:                "notes",
@@ -87,7 +87,7 @@ var ProjectWhere = struct {
 	TotalTradeValue      whereHelpernull_Float64
 	ContractorTotalClaim whereHelpernull_Float64
 	SerialNo             whereHelpernull_String
-	Details              whereHelpernull_String
+	Address              whereHelpernull_String
 	TotalContractValue   whereHelpernull_Float64
 	QuantitySurveyor     whereHelpernull_String
 	Notes                whereHelpernull_String
@@ -103,7 +103,7 @@ var ProjectWhere = struct {
 	TotalTradeValue:      whereHelpernull_Float64{field: "[dbo].[projects].[total_trade_value]"},
 	ContractorTotalClaim: whereHelpernull_Float64{field: "[dbo].[projects].[contractor_total_claim]"},
 	SerialNo:             whereHelpernull_String{field: "[dbo].[projects].[serial_no]"},
-	Details:              whereHelpernull_String{field: "[dbo].[projects].[details]"},
+	Address:              whereHelpernull_String{field: "[dbo].[projects].[address]"},
 	TotalContractValue:   whereHelpernull_Float64{field: "[dbo].[projects].[total_contract_value]"},
 	QuantitySurveyor:     whereHelpernull_String{field: "[dbo].[projects].[quantity_surveyor]"},
 	Notes:                whereHelpernull_String{field: "[dbo].[projects].[notes]"},
@@ -140,10 +140,10 @@ func (*projectR) NewStruct() *projectR {
 type projectL struct{}
 
 var (
-	projectAllColumns            = []string{"id", "manager_id", "creator_id", "name", "total_trade_value", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "is_active", "is_deleted", "created", "updated"}
+	projectAllColumns            = []string{"id", "manager_id", "creator_id", "name", "total_trade_value", "contractor_total_claim", "serial_no", "address", "total_contract_value", "quantity_surveyor", "notes", "is_active", "is_deleted", "created", "updated"}
 	projectColumnsWithAuto       = []string{}
-	projectColumnsWithoutDefault = []string{"manager_id", "creator_id", "name", "total_trade_value", "contractor_total_claim", "serial_no", "details", "total_contract_value", "quantity_surveyor", "notes", "created"}
-	projectColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
+	projectColumnsWithoutDefault = []string{"manager_id", "creator_id", "name", "total_trade_value", "contractor_total_claim", "serial_no", "address", "total_contract_value", "quantity_surveyor", "notes", "updated"}
+	projectColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "created"}
 	projectPrimaryKeyColumns     = []string{"id"}
 )
 

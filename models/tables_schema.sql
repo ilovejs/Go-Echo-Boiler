@@ -115,7 +115,7 @@ create table projects
     total_item_breakdown   float,
     contractor_total_claim float,
     serial_no              varchar(50),
-    details                varchar(200),
+    address                varchar(200),
     total_contract_value   float,
     quantity_surveyor      varchar(200),
     notes                  varchar(200),
@@ -123,7 +123,7 @@ create table projects
     is_deleted             bit      default 0 not null,
     created                datetime,
     updated                datetime default getdate(),
-    primary key (id),
+    primary key (id)
 --     constraint fk_project_creator_id
 --         foreign key (creator_id)
 --             references users,

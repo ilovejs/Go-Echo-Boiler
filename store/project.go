@@ -55,7 +55,7 @@ func (ps *ProjectStore) Update(p *models.Project) error {
 func (ps *ProjectStore) Delete(id int) error {
 	p, err := ps.Read(id)
 	if err != nil {
-		//no record
+		// no record
 		return err
 	}
 	p.IsDeleted = true
@@ -79,7 +79,7 @@ func (ps *ProjectStore) List(offset int, limit int) ([]*models.Project, int, err
 	return allProjects, len(allProjects), nil
 }
 
-//GetAll: Active Contractors
+// GetAll: Active Contractors
 func (ps *ProjectStore) Contractors(pid int) ([]*models.User, error) {
 	panic("Contractors are not necessary now.")
 }

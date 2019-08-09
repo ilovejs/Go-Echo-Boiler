@@ -161,7 +161,7 @@
     </schema>
     <schema id="40" parent="10" name="dbo">
       <ObjectId>1</ObjectId>
-      <IntrospectionTimestamp>2019-08-06.04:14:10.550</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2019-08-10.01:30:07.313</IntrospectionTimestamp>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -218,7 +218,7 @@
     </schema>
     <schema id="57" parent="13" name="dbo">
       <ObjectId>1</ObjectId>
-      <IntrospectionTimestamp>2019-08-06.04:14:10.590</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2019-08-10.01:30:11.957</IntrospectionTimestamp>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -242,7 +242,7 @@
     <table id="62" parent="40" name="Project">
       <ObjectId>453576654</ObjectId>
       <CreatedTimestamp>2018-02-14.06:36:49.747</CreatedTimestamp>
-      <ModifiedTimestamp>2018-03-02.02:51:30.467</ModifiedTimestamp>
+      <ModifiedTimestamp>2019-08-10.00:50:06.840</ModifiedTimestamp>
     </table>
     <table id="63" parent="40" name="TradeItem">
       <ObjectId>1605580758</ObjectId>
@@ -1030,7 +1030,7 @@
     <table id="165" parent="57" name="projects">
       <ObjectId>1109578991</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.377</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-26.22:50:25.187</ModifiedTimestamp>
+      <ModifiedTimestamp>2019-08-10.01:30:07.030</ModifiedTimestamp>
     </table>
     <table id="166" parent="57" name="roles">
       <ObjectId>901578250</ObjectId>
@@ -2924,7 +2924,7 @@ name</ColNames>
       <Position>7</Position>
       <DataType>varchar(50 char)|0s</DataType>
     </column>
-    <column id="544" parent="165" name="details">
+    <column id="544" parent="165" name="address">
       <Position>8</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
@@ -2956,12 +2956,12 @@ name</ColNames>
     </column>
     <column id="550" parent="165" name="created">
       <Position>14</Position>
+      <DefaultConstraintName>DF__projects__created__45F365D3</DefaultConstraintName>
+      <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
     <column id="551" parent="165" name="updated">
       <Position>15</Position>
-      <DefaultConstraintName>DF__projects__update__45F365D3</DefaultConstraintName>
-      <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
     <index id="552" parent="165" name="PK__projects__3213E83F354FBA22">
@@ -2986,7 +2986,6 @@ name</ColNames>
       <ModifiedTimestamp>2019-07-24.10:23:20.213</ModifiedTimestamp>
       <ColNames>manager_id</ColNames>
       <RefTableId>949578421</RefTableId>
-      <RefSchemaName>dbo</RefSchemaName>
       <RefTableName>users</RefTableName>
       <RefKeyName>PK__users__3213E83F76A4D7D2</RefKeyName>
       <RefColNames>id</RefColNames>
@@ -2997,7 +2996,6 @@ name</ColNames>
       <ModifiedTimestamp>2019-07-24.10:23:03.700</ModifiedTimestamp>
       <ColNames>creator_id</ColNames>
       <RefTableId>949578421</RefTableId>
-      <RefSchemaName>dbo</RefSchemaName>
       <RefTableName>users</RefTableName>
       <RefKeyName>PK__users__3213E83F76A4D7D2</RefKeyName>
       <RefColNames>id</RefColNames>
@@ -3016,11 +3014,10 @@ name</ColNames>
       <ColNames>is_deleted</ColNames>
       <DefaultExpression>0</DefaultExpression>
     </default>
-    <default id="558" parent="165" name="DF__projects__update__45F365D3">
-      <ObjectId>1173579219</ObjectId>
-      <NameSurrogate>1</NameSurrogate>
-      <ModifiedTimestamp>2019-07-23.23:43:39.377</ModifiedTimestamp>
-      <ColNames>updated</ColNames>
+    <default id="558" parent="165" name="DF__projects__created__45F365D3">
+      <ObjectId>18099105</ObjectId>
+      <ModifiedTimestamp>2019-08-10.01:28:43.860</ModifiedTimestamp>
+      <ColNames>created</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
     </default>
     <column id="559" parent="166" name="id">

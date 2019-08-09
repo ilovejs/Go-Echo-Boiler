@@ -40,14 +40,14 @@ type TradeCategoryListResponse struct {
 }
 
 func NewTradeCategoryListResponse(
-	TradeCategoriesSource []*models.TradeCategory,
+	tradeCategoriesSource []*models.TradeCategory,
 	count int) *TradeCategoryListResponse {
 
 	r := new(TradeCategoryListResponse)
 	r.TradeCategories = make([]*TradeCategoryResponse, 0)
 	timeNow := time.Now()
 
-	for _, btSrc := range TradeCategoriesSource {
+	for _, btSrc := range tradeCategoriesSource {
 		item := new(TradeCategoryResponse)
 		item.ID = btSrc.ID
 		item.Name = btSrc.Name

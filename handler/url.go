@@ -55,6 +55,7 @@ func (h *Handler) Register(v1 *echo.Group) {
 
 	projects := v1.Group("/projects", jwtMiddleware)
 	projects.POST("", h.CreateProject)
+	projects.GET("", h.ListProject)
 	projects.GET("/:id", h.ReadProject)
 	projects.PUT("/:id", h.UpdateProject)
 	projects.DELETE("/:id", h.DeleteProject)

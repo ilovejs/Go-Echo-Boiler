@@ -779,7 +779,7 @@ func testProjectsSelect(t *testing.T) {
 }
 
 var (
-	projectDBTypes = map[string]string{`ID`: `int`, `ManagerID`: `int`, `CreatorID`: `int`, `Name`: `varchar`, `TotalTradeValue`: `float`, `ContractorTotalClaim`: `float`, `SerialNo`: `varchar`, `Details`: `varchar`, `TotalContractValue`: `float`, `QuantitySurveyor`: `varchar`, `Notes`: `varchar`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
+	projectDBTypes = map[string]string{`ID`: `int`, `ManagerID`: `int`, `CreatorID`: `int`, `Name`: `varchar`, `TotalTradeValue`: `float`, `ContractorTotalClaim`: `float`, `SerialNo`: `varchar`, `Address`: `varchar`, `TotalContractValue`: `float`, `QuantitySurveyor`: `varchar`, `Notes`: `varchar`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
 	_              = bytes.MinRead
 )
 
