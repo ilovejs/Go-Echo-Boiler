@@ -105,14 +105,14 @@ var UserRels = struct {
 	Profiles        string
 	CreatorProjects string
 	ManagerProjects string
-	SurveyorTrades  string
+	CreatorTrades   string
 }{
 	UserRole:        "UserRole",
 	Claims:          "Claims",
 	Profiles:        "Profiles",
 	CreatorProjects: "CreatorProjects",
 	ManagerProjects: "ManagerProjects",
-	SurveyorTrades:  "SurveyorTrades",
+	CreatorTrades:   "CreatorTrades",
 }
 
 // userR is where relationships are stored.
@@ -122,7 +122,7 @@ type userR struct {
 	Profiles        ProfileSlice
 	CreatorProjects ProjectSlice
 	ManagerProjects ProjectSlice
-	SurveyorTrades  TradeSlice
+	CreatorTrades   TradeSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -330,15 +330,15 @@ func (o *User) ManagerProjects(mods ...qm.QueryMod) projectQuery {
 	return query
 }
 
-// SurveyorTrades retrieves all the trade's Trades with an executor via surveyor_id column.
-func (o *User) SurveyorTrades(mods ...qm.QueryMod) tradeQuery {
+// CreatorTrades retrieves all the trade's Trades with an executor via creator_id column.
+func (o *User) CreatorTrades(mods ...qm.QueryMod) tradeQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
 		queryMods = append(queryMods, mods...)
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("[dbo].[trades].[surveyor_id]=?", o.ID),
+		qm.Where("[dbo].[trades].[creator_id]=?", o.ID),
 	)
 
 	query := Trades(queryMods...)
@@ -796,9 +796,9 @@ func (userL) LoadManagerProjects(e boil.Executor, singular bool, maybeUser inter
 	return nil
 }
 
-// LoadSurveyorTrades allows an eager lookup of values, cached into the
+// LoadCreatorTrades allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (userL) LoadSurveyorTrades(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
+func (userL) LoadCreatorTrades(e boil.Executor, singular bool, maybeUser interface{}, mods queries.Applicator) error {
 	var slice []*User
 	var object *User
 
@@ -835,7 +835,7 @@ func (userL) LoadSurveyorTrades(e boil.Executor, singular bool, maybeUser interf
 		return nil
 	}
 
-	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`surveyor_id in ?`, args...))
+	query := NewQuery(qm.From(`dbo.trades`), qm.WhereIn(`creator_id in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -858,24 +858,24 @@ func (userL) LoadSurveyorTrades(e boil.Executor, singular bool, maybeUser interf
 	}
 
 	if singular {
-		object.R.SurveyorTrades = resultSlice
+		object.R.CreatorTrades = resultSlice
 		for _, foreign := range resultSlice {
 			if foreign.R == nil {
 				foreign.R = &tradeR{}
 			}
-			foreign.R.Surveyor = object
+			foreign.R.Creator = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if local.ID == foreign.SurveyorID {
-				local.R.SurveyorTrades = append(local.R.SurveyorTrades, foreign)
+			if local.ID == foreign.CreatorID {
+				local.R.CreatorTrades = append(local.R.CreatorTrades, foreign)
 				if foreign.R == nil {
 					foreign.R = &tradeR{}
 				}
-				foreign.R.Surveyor = local
+				foreign.R.Creator = local
 				break
 			}
 		}
@@ -1143,22 +1143,22 @@ func (o *User) AddManagerProjects(exec boil.Executor, insert bool, related ...*P
 	return nil
 }
 
-// AddSurveyorTrades adds the given related objects to the existing relationships
+// AddCreatorTrades adds the given related objects to the existing relationships
 // of the user, optionally inserting them as new records.
-// Appends related to o.R.SurveyorTrades.
-// Sets related.R.Surveyor appropriately.
-func (o *User) AddSurveyorTrades(exec boil.Executor, insert bool, related ...*Trade) error {
+// Appends related to o.R.CreatorTrades.
+// Sets related.R.Creator appropriately.
+func (o *User) AddCreatorTrades(exec boil.Executor, insert bool, related ...*Trade) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			rel.SurveyorID = o.ID
+			rel.CreatorID = o.ID
 			if err = rel.Insert(exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE [dbo].[trades] SET %s WHERE %s",
-				strmangle.SetParamNames("[", "]", 1, []string{"surveyor_id"}),
+				strmangle.SetParamNames("[", "]", 1, []string{"creator_id"}),
 				strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
 			)
 			values := []interface{}{o.ID, rel.ID}
@@ -1172,25 +1172,25 @@ func (o *User) AddSurveyorTrades(exec boil.Executor, insert bool, related ...*Tr
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			rel.SurveyorID = o.ID
+			rel.CreatorID = o.ID
 		}
 	}
 
 	if o.R == nil {
 		o.R = &userR{
-			SurveyorTrades: related,
+			CreatorTrades: related,
 		}
 	} else {
-		o.R.SurveyorTrades = append(o.R.SurveyorTrades, related...)
+		o.R.CreatorTrades = append(o.R.CreatorTrades, related...)
 	}
 
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &tradeR{
-				Surveyor: o,
+				Creator: o,
 			}
 		} else {
-			rel.R.Surveyor = o
+			rel.R.Creator = o
 		}
 	}
 	return nil

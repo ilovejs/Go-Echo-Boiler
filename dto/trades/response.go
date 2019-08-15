@@ -6,62 +6,83 @@ import (
 )
 
 type TradeResponse struct {
-	ID      int       `json:"trade_id"`
-	Desc    string    `json:"description"`
-	Created null.Time `json:"created"`
+	KEY        int       `json:"key"`
+	ID         int       `json:"id"`
+	ProjectID  int       `json:"pid"`
+	CreatorID  int       `json:"cid"`
+	Category   string    `json:"cat,omitempty"`
+	CategoryID int       `json:"cat_id"`
+	Subtitle   string    `json:"subtitle"`
+	Editable   bool      `json:"editable"`
+	Created    null.Time `json:"created"`
+}
+
+/* Create */
+func NewTradeResponse(t *models.Trade, category string) *TradeResponse {
+	resp := new(TradeResponse)
+	resp.KEY = t.ID
+	resp.ID = t.ID
+	resp.ProjectID = t.ProjectID
+	resp.CreatorID = t.CreatorID
+
+	resp.Category = category
+	resp.CategoryID = t.TradeCategoryID
+	resp.Subtitle = *t.Subtitle.Ptr()
+	resp.Created = t.Created
+	return resp
 }
 
 type TradeListResponse struct {
-	Trades []*TradeResponse `json:"trades"`
-	Count  int              `json:"count"`
+	PageSize   int              `json:"pageSize"`
+	PageNo     int              `json:"pageNo"`
+	TotalCount int              `json:"totalCount"`
+	TotalPage  int              `json:"totalPage"`
+	Trades     []*TradeResponse `json:"data"`
 }
 
-/* create */
-func NewTradeResponse(t *models.Trade) *TradeResponse {
-	resp := new(TradeResponse)
-	resp.ID = t.ID
-	resp.Desc = *t.Description.Ptr()
-	resp.Created = t.Created
-	return resp
+/* List */
+func NewTradeListResponse(
+	trades []*models.Trade,
+	totalPage int,
+	totalCnt int) *TradeListResponse {
+
+	r := new(TradeListResponse)
+	for _, t := range trades {
+		// reuse
+		item := NewTradeResponse(t, t.R.TradeCategory.Name)
+		r.Trades = append(r.Trades, item)
+	}
+	r.TotalCount = totalCnt
+	r.TotalPage = totalPage
+	return r
 }
 
 /* Update */
 type UpdateTradeResponse struct {
 	ID         int     `json:"id"`
 	CategoryID int     `json:"category_id"`
-	SurveyorID int     `json:"surveyor_id"`
+	CreatorID  int     `json:"creator_id"`
 	ProjectID  int     `json:"project_id"`
 	Level      string  `json:"level"`
-	Desc       string  `json:"description"`
+	Subtitle   string  `json:"subtitle"`
 	Value      float64 `json:"value"`
-	IsActive   bool    `json:"is_active"`
+	Editable   bool    `json:"editable"`
 	IsDeleted  bool    `json:"is_deleted"`
 }
 
+// fn
 func NewUpdateTradeResponse(t *models.Trade) *UpdateTradeResponse {
 	resp := new(UpdateTradeResponse)
 	resp.ID = t.ID
 	resp.CategoryID = t.TradeCategoryID
-	resp.SurveyorID = t.SurveyorID
+	resp.CreatorID = t.CreatorID
 	resp.ProjectID = t.ProjectID
 	resp.Level = t.Level
-	resp.Desc = *t.Description.Ptr()
+	resp.Subtitle = *t.Subtitle.Ptr()
 	resp.Value = *t.Value.Ptr()
-	resp.IsActive = t.IsActive
+	resp.Editable = t.Editable
 	resp.IsDeleted = t.IsDeleted
 	return resp
-}
-
-/* List */
-func NewTradeListResponse(trades []*models.Trade, count int) *TradeListResponse {
-	r := new(TradeListResponse)
-	for _, t := range trades {
-		// reuse
-		item := NewTradeResponse(t)
-		r.Trades = append(r.Trades, item)
-	}
-	r.Count = count
-	return r
 }
 
 /* Delete */

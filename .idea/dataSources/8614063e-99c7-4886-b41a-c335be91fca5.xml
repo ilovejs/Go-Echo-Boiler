@@ -161,7 +161,7 @@
     </schema>
     <schema id="40" parent="10" name="dbo">
       <ObjectId>1</ObjectId>
-      <IntrospectionTimestamp>2019-08-10.01:30:07.313</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2019-08-12.20:53:38.320</IntrospectionTimestamp>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -218,7 +218,7 @@
     </schema>
     <schema id="57" parent="13" name="dbo">
       <ObjectId>1</ObjectId>
-      <IntrospectionTimestamp>2019-08-10.01:30:11.957</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2019-08-16.03:28:31.853</IntrospectionTimestamp>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -1040,12 +1040,12 @@
     <table id="167" parent="57" name="trade_categories">
       <ObjectId>1189579276</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.377</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-26.22:44:32.823</ModifiedTimestamp>
+      <ModifiedTimestamp>2019-08-12.20:53:38.090</ModifiedTimestamp>
     </table>
     <table id="168" parent="57" name="trades">
       <ObjectId>1269579561</ObjectId>
       <CreatedTimestamp>2019-07-23.23:43:39.380</CreatedTimestamp>
-      <ModifiedTimestamp>2019-07-26.22:49:33.577</ModifiedTimestamp>
+      <ModifiedTimestamp>2019-08-16.03:28:29.393</ModifiedTimestamp>
     </table>
     <table id="169" parent="57" name="users">
       <ObjectId>949578421</ObjectId>
@@ -3092,12 +3092,12 @@ name</ColNames>
     </column>
     <column id="570" parent="167" name="created">
       <Position>5</Position>
+      <DefaultConstraintName>DF__basic_tra__creat__4AB81AF0</DefaultConstraintName>
+      <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
     <column id="571" parent="167" name="updated">
       <Position>6</Position>
-      <DefaultConstraintName>DF__basic_tra__updat__4AB81AF0</DefaultConstraintName>
-      <DefaultExpression>getdate()</DefaultExpression>
       <DataType>datetime|0s</DataType>
     </column>
     <index id="572" parent="167" name="PK__basic_tr__3213E83F65D6E3CB">
@@ -3135,11 +3135,10 @@ name</ColNames>
       <ColNames>is_deleted</ColNames>
       <DefaultExpression>0</DefaultExpression>
     </default>
-    <default id="577" parent="167" name="DF__basic_tra__updat__4AB81AF0">
-      <ObjectId>1253579504</ObjectId>
-      <NameSurrogate>1</NameSurrogate>
-      <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
-      <ColNames>updated</ColNames>
+    <default id="577" parent="167" name="DF__basic_tra__creat__4AB81AF0">
+      <ObjectId>34099162</ObjectId>
+      <ModifiedTimestamp>2019-08-12.20:53:38.090</ModifiedTimestamp>
+      <ColNames>created</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
     </default>
     <column id="578" parent="168" name="id">
@@ -3153,7 +3152,7 @@ name</ColNames>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="580" parent="168" name="surveyor_id">
+    <column id="580" parent="168" name="creator_id">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
@@ -3168,7 +3167,7 @@ name</ColNames>
       <DataType>varchar(20 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="583" parent="168" name="description">
+    <column id="583" parent="168" name="subtitle">
       <Position>6</Position>
       <DataType>varchar(200 char)|0s</DataType>
     </column>
@@ -3180,7 +3179,7 @@ name</ColNames>
       <Position>8</Position>
       <DataType>bit|0s</DataType>
     </column>
-    <column id="586" parent="168" name="is_active">
+    <column id="586" parent="168" name="editable">
       <Position>9</Position>
       <DefaultConstraintName>DF__trades__is_activ__4D94879B</DefaultConstraintName>
       <DefaultExpression>1</DefaultExpression>
@@ -3226,7 +3225,6 @@ name</ColNames>
       <ModifiedTimestamp>2019-07-26.22:49:33.573</ModifiedTimestamp>
       <ColNames>trade_category_id</ColNames>
       <RefTableId>1189579276</RefTableId>
-      <RefSchemaName>dbo</RefSchemaName>
       <RefTableName>trade_categories</RefTableName>
       <RefKeyName>PK__basic_tr__3213E83F65D6E3CB</RefKeyName>
       <RefColNames>id</RefColNames>
@@ -3235,9 +3233,8 @@ name</ColNames>
       <ObjectId>1749581271</ObjectId>
       <CreatedTimestamp>2019-07-24.10:26:16.050</CreatedTimestamp>
       <ModifiedTimestamp>2019-07-24.10:26:16.050</ModifiedTimestamp>
-      <ColNames>surveyor_id</ColNames>
+      <ColNames>creator_id</ColNames>
       <RefTableId>949578421</RefTableId>
-      <RefSchemaName>dbo</RefSchemaName>
       <RefTableName>users</RefTableName>
       <RefKeyName>PK__users__3213E83F76A4D7D2</RefKeyName>
       <RefColNames>id</RefColNames>
@@ -3248,7 +3245,6 @@ name</ColNames>
       <ModifiedTimestamp>2019-07-24.10:25:18.830</ModifiedTimestamp>
       <ColNames>project_id</ColNames>
       <RefTableId>1109578991</RefTableId>
-      <RefSchemaName>dbo</RefSchemaName>
       <RefTableName>projects</RefTableName>
       <RefKeyName>PK__projects__3213E83F354FBA22</RefKeyName>
       <RefColNames>id</RefColNames>
@@ -3257,7 +3253,7 @@ name</ColNames>
       <ObjectId>1301579675</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2019-07-23.23:43:39.380</ModifiedTimestamp>
-      <ColNames>is_active</ColNames>
+      <ColNames>editable</ColNames>
       <DefaultExpression>1</DefaultExpression>
     </default>
     <default id="596" parent="168" name="DF__trades__is_delet__4E88ABD4">

@@ -94,8 +94,8 @@ type tradeCategoryL struct{}
 var (
 	tradeCategoryAllColumns            = []string{"id", "name", "is_active", "is_deleted", "created", "updated"}
 	tradeCategoryColumnsWithAuto       = []string{}
-	tradeCategoryColumnsWithoutDefault = []string{"name", "created"}
-	tradeCategoryColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
+	tradeCategoryColumnsWithoutDefault = []string{"name", "updated"}
+	tradeCategoryColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "created"}
 	tradeCategoryPrimaryKeyColumns     = []string{"id"}
 )
 

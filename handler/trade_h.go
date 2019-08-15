@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/labstack/echo"
+	"math"
 	"net/http"
 	. "onsite/dto/trades"
 	m "onsite/models"
@@ -21,7 +22,7 @@ func (h *Handler) CreateTrade(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, NewError(err))
 	}
-	return c.JSON(http.StatusCreated, NewTradeResponse(&t))
+	return c.JSON(http.StatusCreated, NewTradeResponse(&t, ""))
 }
 
 func (h *Handler) ReadTrade(c echo.Context) error {
@@ -32,30 +33,37 @@ func (h *Handler) ReadTrade(c echo.Context) error {
 	}
 	fmt.Println("tid: ", tid)
 
+	// We can supply n ids, Get can handle that
 	t, err := h.TradeStore.Get(tid)
+
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
 	if t == nil {
 		return c.JSON(http.StatusNotFound, NewError(err))
 	}
-	return c.JSON(http.StatusOK, NewTradeResponse(t[0]))
+	return c.JSON(http.StatusOK, NewTradeResponse(t[0], t[0].R.TradeCategory.Name))
 }
 
 func (h *Handler) ListTrade(c echo.Context) error {
-	offset, err := strconv.Atoi(c.QueryParam("offset"))
+	pageNo, err := strconv.Atoi(c.QueryParam("pageNo"))
 	if err != nil {
-		offset = 0
+		pageNo = 1
 	}
-	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	pageSize, err := strconv.Atoi(c.QueryParam("pageSize"))
 	if err != nil {
-		limit = 20
+		// default page size
+		pageSize = 20
 	}
-	tradeItems, count, err := h.TradeStore.List(offset, limit)
+
+	offset := (pageNo - 1) * pageSize
+
+	tradeItems, count, err := h.TradeStore.List(offset, pageSize) // offset, limit
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
-	return c.JSON(http.StatusOK, NewTradeListResponse(tradeItems, count))
+	totalPage := int(math.Ceil(float64(count / pageSize)))
+	return c.JSON(http.StatusOK, NewTradeListResponse(tradeItems, totalPage, count))
 }
 
 func (h *Handler) UpdateTrade(c echo.Context) error {

@@ -8,11 +8,11 @@ import (
 
 /* create */
 type CreateTradeRequest struct {
-	Desc       string  `json:"description" validate:"required"`
-	ProjectID  int     `json:"project_id" validate:"required"`
 	CategoryID int     `json:"category_id" validate:"required"`
-	SurveyorID int     `json:"surveyor_id" validate:"required"`
+	CreatorID  int     `json:"surveyor_id" validate:"required"`
+	ProjectID  int     `json:"project_id" validate:"required"`
 	Level      string  `json:"level"`
+	Subtitle   string  `json:"subtitle" validate:"required"`
 	Value      float64 `json:"value"`
 }
 
@@ -24,10 +24,10 @@ func (r *CreateTradeRequest) Bind(c echo.Context, t *models.Trade) error {
 		return err
 	}
 	t.TradeCategoryID = r.CategoryID
-	t.SurveyorID = r.SurveyorID
+	t.CreatorID = r.CreatorID
 	t.ProjectID = r.ProjectID
 	t.Level = r.Level
-	t.Description.SetValid(r.Desc)
+	t.Subtitle.SetValid(r.Subtitle)
 	t.Value.SetValid(r.Value)
 	t.Created.SetValid(time.Now())
 	return nil
@@ -36,12 +36,12 @@ func (r *CreateTradeRequest) Bind(c echo.Context, t *models.Trade) error {
 /* update */
 type UpdateTradeRequest struct {
 	CategoryID int     `json:"category_id" validate:"required"`
-	SurveyorID int     `json:"surveyor_id" validate:"required"`
+	CreatorID  int     `json:"creator_id" validate:"required"`
 	ProjectID  int     `json:"project_id" validate:"required"`
 	Level      string  `json:"level"`
-	Desc       string  `json:"description" validate:"required"`
+	Subtitle   string  `json:"subtitle" validate:"required"`
 	Value      float64 `json:"value"`
-	IsActive   bool    `json:"is_active,omitempty"`
+	Editable   bool    `json:"editable,omitempty"`
 	IsDeleted  bool    `json:"is_deleted,omitempty"`
 }
 
@@ -53,13 +53,15 @@ func (r *UpdateTradeRequest) Bind(c echo.Context, t *models.Trade) error {
 		return err
 	}
 	t.TradeCategoryID = r.CategoryID
-	t.SurveyorID = r.SurveyorID
+	t.CreatorID = r.CreatorID
 	t.ProjectID = r.ProjectID
 	t.Level = r.Level
-	t.Description.SetValid(r.Desc)
+	t.Subtitle.SetValid(r.Subtitle)
 	t.Value.SetValid(r.Value)
-	t.IsActive = r.IsActive
+	t.Editable = r.Editable
 	t.IsDeleted = r.IsDeleted
 	t.Updated.SetValid(time.Now())
 	return nil
 }
+
+/* List request ? */

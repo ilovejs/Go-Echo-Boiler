@@ -37,13 +37,20 @@ func (ts TradeStore) Get(ids ...int) ([]*models.Trade, error) {
 	var err error
 
 	if len(ids) == 1 {
-		single, err = models.Trades(Where("id = ? and is_deleted = ?", ids[0], false)).One(ts.db)
+		single, err = models.Trades(
+			Load(models.TradeRels.TradeCategory),
+			Where("id = ? and is_deleted = ?", ids[0], false),
+		).One(ts.db)
+
 		if single == nil {
 			return nil, errors.New("trade not found")
 		}
 	} else {
 		// todo: test not covered
-		bt, err = models.Trades(WhereIn("id in ?", ids)).All(ts.db)
+		bt, err = models.Trades(
+			Load(models.TradeRels.TradeCategory),
+			WhereIn("id in ?", ids),
+		).All(ts.db)
 		if bt == nil {
 			return nil, errors.New("trade not found")
 		}
@@ -52,14 +59,17 @@ func (ts TradeStore) Get(ids ...int) ([]*models.Trade, error) {
 	if err != nil {
 		return nil, err
 	}
-	// compile multiple
-	var multiple = make([]*models.Trade, 0)
-	multiple = append(multiple, single)
-	return multiple, nil
+
+	var trades = make([]*models.Trade, 0)
+	trades = append(trades, single)
+	return trades, nil
 }
 
 func (ts TradeStore) List(offset int, limit int) ([]*models.Trade, int, error) {
-	allTs, err := models.Trades(Where("is_deleted = ?", false),
+	trades, err := models.Trades(
+		Load(models.TradeRels.TradeCategory),
+		// Load("TradeCategory"),
+		Where("is_deleted = ?", false),
 		Limit(limit),
 		Offset(offset),
 	).All(ts.db)
@@ -67,7 +77,7 @@ func (ts TradeStore) List(offset int, limit int) ([]*models.Trade, int, error) {
 	if err != nil {
 		return nil, 0, err
 	}
-	return allTs, len(allTs), nil
+	return trades, len(trades), nil
 }
 
 func (ts TradeStore) Update(t *models.Trade) error {

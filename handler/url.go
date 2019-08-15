@@ -59,6 +59,7 @@ func (h *Handler) Register(v1 *echo.Group) {
 	projects.GET("/:id", h.ReadProject)
 	projects.PUT("/:id", h.UpdateProject)
 	projects.DELETE("/:id", h.DeleteProject)
+	// projects.POST("/:id/addtrade", h.AddTrades)
 
 	tradeCategories := v1.Group("/bts", jwtMiddleware)
 	tradeCategories.POST("", h.CreateTradeCategory)
@@ -67,7 +68,7 @@ func (h *Handler) Register(v1 *echo.Group) {
 	tradeCategories.PUT("/:id", h.UpdateTradeCategory)
 	tradeCategories.DELETE("/:id", h.DeleteTradeCategory)
 
-	trade := v1.Group("/trade", jwtMiddleware)
+	trade := v1.Group("/trades", jwtMiddleware)
 	trade.POST("", h.CreateTrade)
 	trade.GET("", h.ListTrade)
 	trade.GET("/:id", h.ReadTrade)

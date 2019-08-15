@@ -251,7 +251,7 @@ alter table claims
 go
 
 alter table trades
-    add constraint DF__trades__is_activ__4D94879B default 1 for is_active
+    add constraint DF__trades__is_activ__4D94879B default 1 for editable
 go
 
 alter table trades

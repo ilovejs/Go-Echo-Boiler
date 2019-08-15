@@ -747,7 +747,7 @@ func testTradeToOneTradeCategoryUsingTradeCategory(t *testing.T) {
 	}
 }
 
-func testTradeToOneUserUsingSurveyor(t *testing.T) {
+func testTradeToOneUserUsingCreator(t *testing.T) {
 
 	tx := MustTx(boil.Begin())
 	defer func() { _ = tx.Rollback() }()
@@ -767,12 +767,12 @@ func testTradeToOneUserUsingSurveyor(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	local.SurveyorID = foreign.ID
+	local.CreatorID = foreign.ID
 	if err := local.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	check, err := local.Surveyor().One(tx)
+	check, err := local.Creator().One(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -782,18 +782,18 @@ func testTradeToOneUserUsingSurveyor(t *testing.T) {
 	}
 
 	slice := TradeSlice{&local}
-	if err = local.L.LoadSurveyor(tx, false, (*[]*Trade)(&slice), nil); err != nil {
+	if err = local.L.LoadCreator(tx, false, (*[]*Trade)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.Surveyor == nil {
+	if local.R.Creator == nil {
 		t.Error("struct should have been eager loaded")
 	}
 
-	local.R.Surveyor = nil
-	if err = local.L.LoadSurveyor(tx, true, &local, nil); err != nil {
+	local.R.Creator = nil
+	if err = local.L.LoadCreator(tx, true, &local, nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.Surveyor == nil {
+	if local.R.Creator == nil {
 		t.Error("struct should have been eager loaded")
 	}
 }
@@ -910,7 +910,7 @@ func testTradeToOneSetOpTradeCategoryUsingTradeCategory(t *testing.T) {
 		}
 	}
 }
-func testTradeToOneSetOpUserUsingSurveyor(t *testing.T) {
+func testTradeToOneSetOpUserUsingCreator(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -938,31 +938,31 @@ func testTradeToOneSetOpUserUsingSurveyor(t *testing.T) {
 	}
 
 	for i, x := range []*User{&b, &c} {
-		err = a.SetSurveyor(tx, i != 0, x)
+		err = a.SetCreator(tx, i != 0, x)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if a.R.Surveyor != x {
+		if a.R.Creator != x {
 			t.Error("relationship struct not set to correct value")
 		}
 
-		if x.R.SurveyorTrades[0] != &a {
+		if x.R.CreatorTrades[0] != &a {
 			t.Error("failed to append to foreign relationship struct")
 		}
-		if a.SurveyorID != x.ID {
-			t.Error("foreign key was wrong value", a.SurveyorID)
+		if a.CreatorID != x.ID {
+			t.Error("foreign key was wrong value", a.CreatorID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.SurveyorID))
-		reflect.Indirect(reflect.ValueOf(&a.SurveyorID)).Set(zero)
+		zero := reflect.Zero(reflect.TypeOf(a.CreatorID))
+		reflect.Indirect(reflect.ValueOf(&a.CreatorID)).Set(zero)
 
 		if err = a.Reload(tx); err != nil {
 			t.Fatal("failed to reload", err)
 		}
 
-		if a.SurveyorID != x.ID {
-			t.Error("foreign key was wrong value", a.SurveyorID, x.ID)
+		if a.CreatorID != x.ID {
+			t.Error("foreign key was wrong value", a.CreatorID, x.ID)
 		}
 	}
 }
@@ -1038,7 +1038,7 @@ func testTradesSelect(t *testing.T) {
 }
 
 var (
-	tradeDBTypes = map[string]string{`ID`: `int`, `TradeCategoryID`: `int`, `SurveyorID`: `int`, `ProjectID`: `int`, `Level`: `varchar`, `Description`: `varchar`, `Value`: `float`, `Temp`: `bit`, `IsActive`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
+	tradeDBTypes = map[string]string{`ID`: `int`, `TradeCategoryID`: `int`, `CreatorID`: `int`, `ProjectID`: `int`, `Level`: `varchar`, `Subtitle`: `varchar`, `Value`: `float`, `Temp`: `bit`, `Editable`: `bit`, `IsDeleted`: `bit`, `Created`: `datetime`, `Updated`: `datetime`}
 	_            = bytes.MinRead
 )
 

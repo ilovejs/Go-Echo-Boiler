@@ -653,7 +653,7 @@ func testUserToManyManagerProjects(t *testing.T) {
 	}
 }
 
-func testUserToManySurveyorTrades(t *testing.T) {
+func testUserToManyCreatorTrades(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -678,8 +678,8 @@ func testUserToManySurveyorTrades(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b.SurveyorID = a.ID
-	c.SurveyorID = a.ID
+	b.CreatorID = a.ID
+	c.CreatorID = a.ID
 
 	if err = b.Insert(tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -688,17 +688,17 @@ func testUserToManySurveyorTrades(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.SurveyorTrades().All(tx)
+	check, err := a.CreatorTrades().All(tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.SurveyorID == b.SurveyorID {
+		if v.CreatorID == b.CreatorID {
 			bFound = true
 		}
-		if v.SurveyorID == c.SurveyorID {
+		if v.CreatorID == c.CreatorID {
 			cFound = true
 		}
 	}
@@ -711,18 +711,18 @@ func testUserToManySurveyorTrades(t *testing.T) {
 	}
 
 	slice := UserSlice{&a}
-	if err = a.L.LoadSurveyorTrades(tx, false, (*[]*User)(&slice), nil); err != nil {
+	if err = a.L.LoadCreatorTrades(tx, false, (*[]*User)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.SurveyorTrades); got != 2 {
+	if got := len(a.R.CreatorTrades); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.SurveyorTrades = nil
-	if err = a.L.LoadSurveyorTrades(tx, true, &a, nil); err != nil {
+	a.R.CreatorTrades = nil
+	if err = a.L.LoadCreatorTrades(tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.SurveyorTrades); got != 2 {
+	if got := len(a.R.CreatorTrades); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -1027,7 +1027,7 @@ func testUserToManyAddOpManagerProjects(t *testing.T) {
 		}
 	}
 }
-func testUserToManyAddOpSurveyorTrades(t *testing.T) {
+func testUserToManyAddOpCreatorTrades(t *testing.T) {
 	var err error
 
 	tx := MustTx(boil.Begin())
@@ -1063,7 +1063,7 @@ func testUserToManyAddOpSurveyorTrades(t *testing.T) {
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddSurveyorTrades(tx, i != 0, x...)
+		err = a.AddCreatorTrades(tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1071,28 +1071,28 @@ func testUserToManyAddOpSurveyorTrades(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.SurveyorID {
-			t.Error("foreign key was wrong value", a.ID, first.SurveyorID)
+		if a.ID != first.CreatorID {
+			t.Error("foreign key was wrong value", a.ID, first.CreatorID)
 		}
-		if a.ID != second.SurveyorID {
-			t.Error("foreign key was wrong value", a.ID, second.SurveyorID)
+		if a.ID != second.CreatorID {
+			t.Error("foreign key was wrong value", a.ID, second.CreatorID)
 		}
 
-		if first.R.Surveyor != &a {
+		if first.R.Creator != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Surveyor != &a {
+		if second.R.Creator != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.SurveyorTrades[i*2] != first {
+		if a.R.CreatorTrades[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.SurveyorTrades[i*2+1] != second {
+		if a.R.CreatorTrades[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.SurveyorTrades().Count(tx)
+		count, err := a.CreatorTrades().Count(tx)
 		if err != nil {
 			t.Fatal(err)
 		}

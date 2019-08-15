@@ -25,13 +25,13 @@ import (
 type Trade struct {
 	ID              int          `boil:"id" json:"id" toml:"id" yaml:"id"`
 	TradeCategoryID int          `boil:"trade_category_id" json:"trade_category_id" toml:"trade_category_id" yaml:"trade_category_id"`
-	SurveyorID      int          `boil:"surveyor_id" json:"surveyor_id" toml:"surveyor_id" yaml:"surveyor_id"`
+	CreatorID       int          `boil:"creator_id" json:"creator_id" toml:"creator_id" yaml:"creator_id"`
 	ProjectID       int          `boil:"project_id" json:"project_id" toml:"project_id" yaml:"project_id"`
 	Level           string       `boil:"level" json:"level" toml:"level" yaml:"level"`
-	Description     null.String  `boil:"description" json:"description,omitempty" toml:"description" yaml:"description,omitempty"`
+	Subtitle        null.String  `boil:"subtitle" json:"subtitle,omitempty" toml:"subtitle" yaml:"subtitle,omitempty"`
 	Value           null.Float64 `boil:"value" json:"value,omitempty" toml:"value" yaml:"value,omitempty"`
 	Temp            null.Bool    `boil:"temp" json:"temp,omitempty" toml:"temp" yaml:"temp,omitempty"`
-	IsActive        bool         `boil:"is_active" json:"is_active" toml:"is_active" yaml:"is_active"`
+	Editable        bool         `boil:"editable" json:"editable" toml:"editable" yaml:"editable"`
 	IsDeleted       bool         `boil:"is_deleted" json:"is_deleted" toml:"is_deleted" yaml:"is_deleted"`
 	Created         null.Time    `boil:"created" json:"created,omitempty" toml:"created" yaml:"created,omitempty"`
 	Updated         null.Time    `boil:"updated" json:"updated,omitempty" toml:"updated" yaml:"updated,omitempty"`
@@ -43,26 +43,26 @@ type Trade struct {
 var TradeColumns = struct {
 	ID              string
 	TradeCategoryID string
-	SurveyorID      string
+	CreatorID       string
 	ProjectID       string
 	Level           string
-	Description     string
+	Subtitle        string
 	Value           string
 	Temp            string
-	IsActive        string
+	Editable        string
 	IsDeleted       string
 	Created         string
 	Updated         string
 }{
 	ID:              "id",
 	TradeCategoryID: "trade_category_id",
-	SurveyorID:      "surveyor_id",
+	CreatorID:       "creator_id",
 	ProjectID:       "project_id",
 	Level:           "level",
-	Description:     "description",
+	Subtitle:        "subtitle",
 	Value:           "value",
 	Temp:            "temp",
-	IsActive:        "is_active",
+	Editable:        "editable",
 	IsDeleted:       "is_deleted",
 	Created:         "created",
 	Updated:         "updated",
@@ -73,26 +73,26 @@ var TradeColumns = struct {
 var TradeWhere = struct {
 	ID              whereHelperint
 	TradeCategoryID whereHelperint
-	SurveyorID      whereHelperint
+	CreatorID       whereHelperint
 	ProjectID       whereHelperint
 	Level           whereHelperstring
-	Description     whereHelpernull_String
+	Subtitle        whereHelpernull_String
 	Value           whereHelpernull_Float64
 	Temp            whereHelpernull_Bool
-	IsActive        whereHelperbool
+	Editable        whereHelperbool
 	IsDeleted       whereHelperbool
 	Created         whereHelpernull_Time
 	Updated         whereHelpernull_Time
 }{
 	ID:              whereHelperint{field: "[dbo].[trades].[id]"},
 	TradeCategoryID: whereHelperint{field: "[dbo].[trades].[trade_category_id]"},
-	SurveyorID:      whereHelperint{field: "[dbo].[trades].[surveyor_id]"},
+	CreatorID:       whereHelperint{field: "[dbo].[trades].[creator_id]"},
 	ProjectID:       whereHelperint{field: "[dbo].[trades].[project_id]"},
 	Level:           whereHelperstring{field: "[dbo].[trades].[level]"},
-	Description:     whereHelpernull_String{field: "[dbo].[trades].[description]"},
+	Subtitle:        whereHelpernull_String{field: "[dbo].[trades].[subtitle]"},
 	Value:           whereHelpernull_Float64{field: "[dbo].[trades].[value]"},
 	Temp:            whereHelpernull_Bool{field: "[dbo].[trades].[temp]"},
-	IsActive:        whereHelperbool{field: "[dbo].[trades].[is_active]"},
+	Editable:        whereHelperbool{field: "[dbo].[trades].[editable]"},
 	IsDeleted:       whereHelperbool{field: "[dbo].[trades].[is_deleted]"},
 	Created:         whereHelpernull_Time{field: "[dbo].[trades].[created]"},
 	Updated:         whereHelpernull_Time{field: "[dbo].[trades].[updated]"},
@@ -102,13 +102,13 @@ var TradeWhere = struct {
 var TradeRels = struct {
 	Project        string
 	TradeCategory  string
-	Surveyor       string
+	Creator        string
 	ClaimHistories string
 	Claims         string
 }{
 	Project:        "Project",
 	TradeCategory:  "TradeCategory",
-	Surveyor:       "Surveyor",
+	Creator:        "Creator",
 	ClaimHistories: "ClaimHistories",
 	Claims:         "Claims",
 }
@@ -117,7 +117,7 @@ var TradeRels = struct {
 type tradeR struct {
 	Project        *Project
 	TradeCategory  *TradeCategory
-	Surveyor       *User
+	Creator        *User
 	ClaimHistories ClaimHistorySlice
 	Claims         ClaimSlice
 }
@@ -131,10 +131,10 @@ func (*tradeR) NewStruct() *tradeR {
 type tradeL struct{}
 
 var (
-	tradeAllColumns            = []string{"id", "trade_category_id", "surveyor_id", "project_id", "level", "description", "value", "temp", "is_active", "is_deleted", "created", "updated"}
+	tradeAllColumns            = []string{"id", "trade_category_id", "creator_id", "project_id", "level", "subtitle", "value", "temp", "editable", "is_deleted", "created", "updated"}
 	tradeColumnsWithAuto       = []string{}
-	tradeColumnsWithoutDefault = []string{"trade_category_id", "surveyor_id", "project_id", "level", "description", "value", "temp", "created"}
-	tradeColumnsWithDefault    = []string{"id", "is_active", "is_deleted", "updated"}
+	tradeColumnsWithoutDefault = []string{"trade_category_id", "creator_id", "project_id", "level", "subtitle", "value", "temp", "created"}
+	tradeColumnsWithDefault    = []string{"id", "editable", "is_deleted", "updated"}
 	tradePrimaryKeyColumns     = []string{"id"}
 )
 
@@ -257,10 +257,10 @@ func (o *Trade) TradeCategory(mods ...qm.QueryMod) tradeCategoryQuery {
 	return query
 }
 
-// Surveyor pointed to by the foreign key.
-func (o *Trade) Surveyor(mods ...qm.QueryMod) userQuery {
+// Creator pointed to by the foreign key.
+func (o *Trade) Creator(mods ...qm.QueryMod) userQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("id=?", o.SurveyorID),
+		qm.Where("id=?", o.CreatorID),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -499,9 +499,9 @@ func (tradeL) LoadTradeCategory(e boil.Executor, singular bool, maybeTrade inter
 	return nil
 }
 
-// LoadSurveyor allows an eager lookup of values, cached into the
+// LoadCreator allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (tradeL) LoadSurveyor(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
+func (tradeL) LoadCreator(e boil.Executor, singular bool, maybeTrade interface{}, mods queries.Applicator) error {
 	var slice []*Trade
 	var object *Trade
 
@@ -516,7 +516,7 @@ func (tradeL) LoadSurveyor(e boil.Executor, singular bool, maybeTrade interface{
 		if object.R == nil {
 			object.R = &tradeR{}
 		}
-		args = append(args, object.SurveyorID)
+		args = append(args, object.CreatorID)
 
 	} else {
 	Outer:
@@ -526,12 +526,12 @@ func (tradeL) LoadSurveyor(e boil.Executor, singular bool, maybeTrade interface{
 			}
 
 			for _, a := range args {
-				if a == obj.SurveyorID {
+				if a == obj.CreatorID {
 					continue Outer
 				}
 			}
 
-			args = append(args, obj.SurveyorID)
+			args = append(args, obj.CreatorID)
 
 		}
 	}
@@ -568,22 +568,22 @@ func (tradeL) LoadSurveyor(e boil.Executor, singular bool, maybeTrade interface{
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Surveyor = foreign
+		object.R.Creator = foreign
 		if foreign.R == nil {
 			foreign.R = &userR{}
 		}
-		foreign.R.SurveyorTrades = append(foreign.R.SurveyorTrades, object)
+		foreign.R.CreatorTrades = append(foreign.R.CreatorTrades, object)
 		return nil
 	}
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if local.SurveyorID == foreign.ID {
-				local.R.Surveyor = foreign
+			if local.CreatorID == foreign.ID {
+				local.R.Creator = foreign
 				if foreign.R == nil {
 					foreign.R = &userR{}
 				}
-				foreign.R.SurveyorTrades = append(foreign.R.SurveyorTrades, local)
+				foreign.R.CreatorTrades = append(foreign.R.CreatorTrades, local)
 				break
 			}
 		}
@@ -862,10 +862,10 @@ func (o *Trade) SetTradeCategory(exec boil.Executor, insert bool, related *Trade
 	return nil
 }
 
-// SetSurveyor of the trade to the related item.
-// Sets o.R.Surveyor to related.
-// Adds o to related.R.SurveyorTrades.
-func (o *Trade) SetSurveyor(exec boil.Executor, insert bool, related *User) error {
+// SetCreator of the trade to the related item.
+// Sets o.R.Creator to related.
+// Adds o to related.R.CreatorTrades.
+func (o *Trade) SetCreator(exec boil.Executor, insert bool, related *User) error {
 	var err error
 	if insert {
 		if err = related.Insert(exec, boil.Infer()); err != nil {
@@ -875,7 +875,7 @@ func (o *Trade) SetSurveyor(exec boil.Executor, insert bool, related *User) erro
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE [dbo].[trades] SET %s WHERE %s",
-		strmangle.SetParamNames("[", "]", 1, []string{"surveyor_id"}),
+		strmangle.SetParamNames("[", "]", 1, []string{"creator_id"}),
 		strmangle.WhereClause("[", "]", 2, tradePrimaryKeyColumns),
 	)
 	values := []interface{}{related.ID, o.ID}
@@ -889,21 +889,21 @@ func (o *Trade) SetSurveyor(exec boil.Executor, insert bool, related *User) erro
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.SurveyorID = related.ID
+	o.CreatorID = related.ID
 	if o.R == nil {
 		o.R = &tradeR{
-			Surveyor: related,
+			Creator: related,
 		}
 	} else {
-		o.R.Surveyor = related
+		o.R.Creator = related
 	}
 
 	if related.R == nil {
 		related.R = &userR{
-			SurveyorTrades: TradeSlice{o},
+			CreatorTrades: TradeSlice{o},
 		}
 	} else {
-		related.R.SurveyorTrades = append(related.R.SurveyorTrades, o)
+		related.R.CreatorTrades = append(related.R.CreatorTrades, o)
 	}
 
 	return nil

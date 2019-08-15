@@ -153,7 +153,7 @@ func TestToOne(t *testing.T) {
 	t.Run("ProjectToUserUsingManager", testProjectToOneUserUsingManager)
 	t.Run("TradeToProjectUsingProject", testTradeToOneProjectUsingProject)
 	t.Run("TradeToTradeCategoryUsingTradeCategory", testTradeToOneTradeCategoryUsingTradeCategory)
-	t.Run("TradeToUserUsingSurveyor", testTradeToOneUserUsingSurveyor)
+	t.Run("TradeToUserUsingCreator", testTradeToOneUserUsingCreator)
 	t.Run("UserToRoleUsingUserRole", testUserToOneRoleUsingUserRole)
 }
 
@@ -175,7 +175,7 @@ func TestToMany(t *testing.T) {
 	t.Run("UserToProfiles", testUserToManyProfiles)
 	t.Run("UserToCreatorProjects", testUserToManyCreatorProjects)
 	t.Run("UserToManagerProjects", testUserToManyManagerProjects)
-	t.Run("UserToSurveyorTrades", testUserToManySurveyorTrades)
+	t.Run("UserToCreatorTrades", testUserToManyCreatorTrades)
 }
 
 // TestToOneSet tests cannot be run in parallel
@@ -191,7 +191,7 @@ func TestToOneSet(t *testing.T) {
 	t.Run("ProjectToUserUsingManagerProjects", testProjectToOneSetOpUserUsingManager)
 	t.Run("TradeToProjectUsingTrades", testTradeToOneSetOpProjectUsingProject)
 	t.Run("TradeToTradeCategoryUsingTrades", testTradeToOneSetOpTradeCategoryUsingTradeCategory)
-	t.Run("TradeToUserUsingSurveyorTrades", testTradeToOneSetOpUserUsingSurveyor)
+	t.Run("TradeToUserUsingCreatorTrades", testTradeToOneSetOpUserUsingCreator)
 	t.Run("UserToRoleUsingUserRoleUsers", testUserToOneSetOpRoleUsingUserRole)
 }
 
@@ -221,7 +221,7 @@ func TestToManyAdd(t *testing.T) {
 	t.Run("UserToProfiles", testUserToManyAddOpProfiles)
 	t.Run("UserToCreatorProjects", testUserToManyAddOpCreatorProjects)
 	t.Run("UserToManagerProjects", testUserToManyAddOpManagerProjects)
-	t.Run("UserToSurveyorTrades", testUserToManyAddOpSurveyorTrades)
+	t.Run("UserToCreatorTrades", testUserToManyAddOpCreatorTrades)
 }
 
 // TestToManySet tests cannot be run in parallel
