@@ -64,7 +64,7 @@ func (us *UserStore) Update(u *m.User) error {
 }
 
 func (us *UserStore) List(offset int, limit int) ([]*m.User, int, error) {
-	users, err := m.Users(Where("is_deleted = ?", false),
+	users, err := m.Users(Where("is_deleted = ?", 0),
 		Limit(limit),
 		Offset(offset),
 	).All(us.db)

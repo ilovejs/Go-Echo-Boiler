@@ -39,7 +39,7 @@ func (ts TradeStore) Get(ids ...int) ([]*models.Trade, error) {
 	if len(ids) == 1 {
 		single, err = models.Trades(
 			Load(models.TradeRels.TradeCategory),
-			Where("id = ? and is_deleted = ?", ids[0], false),
+			Where("id = ? and is_deleted = ?", ids[0], 0),
 		).One(ts.db)
 
 		if single == nil {
@@ -68,8 +68,7 @@ func (ts TradeStore) Get(ids ...int) ([]*models.Trade, error) {
 func (ts TradeStore) List(offset int, limit int) ([]*models.Trade, int, error) {
 	trades, err := models.Trades(
 		Load(models.TradeRels.TradeCategory),
-		// Load("TradeCategory"),
-		Where("is_deleted = ?", false),
+		Where("is_deleted = ?", 0),
 		Limit(limit),
 		Offset(offset),
 	).All(ts.db)
@@ -102,7 +101,11 @@ func (ts TradeStore) Delete(id int) error {
 	}
 	TradeToDelete := arr[0]
 	TradeToDelete.IsDeleted = true
-	rowAffected, err := TradeToDelete.Update(ts.db, boil.Whitelist("is_deleted"))
+
+	rowAffected, err := TradeToDelete.Update(
+		ts.db,
+		boil.Whitelist("is_deleted"),
+	)
 	if err != nil {
 		return err
 	}

@@ -37,7 +37,9 @@ func (bts TradeCategoryStore) Get(ids ...int) ([]*models.TradeCategory, error) {
 	var err error
 
 	if len(ids) == 1 {
-		single, err = models.TradeCategories(Where("id = ? and is_deleted = ?", ids[0], false)).One(bts.db)
+		single, err = models.TradeCategories(
+			Where("id = ? and is_deleted = ?", ids[0], 0),
+		).One(bts.db)
 		if single == nil {
 			return nil, errors.New("trade category not found")
 		}
@@ -59,7 +61,7 @@ func (bts TradeCategoryStore) Get(ids ...int) ([]*models.TradeCategory, error) {
 }
 
 func (bts TradeCategoryStore) List(offset int, limit int) ([]*models.TradeCategory, int, error) {
-	AllBts, err := models.TradeCategories(Where("is_deleted = ?", false),
+	AllBts, err := models.TradeCategories(Where("is_deleted = ?", 0),
 		Limit(limit),
 		Offset(offset),
 	).All(bts.db)

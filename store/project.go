@@ -31,7 +31,9 @@ func (ps *ProjectStore) Create(p *models.Project) error {
 }
 
 func (ps *ProjectStore) Read(id int) (*models.Project, error) {
-	p, err := models.Projects(Where("id = ? and is_deleted = ?", id, false)).One(ps.db)
+	p, err := models.Projects(
+		Where("id = ? and is_deleted = ?", id, 0),
+	).One(ps.db)
 	if p == nil {
 		return nil, errors.New("project not found, might be deleted")
 	}
@@ -68,9 +70,10 @@ func (ps *ProjectStore) Delete(id int) error {
 }
 
 func (ps *ProjectStore) List(offset int, limit int) ([]*models.Project, int, error) {
-	allProjects, err := models.Projects(Where("is_deleted = ?", false),
+	allProjects, err := models.Projects(
 		Limit(limit),
 		Offset(offset),
+		Where("is_deleted = ?", 0),
 	).All(ps.db)
 
 	if err != nil {
