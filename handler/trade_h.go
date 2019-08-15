@@ -58,12 +58,15 @@ func (h *Handler) ListTrade(c echo.Context) error {
 
 	offset := (pageNo - 1) * pageSize
 
-	tradeItems, count, err := h.TradeStore.List(offset, pageSize) // offset, limit
+	tradeItems, totalCount, err := h.TradeStore.List(offset, pageSize) // offset, limit
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
-	totalPage := int(math.Ceil(float64(count / pageSize)))
-	return c.JSON(http.StatusOK, NewTradeListResponse(tradeItems, totalPage, count))
+	totalPage := int(math.Ceil(float64(totalCount / pageSize)))
+	return c.JSON(http.StatusOK, NewTradeListResponse(
+		tradeItems,
+		pageSize, pageNo,
+		totalPage, totalCount))
 }
 
 func (h *Handler) UpdateTrade(c echo.Context) error {

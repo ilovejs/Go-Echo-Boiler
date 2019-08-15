@@ -69,8 +69,8 @@ func (ts TradeStore) List(offset int, limit int) ([]*models.Trade, int, error) {
 	trades, err := models.Trades(
 		Load(models.TradeRels.TradeCategory),
 		Where("is_deleted = ?", 0),
-		Limit(limit),
 		Offset(offset),
+		Limit(limit),
 	).All(ts.db)
 
 	if err != nil {

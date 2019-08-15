@@ -1,20 +1,19 @@
 package trades
 
 import (
-	"github.com/volatiletech/null"
 	"onsite/models"
 )
 
 type TradeResponse struct {
-	KEY        int       `json:"key"`
-	ID         int       `json:"id"`
-	ProjectID  int       `json:"pid"`
-	CreatorID  int       `json:"cid"`
-	Category   string    `json:"cat,omitempty"`
-	CategoryID int       `json:"cat_id"`
-	Subtitle   string    `json:"subtitle"`
-	Editable   bool      `json:"editable"`
-	Created    null.Time `json:"created"`
+	KEY        int    `json:"key"`
+	ID         int    `json:"id"`
+	ProjectID  int    `json:"pid"`
+	CreatorID  int    `json:"cid"`
+	Category   string `json:"cat,omitempty"`
+	CategoryID int    `json:"cat_id"`
+	Subtitle   string `json:"subtitle"`
+	// Editable   bool      `json:"editable"`
+	// Created    null.Time `json:"created,omitempty"`
 }
 
 /* Create */
@@ -28,7 +27,7 @@ func NewTradeResponse(t *models.Trade, category string) *TradeResponse {
 	resp.Category = category
 	resp.CategoryID = t.TradeCategoryID
 	resp.Subtitle = *t.Subtitle.Ptr()
-	resp.Created = t.Created
+	// resp.Created = t.Created
 	return resp
 }
 
@@ -43,6 +42,8 @@ type TradeListResponse struct {
 /* List */
 func NewTradeListResponse(
 	trades []*models.Trade,
+	pageSize int,
+	pageNo int,
 	totalPage int,
 	totalCnt int) *TradeListResponse {
 
@@ -52,6 +53,8 @@ func NewTradeListResponse(
 		item := NewTradeResponse(t, t.R.TradeCategory.Name)
 		r.Trades = append(r.Trades, item)
 	}
+	r.PageSize = pageSize
+	r.PageNo = pageNo
 	r.TotalCount = totalCnt
 	r.TotalPage = totalPage
 	return r

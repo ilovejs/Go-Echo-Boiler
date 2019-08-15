@@ -52,3 +52,14 @@ Project Serial No | Name should be unique
 - Trade
     
     skip field 'temp'
+    
+## Library patch in GoPATH, 
+
+[1]
+sqlboilder / queries / query_builders.go
+LINE 238 and 220:
+fmt.Fprintf(buf, " OFFSET %d ROWS", q.offset)
+
+[2]
+
+

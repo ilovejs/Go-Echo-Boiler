@@ -6,10 +6,10 @@ import (
 	"time"
 )
 
-/* create */
+/* Create */
 type CreateTradeRequest struct {
 	CategoryID int     `json:"category_id" validate:"required"`
-	CreatorID  int     `json:"surveyor_id" validate:"required"`
+	CreatorID  int     `json:"creator_id" validate:"required"`
 	ProjectID  int     `json:"project_id" validate:"required"`
 	Level      string  `json:"level"`
 	Subtitle   string  `json:"subtitle" validate:"required"`
