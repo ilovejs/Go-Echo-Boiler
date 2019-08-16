@@ -72,11 +72,18 @@ func (ts TradeStore) List(offset int, limit int) ([]*models.Trade, int, error) {
 		Offset(offset),
 		Limit(limit),
 	).All(ts.db)
-
 	if err != nil {
 		return nil, 0, err
 	}
-	return trades, len(trades), nil
+
+	totalCnt, err := models.Trades(
+		Where("is_deleted = ?", 0),
+	).Count(ts.db)
+	if err != nil {
+		return nil, 0, err
+	}
+	// int64 to int
+	return trades, int(totalCnt), nil
 }
 
 func (ts TradeStore) Update(t *models.Trade) error {

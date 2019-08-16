@@ -49,12 +49,17 @@ func (h *Handler) ListTrade(c echo.Context) error {
 	pageNo, err := strconv.Atoi(c.QueryParam("pageNo"))
 	if err != nil {
 		pageNo = 1
+		fmt.Println(err)
 	}
+	fmt.Println("pageNo", pageNo)
+
 	pageSize, err := strconv.Atoi(c.QueryParam("pageSize"))
 	if err != nil {
 		// default page size
-		pageSize = 20
+		pageSize = 10
+		fmt.Println(err)
 	}
+	fmt.Println("pageSize", pageSize)
 
 	offset := (pageNo - 1) * pageSize
 
@@ -62,7 +67,9 @@ func (h *Handler) ListTrade(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}
-	totalPage := int(math.Ceil(float64(totalCount / pageSize)))
+	totalPage := int(math.Ceil(
+		float64(totalCount) / float64(pageSize),
+	))
 	return c.JSON(http.StatusOK, NewTradeListResponse(
 		tradeItems,
 		pageSize, pageNo,
