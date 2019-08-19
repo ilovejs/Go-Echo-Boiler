@@ -6,13 +6,15 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
-// custom new
+// custom new router, used by main.go
 func New() *echo.Echo {
 
 	e := echo.New()
 
 	// for vue app: https://github.com/scotch-io/go-echo-vue-single-page-app/blob/master/todo.go
 	e.File("/", "public/index.html")
+	// https://echo.labstack.com/cookbook/google-app-engine#app-yaml-configuration-file
+	// e.Static("/", "public")
 
 	// log level
 	e.Logger.SetLevel(log.DEBUG)

@@ -4,13 +4,17 @@
       <w>addtrade</w>
       <w>basictrade</w>
       <w>btid</w>
+      <w>dbserver</w>
       <w>favorited</w>
       <w>firstname</w>
+      <w>ilovejs</w>
       <w>instrumentedsql</w>
       <w>keyvals</w>
       <w>lastname</w>
       <w>mysqldump</w>
+      <w>reponame</w>
       <w>sqlserver</w>
+      <w>tagname</w>
       <w>unfollow</w>
     </words>
   </dictionary>

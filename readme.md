@@ -63,9 +63,14 @@ fmt.Fprintf(buf, " OFFSET %d ROWS", q.offset)
 [2]
 
 ## Deployment
+
+[Docker and Host bi-direction](https://docs.docker.com/docker-for-mac/networking/#use-cases-and-workarounds)
+  
+  # Steps:
+    
     * folder
     
-    cd C:\Users\mzhuang\go\src\onsite
+        cd C:\Users\mzhuang\go\src\onsite
 
     * file name is 'app'
 
@@ -80,5 +85,24 @@ fmt.Fprintf(buf, " OFFSET %d ROWS", q.offset)
     docker run --publish 85:8585 --net="host" durgaprasad-budhwani/azurego
     ```
 
+# Azure
 
+## create web app
+    az webapp create --resource-group AzureGoRG --plan AzureGoSP --name AzureGoApp --deployment-container-image-name durgaprasadbudhwani/azurego:latest
 
+## set env for docker image
+    az webapp config appsettings set --resource-group AzureGoRG --name AzureGoApp --settings PORT=80 connection_string="connection_string"
+
+## registry login server
+    index.docker.io
+    ilovejs/idk:latest
+
+## example in 'azure-go-labs'
+    - https://github.com/Azure-Samples/azure-go-labs/blob/master/3-web-app-aci-aks/Dockerfile
+    - https://github.com/Azure-Samples/azure-go-labs/blob/master/1-app-hello-echo/README.md
+## issues:
+    1. Linux worker can't be created under windows resource group.
+        Web app service use linux Docker container can not be used under old resource group incl vnet, azure sql server in subnet.
+        - windows container is preview and on expensive teir: premium
+        Q: how to change RG to mix up
+    

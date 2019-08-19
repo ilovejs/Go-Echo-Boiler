@@ -9,6 +9,7 @@ import (
 	"github.com/volatiletech/sqlboiler/boil"
 	"log"
 	"onsite/utils"
+	"os"
 	"strings"
 )
 
@@ -48,15 +49,14 @@ func setupLoggerFn() instrumentedsql.LoggerFunc {
 	return logFn
 }
 
-// todo: env
-const (
-	db = "test2"
-	// host     = "localhost"
+var (
+	db   = os.Getenv("DB")
+	host = os.Getenv("DBSERVER")
 	// host     = "gateway.docker.internal"
-	host     = "host.docker.internal"
+	// host     = "host.docker.internal"
 	port     = "1433"
-	user     = "tester"
-	password = "tester"
+	user     = os.Getenv("USER")
+	password = os.Getenv("PASSWORD")
 	// driverName = "instrumented-mssql"
 	driverName = "mssql"
 )
