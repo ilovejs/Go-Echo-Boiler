@@ -6,9 +6,11 @@
       <w>btid</w>
       <w>favorited</w>
       <w>firstname</w>
+      <w>instrumentedsql</w>
       <w>keyvals</w>
       <w>lastname</w>
       <w>mysqldump</w>
+      <w>sqlserver</w>
       <w>unfollow</w>
     </words>
   </dictionary>

@@ -53,7 +53,7 @@ Project Serial No | Name should be unique
     
     skip field 'temp'
     
-## Library patch in GoPATH, 
+## Library patch in GoPATH
 
 [1]
 sqlboilder / queries / query_builders.go
@@ -61,5 +61,24 @@ LINE 238 and 220:
 fmt.Fprintf(buf, " OFFSET %d ROWS", q.offset)
 
 [2]
+
+## Deployment
+    * folder
+    
+    cd C:\Users\mzhuang\go\src\onsite
+
+    * file name is 'app'
+
+        gox -osarch="linux/amd64" --output="build/app"
+
+    ```{bash}
+    docker build -t durgaprasad-budhwani/azurego .
+    docker image ls
+    docker run -p 8585:8585 --env PORT=8585 durgaprasad-budhwani/azurego
+    
+    docker run --publish 8585:8585 --net="host" --env PORT=8585 durgaprasad-budhwani/azurego
+    docker run --publish 85:8585 --net="host" durgaprasad-budhwani/azurego
+    ```
+
 
 
