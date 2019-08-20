@@ -46,10 +46,18 @@ func (h *Handler) ReadTrade(c echo.Context) error {
 }
 
 func (h *Handler) ListTrade(c echo.Context) error {
+	// NOTE: cast to int so make it little bit safe
+	projectId, err := strconv.Atoi(c.QueryParam("pid"))
+	if err != nil {
+		// todo: server log
+		fmt.Println("pid parse error", err)
+	}
+	fmt.Println("Pid ========>", projectId)
+
 	pageNo, err := strconv.Atoi(c.QueryParam("pageNo"))
 	if err != nil {
 		pageNo = 1
-		fmt.Println(err)
+		fmt.Println("pageNo parse error", err)
 	}
 	fmt.Println("pageNo", pageNo)
 
@@ -57,13 +65,16 @@ func (h *Handler) ListTrade(c echo.Context) error {
 	if err != nil {
 		// default page size
 		pageSize = 10
-		fmt.Println(err)
+		fmt.Println("pageSize parse error", err)
 	}
 	fmt.Println("pageSize", pageSize)
 
 	offset := (pageNo - 1) * pageSize
 
-	tradeItems, totalCount, err := h.TradeStore.List(offset, pageSize) // offset, limit
+	tradeItems, totalCount, err := h.TradeStore.List(
+		projectId,
+		offset,
+		pageSize) // offset, limit
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, NewError(err))
 	}

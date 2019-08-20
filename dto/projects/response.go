@@ -20,7 +20,7 @@ type ProjectResponse struct {
 	} `json:"project"`
 }
 
-/* create */
+/* Create */
 func NewProjectResponse(p *Project) *ProjectResponse {
 	resp := new(ProjectResponse)
 	resp.Project.ID = p.ID
@@ -43,7 +43,7 @@ func NewProjectResponse(p *Project) *ProjectResponse {
 	return resp
 }
 
-/* list */
+/* List */
 type ProjectListResponse struct {
 	Projects []*ProjectResponse `json:"projects"`
 	Count    int                `json:"count"`

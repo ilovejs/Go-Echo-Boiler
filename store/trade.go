@@ -65,13 +65,29 @@ func (ts TradeStore) Get(ids ...int) ([]*models.Trade, error) {
 	return trades, nil
 }
 
-func (ts TradeStore) List(offset int, limit int) ([]*models.Trade, int, error) {
-	trades, err := models.Trades(
+func (ts TradeStore) List(
+	projectId int,
+	offset int,
+	limit int,
+) ([]*models.Trade, int, error) {
+
+	tradeQuery := models.Trades(
 		Load(models.TradeRels.TradeCategory),
 		Where("is_deleted = ?", 0),
 		Offset(offset),
 		Limit(limit),
-	).All(ts.db)
+	)
+
+	if projectId != 0 {
+		tradeQuery = models.Trades(
+			Load(models.TradeRels.TradeCategory),
+			Where("is_deleted = ? and project_id = ?", 0, projectId),
+			Offset(offset),
+			Limit(limit),
+		)
+	}
+
+	trades, err := tradeQuery.All(ts.db)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -38,7 +38,7 @@ type TradeStoreInterface interface {
 	Get(ids ...int) ([]*models.Trade, error) // Get one or all
 	Update(trade *models.Trade) error
 	Delete(int) error
-	List(offset int, limit int) ([]*models.Trade, int, error)
+	List(projectId int, offset int, limit int) ([]*models.Trade, int, error)
 	GetByProject(projectId int) ([]*models.Trade, error)
 	Count(tradeId int) (int, error)
 }
