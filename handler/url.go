@@ -50,7 +50,6 @@ func (h *Handler) Register(v1 *echo.Group) {
 	profiles := v1.Group("/profiles", jwtMiddleware)
 	profiles.GET("/:username", h.GetProfile)
 	// todo: profile
-
 	// todo: roles
 
 	projects := v1.Group("/projects", jwtMiddleware)
@@ -74,5 +73,4 @@ func (h *Handler) Register(v1 *echo.Group) {
 	trade.GET("/:id", h.ReadTrade)
 	trade.PUT("/:id", h.UpdateTrade)
 	trade.DELETE("/:id", h.DeleteTrade)
-
 }

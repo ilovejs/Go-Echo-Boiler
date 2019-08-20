@@ -5,13 +5,15 @@ import (
 )
 
 type TradeResponse struct {
-	KEY        int    `json:"key"`
-	ID         int    `json:"id"`
-	ProjectID  int    `json:"pid"`
-	CreatorID  int    `json:"cid"`
-	Category   string `json:"cat,omitempty"`
-	CategoryID int    `json:"cat_id"`
-	Subtitle   string `json:"subtitle"`
+	KEY           int     `json:"key"`
+	ID            int     `json:"id"`
+	ProjectID     int     `json:"pid"`
+	CreatorID     int     `json:"cid"`
+	Category      string  `json:"cat,omitempty"`
+	CategoryID    int     `json:"cat_id"`
+	Subtitle      string  `json:"subtitle"`
+	Level         string  `json:"level"`
+	ContractValue float64 `json:"contract_value"`
 	// Editable   bool      `json:"editable"`
 	// Created    null.Time `json:"created,omitempty"`
 }
@@ -26,7 +28,10 @@ func NewTradeResponse(t *models.Trade, category string) *TradeResponse {
 
 	resp.Category = category
 	resp.CategoryID = t.TradeCategoryID
+	// todo: review null type
 	resp.Subtitle = *t.Subtitle.Ptr()
+	resp.Level = t.Level
+	resp.ContractValue = *t.Value.Ptr()
 	// resp.Created = t.Created
 	return resp
 }
