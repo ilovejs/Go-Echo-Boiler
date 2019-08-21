@@ -58,7 +58,7 @@ type UserLoginResponse struct {
 func NewUserLoginResponse(u *m.User) *UserLoginResponse {
 	r := new(UserLoginResponse)
 	r.User.ID = u.ID
-	r.User.Name = "Michael"
+	r.User.Name = "Michael" // TODO: review this code
 	r.User.Username = u.Username
 	if u.IsDeleted {
 		r.User.Deleted = 1
@@ -66,7 +66,7 @@ func NewUserLoginResponse(u *m.User) *UserLoginResponse {
 		r.User.Deleted = 0
 	}
 	r.User.RoleID = "admin"
-	r.User.Role = &Role{} // making sure {} not null
+	r.User.Role = &Role{} // HACK: making sure {} not null
 	r.User.Token = utils.GenerateJWT(u.ID)
 	return r
 }

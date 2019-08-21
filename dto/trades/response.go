@@ -41,7 +41,7 @@ type TradeListResponse struct {
 	PageNo     int              `json:"pageNo"`
 	TotalCount int              `json:"totalCount"`
 	TotalPage  int              `json:"totalPage"`
-	Trades     []*TradeResponse `json:"data"`
+	Trades     []*TradeResponse `json:"data"` // s-table requirement
 }
 
 /* List */
@@ -54,14 +54,20 @@ func NewTradeListResponse(
 
 	r := new(TradeListResponse)
 	for _, t := range trades {
-		// reuse
+		// given model info, build trades + category json
 		item := NewTradeResponse(t, t.R.TradeCategory.Name)
 		r.Trades = append(r.Trades, item)
+	}
+	// HACK: display  "data": []
+	if len(r.Trades) == 0 {
+		// HACK: slice of pointer to TradeResponse struct
+		r.Trades = []*TradeResponse{}
 	}
 	r.PageSize = pageSize
 	r.PageNo = pageNo
 	r.TotalCount = totalCnt
 	r.TotalPage = totalPage
+
 	return r
 }
 
