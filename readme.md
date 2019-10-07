@@ -1,24 +1,43 @@
 ### A Demo for GO restful API
+
+Demostrate how to build api in a Go way that deliver Scalability and Extensibility.
+
+##### Caveat: 
+
+Not very polished in style though, you might delete whenever you like. 
+       
+Nevertheless, Logic is straightforward.
+
 This project is capable of:
     
     1.  Simple deployment
-        Deployed as Binary file. Drag and drop, no dependencies relied on Production environment.
+        Deployed as Binary file. 
+        Drag and drop, no dependencies relied on Production environment.
+        Run like a bash cli.
+        
     2.  Greate performance
         SQL queries are logged in console for detailed view of cost.
+    
     3.  Greate modular code structure
         Normally, go project are not well-structured. This project triage files into right place.
+    
     4.  DB first
         - Performance-care: 
           DBA can work on more features on db side. Backend can generate `class` to take advantage of these.
         Without writing explicite line to manage db specific details.
         - Less ORM, less M2M to 1 to many bindings. Class based ORM make things complicated and un-necessary.
+    
     5.  Echo is built on top of Gin (i think L:) 
         You can plug and play Gin libraries to replace Echo. Or maybe your own.
-    6.  Query builder is dynamic. Not like sqlx or other raw methods: Scanner(&q)
+    
+    6.  Query builder is open and easy. Not like sqlx or other raw methods: Scanner(&q)
         - Generate SQL in function like GetPost() either eagerly or lazily.
+    
     7.  Clean DTO for serializer or deserializer.
         - handle day to day life
+    
     8.  Store has data layer CRUD api. Independent of upper Web layer.
+    
     9.  Web layer api are in handler. Bit like Controller / Service folder.
 
 ## Main Folder structure:
@@ -54,17 +73,15 @@ go mod download
 go mod vendor
 ```
 
-### IF not using vendor mode GO module in different folder
+### If not using vendor mode Go module in different folder
 
 copy onsite folder to GOPATH
 
 `go get -v`
 
-### Logs
+## Updates
 
-### Updates
-
-[] upgrade to v4 or v3.3.10-dev !!
+[1] upgrade Echo to v4 or v3.3.10-dev !!
 
 ### Issues
 
@@ -88,18 +105,18 @@ Project Serial No | Name should be unique
     
     skip field 'temp'
     
-## Library patch in GoPATH
+### Library patch in GoPATH
 
 [1]
 sqlboilder / queries / query_builders.go
 LINE 238 and 220:
 fmt.Fprintf(buf, " OFFSET %d ROWS", q.offset)
 
-## Deployment
+### Deployment
 
 [Docker and Host bi-direction](https://docs.docker.com/docker-for-mac/networking/#use-cases-and-workarounds)
   
-  # Steps:
+  #### Steps:
     
     * folder
     
@@ -118,22 +135,22 @@ fmt.Fprintf(buf, " OFFSET %d ROWS", q.offset)
     docker run --publish 85:8585 --net="host" durgaprasad-budhwani/azurego
     ```
 
-# Azure
+### Azure snippets
 
-## create web app
+#### Create web app
     az webapp create --resource-group AzureGoRG --plan AzureGoSP --name AzureGoApp --deployment-container-image-name durgaprasadbudhwani/azurego:latest
 
-## set env for docker image
+#### Set env for docker image
     az webapp config appsettings set --resource-group AzureGoRG --name AzureGoApp --settings PORT=80 connection_string="connection_string"
 
-## registry login server
+#### Registry login server
     index.docker.io
     ilovejs/idk:latest
 
-## example in 'azure-go-labs'
+#### Example in 'azure-go-labs'
     - https://github.com/Azure-Samples/azure-go-labs/blob/master/3-web-app-aci-aks/Dockerfile
     - https://github.com/Azure-Samples/azure-go-labs/blob/master/1-app-hello-echo/README.md
-## issues:
+#### Issues:
     1. Linux worker can't be created under windows resource group.
         Web app service use linux Docker container can not be used under old resource group incl vnet, azure sql server in subnet.
         - windows container is preview and on expensive teir: premium
