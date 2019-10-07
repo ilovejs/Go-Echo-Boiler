@@ -1,3 +1,32 @@
+### A Demo for GO restful API
+This project is capable of:
+    
+    1.  Simple deployment
+        Deployed as Binary file. Drag and drop, no dependencies relied on Production environment.
+    2.  Greate performance
+        SQL queries are logged in console for detailed view of cost.
+    3.  Greate modular code structure
+        Normally, go project are not well-structured. This project triage files into right place.
+    4.  DB first
+        - Performance-care: 
+          DBA can work on more features on db side. Backend can generate `class` to take advantage of these.
+        Without writing explicite line to manage db specific details.
+        - Less ORM, less M2M to 1 to many bindings. Class based ORM make things complicated and un-necessary.
+    5.  Echo is built on top of Gin (i think L:) 
+        You can plug and play Gin libraries to replace Echo. Or maybe your own.
+    6.  Query builder is dynamic. Not like sqlx or other raw methods: Scanner(&q)
+        - Generate SQL in function like GetPost() either eagerly or lazily.
+    7.  Clean DTO for serializer or deserializer.
+        - handle day to day life
+    8.  Store has data layer CRUD api. Independent of upper Web layer.
+    9.  Web layer api are in handler. Bit like Controller / Service folder.
+
+## Main Folder structure:
+models - generated go structs, interface to operate db.
+store - data layer, protocal
+handler - web layer, HTTP controller, gRPC as well
+router - middleware
+
 ### Install
 - Windows:
 1. run `SETX GO111MODULES on`
