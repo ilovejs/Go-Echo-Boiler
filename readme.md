@@ -22,10 +22,16 @@ This project is capable of:
     9.  Web layer api are in handler. Bit like Controller / Service folder.
 
 ## Main Folder structure:
-models - generated go structs, interface to operate db.
+
+models - generated go structs, interface to operate db
+
 store - data layer, protocal
+
 handler - web layer, HTTP controller, gRPC as well
+
 router - middleware
+
+url.go - as high level API blueprint: [location](https://github.com/ilovejs/Go-Echo-Boiler/blob/feature%2Fupdate_model_use_boiler/handler/url.go)
 
 ### Install
 - Windows:
@@ -88,8 +94,6 @@ Project Serial No | Name should be unique
 sqlboilder / queries / query_builders.go
 LINE 238 and 220:
 fmt.Fprintf(buf, " OFFSET %d ROWS", q.offset)
-
-[2]
 
 ## Deployment
 
