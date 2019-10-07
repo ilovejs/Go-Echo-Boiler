@@ -1,4 +1,4 @@
-### A Demo for GO restful API
+### A Demo for Go RESTful API
 
 Demostrate how to build api in a Go way that deliver Scalability and Extensibility.
 
