@@ -79,32 +79,6 @@ copy onsite folder to GOPATH
 
 `go get -v`
 
-## Updates
-
-[1] upgrade Echo to v4 or v3.3.10-dev !!
-
-### Issues
-
-plain conn string in programme
-
-could it be reverse engineered ?
-
-nicer sql not found err
-
-Project Serial No | Name should be unique
-
-- Project Update
-
-    u creator_id and manager_id MUST exists OR FK issue from db
-        sol: detect that in store level
-    u need to have permission system
-        not every user can modify creator,manager etc.
-    + show latest updates so as to notify user.
-
-- Trade
-    
-    skip field 'temp'
-    
 ### Library patch in GoPATH
 
 [1]
@@ -155,4 +129,20 @@ fmt.Fprintf(buf, " OFFSET %d ROWS", q.offset)
         Web app service use linux Docker container can not be used under old resource group incl vnet, azure sql server in subnet.
         - windows container is preview and on expensive teir: premium
         Q: how to change RG to mix up
+### Dev logs
+
+Project Serial No | Name should be unique
+
+- Project Update
+
+    u creator_id and manager_id MUST exists OR FK issue from db
+        sol: detect that in store level
+    u need to have permission system
+        not every user can modify creator,manager etc.
+    + show latest updates so as to notify user.
+
+- Trade
     
+    skip field 'temp'
+
+- Double check Echo version before compile in production.    
